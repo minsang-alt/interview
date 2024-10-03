@@ -249,3 +249,60 @@ QueryDSL은 JPA 표준은 아니고 오픈소스 프로젝트입니다.
 쿼리 대로 날라가기 때문에 예상치 못한 쿼리가 날라가 N+1문제 안생김
 동적쿼리로 조건에 따라 다른 쿼리를 만들 수 있다. 
 ```
+
+### 캐스케이드 영속성전이 와 orphan removal 차이를 설명해주세요
+
+```text
+- CascadeType.REMOVE와 orphanRemoval = true는 부모 엔티티를 삭제하면 자식 엔티티도 삭제합니다.
+- 부모 엔티티에서 자식 엔티티 제거할때는 CascadeType.REMOVE는 자식 엔티티가 그대로 남아있는 반면, orphanRemoval = true는 자식 엔티티를 제거합니다.
+- OrphanRemoval 만 있는 것은 동작안합니다.
+```
+
+### 하이버네이트의 세션이란 뭔가요?
+
+```text
+- 세션 객체는 응용 프로그램과 데이터베이스에 저장된 데이터 간의 인터페이스를 제공
+- 수명이 짧은 객체이며 JDBC 커넥션을 래핑합니다. 
+- 데이터의 1차 캐시 (필수)를 보유합니다.
+- org.hibernate.Session 인터페이스는 객체를 삽입, 갱신, 삭제하는 메소드를 제공
+- Transaction, Query 및 Criteria에 대한 팩토리 메소드를 제공합니다.
+- 참고로 세션팩토리는 2차 캐시를 선택적으로 보유및 관리합니다. 세션팩토리는 싱글톤 객체로, 여러 세션간에 공유됩니다.  
+```
+
+### HQL이란 뭔가요?
+
+```text
+Hibernate를 통해 데이터베이스를 검색할 경우에 이용하는 쿼리입니다. 
+HQL을 Hibernate가 어떤 데이터베이스를 이용하고 있는지 살펴보고 알아서 그에 맞는 SQL 로 변환하여 준다는 장점이 있습니다.
+- JPQL → HQL → SQL
+```
+
+### entityManager랑 session이랑 뭔차이인가요?
+
+```text
+EntityManager: JPA(Java Persistence API)의 표준 인터페이스입니다.
+Session: Hibernate의 고유한 인터페이스로, JPA 표준을 확장한 것입니다.
+
+EntityManager: JPA를 사용하는 모든 ORM에서 동일하게 사용할 수 있습니다.
+Session: Hibernate에 특화된 기능을 제공합니다.
+
+Session은 EntityManager의 모든 기능을 포함하며, 추가적인 Hibernate 특화 기능을 제공합니다.
+```
+
+### Spring Data JPA와 일반 JPA의 차이점을 말해주세요 
+
+```text
+스프링 데이터는 다양한 데이터 저장소에 대한 데이터 액세스를 단순화하고 통일된 방식으로 제공하는 프로젝트입니다. 
+Pageable객체로 페이징과 정렬, 메소드 이름으로 쿼리 생성, CRUD 메소드 제공, Repository 인터페이스를 정의하면 구현체를 자동 생성 등 개발자가 쉽게 사용할 수 있습니다. 
+```
+
+### 스프링 데이터 JPA 말고 다른 스프링 데이터 차이점
+
+```text
+스프링 데이터 JPA
+스프링 데이터 JDBC : @Query 어노테이션을 사용하여 직접 SQL을 작성
+스프링 데이터 MongoDB : 메소드 이름으로 쿼리를 생성
+스프링 데이터 Redis :  RedisTemplate을 사용하여 키-값 데이터를 저장하고 검색합니다.
+스프링 데이터 Elasticsearch : 전문 검색을 위한 메소드를 정의합니다.
+```
+
