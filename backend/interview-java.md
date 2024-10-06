@@ -151,12 +151,17 @@ JVM은 자바 바이트코드를 실행하는 가상머신입니다. 플랫폼 �
 
 ### 클래스의 멤버 변수 초기화 순서를 말해보세요
 
+```text
+정적(static) 변수: 클래스 로딩 시 초기화됩니다. 먼저 기본값으로 초기화된 후, 명시적 초기화와 static 블록이 순서대로 실행됩니다.
+인스턴스 변수: 객체 생성 시 초기화됩니다. 기본값 초기화 후, 명시적 초기화와 인스턴스 초기화 블록이 순서대로 실행됩니다.
+생성자: 마지막으로 생성자에서 추가적인 초기화가 이루어집니다.
+```
 
 
 ### 가비지 컬렉터를 이야기 했는데 이게 정확히 뭐고 가비지 컬렉션의 과정과 어떤 종류가 있는 지 자세히 설명해주세요
 
 ```text
-가비지 컬렉터란, 참조되지 않은 겍체를 추적하여 메모리를 회수합니다. 이렇게 메모리 관리를 하는 실행엔진입니다.
+가비지 컬렉터란, 참조되지 않은 객체를 추적하여 메모리를 회수합니다. 이렇게 메모리 관리를 하는 실행엔진입니다.
 
 이제 과정을 말씀드리면, 
 1. JVM은 가비지 컬렉션을 실행하기 위해 애플리케이션의 실행을 멈추는 stop-the-world를 먼저 실행합니다.
@@ -172,31 +177,17 @@ JVM은 자바 바이트코드를 실행하는 가상머신입니다. 플랫폼 �
 - Serial GC는 Young 영역에선 mark & copy 방식을 사용하며, Old 영역에서는 mark&sweep&compact 방식을 사용합니다. 이는 GC를 위해 단일 스레드를 사용합니다.
 - Parallel GC는 Serial GC와 기본적인 알고리즘은 같습니다. 하지만 Minor GC를 처리하는 스레드가 여러개 있습니다. 
 - Parallel Old GC는 Old 영역에서 Mark summary compact 방식을 사용합니다. 이 mark summary compact 방식은 여러 스레드를 사용하여 old 영역을 탐색하고 정리합니다.
-- CMS GC는 단계별로 진행합니다. Initial Mark 단계, Concurrent Mark 단계, Remark 단계, Concurrent Sweep 단계
-- G1 GC는 java의 Heap 메모리를 Region으로 나눠서 더 효율적으로 GC를 수행할 수 있도록 하였고, 또한 기존의 CMS GC의 문제점인 Compaction으로 인한 지연을 Heap 메모리를 Region으로 나눠서 점진적으로 수행함으로써 기존의 Compaction 처리 구조가 개선되었습니다.
+- CMS GC는 Concurrent Mark Sweep의 약자로,대부분의 GC 작업을 애플리케이션 실행과 동시에 수행합니다. Initial Mark, Concurrent Mark, Remark, Concurrent Sweep 단계로 구성됩니다. 
+- G1 GC는 힙을 균등한 크기의 영역으로 나누어 관리합니다. 각 영역은 Eden, Survivor, Old, Humongous 중 하나의 역할을 합니다. Young GC는 Eden 영역을 대상으로 수행합니다. Mixed GC는 Young 영역과 일부 Old 영역을 동시에 수집합니다.
+또한 'Garbage First'라는 이름처럼 가비지가 많은 영역을 우선적으로 수집합니다. 전체 힙에 대한 Compact 작업 없이 점진적으로 압축하고 병렬, 동시 처리를 모두 사용하여 효율성을 높입니다.
+- ZGC는 힙을 고정 크기의 영역(ZPage)으로 나누어 관리합니다. 물리적 메모리 압축 없이 논리적으로 메모리를 재배치합니다. STW가 10ms 이하로, 힙 크기에 거의 영향을 받지 않습니다. 대부분의 GC 작업을 애플리케이션 실행과 동시에 수행합니다.
+```
 
-Young-only Phase
+### minor gc는 왜 mark copy고 major gc는 mark sweep compact인가요?
 
-Young-only 단계에서 아래 순서대로 Young GC가 이뤄집니다.
-
-몇 개의 구역을 Young 영역으로 지정합니다.
-이 영역에 객체가 쌓입니다.
-Young 영역으로 할당된 구역에 데이터가 꽉 차면, GC를 수행합니다. (Mark & Copy)
-GC를 수행하며서 살아있는 객체들만 Survivor 구역으로 이동시킵니다.
-몇번의 aging 작업에서 살아남은 객체는 Old 영역으로 승격됩니다.
-Young GC가 일어나다가 설정된 IHOP(Initial Heap Occupancy Percent)을 넘으면 Concurrent Marking Cycle이 발생합니다.
-
-Concurrent Marking Cycle (Old GC)
-
-Initial Mark : Old Region 에 존재하는 객체들이 참조하는 Survivor Region을 찾습니다. 이 과정에서는 STW 발생합니다.
-Root Region Scan : Initial Mark 에서 찾은 Survivor Region에 대한 GC 대상 객체 스캔 작업을 진행합니다.
-Concurrent Mark : 전체 힙의 Region에 대해 스캔 작업을 진행하며, GC 대상 객체가 발견되지 않은 Region 은 이후 단계를 처리하는데 제외되도록 합니다. 이때 만약 Young GC가 발생하면 잠시 멈추도록 합니다.
-Remark : 힙에 있는 살아있는 객체들의 표시 작업을 완료합니다. 이 과정에서는 STW 발생합니다.
-Cleanup : 살아있는 객체와 비어있는 구역을 식별하고, 필요 없는 객체는 지우며 비어있는 구역을 Freelist 로 추가합니다. 이 과정에서는 STW 발생합니다.
-Copy : GC 대상 구역에 있던 살아있는 객체들은 새로운 Region으로 이동합니다. 이 과정에서는 STW 발생합니다.
-Space Reclamation Phase (공간회수)
-
-이때 Mixed GC가 발생합니다. Mixed GC란, Young Generation과 Old Generation 영역 모두를 수집하며, STW를 짧게 가져가기 위해 여러번(8번) 반복합니다.
+```text
+Young Generation은 대부분의 객체가 빠르게 사라지는 특성을 가집니다.살아있는 객체만 복사하므로, 대부분의 객체가 죽는 Young 영역에서 매우 효율적입니다.
+Old Generation은 오래 살아남은 객체들이 있어 대부분의 객체가 살아있는 특성을 가집니다. 대부분의 객체가 살아있기 때문에, 모든 객체를 복사하는 것은 비효율적입니다.
 ```
 
 ### Young 영역과 Old 영역을 나눈 이유가 뭔가요?
@@ -211,7 +202,7 @@ Space Reclamation Phase (공간회수)
 ### Stop-the-world가 필요한 이유가 뭔가요?
 
 ```text
-compaction단계에서 살이있는 객체의 메모리이동이 일어나면서 참조주소가 바뀌게되는데 이때, 옮길려는 곳에 갑자기 누군가 참조한다면 문제가 생깁니다.
+compaction단계에서 살아있는 객체의 메모리이동이 일어나면서 참조주소가 바뀌게되는데 이때, 옮길려는 곳에 갑자기 누군가 참조한다면 문제가 생깁니다.
 
 그리고 더이상 참조되지 않는 객체를 수집하려고하는데 동시에 애플리케이션에서 해당 객체를 참조하게된다면 문제가 생길 수 있습니다.
 ```
@@ -693,3 +684,64 @@ Flow API의 주요 구성 요소는 Publisher, Subscriber, Subscription, Process
 백프레셔를 지원하고, 데이터 스트림을 비동기처리합니다. 
 백프레셔란, Subscriber가 처리할 수 있는 만큼의 데이터만 요청할 수 있어, 과부하를 방지합니다. 
 ```
+
+### String, StringBuffer, StringBuilder의 차이점에 대해 말해주세요
+
+```text
+String 클래스는 불변(immutable)이기 때문에 문자열을 변경할 때마다 새로운 객체를 생성합니다. 이러한 작업은 메모리 낭비를 초래하며 새롭게 객체를 생성하는 비용 때문에 성능 저하를 일으킵니다.
+StringBuilder는 Thread safe 하지 않습니다. 하지만 그만큼 속도가 빠릅니다. 
+StringBuffer는 멀티스레드 환경에 유리하게 임계영역을 설정했기때문에 Thread safe 하지만 속도가 느립니다.
+```
+
+### 문자열을 연결하는 내부구현 차이를 알려주세요 == String, StringBuilder 문자열 연결 차이
+
+```text
+String의 + 연산은 버전마다 계속 최적화 되었습니다. 
+자바 5버전부터는 성능 향상을 목적으로 컴파일시 StringBuilder 혹은 StringBuffer로 변환되도록 변경되었습니다.
+JDK 9부터 StringConcatFactory을 이용하여 더 효율적으로 처리를 합니다.
+
+String concat 연산은 항상 concat 메소드를 사용할 때마다 new 키워드를 사용해 새롭게 객체를 생성하기 때문에 매우 비효율적입니다.
+
+StringBuffer와 StringBuilder append()는 
+문자열을 CharSequence의 내부 버퍼에 저장하고 참조변수 this를 통해 본인 인스턴스를 반환하기 때문에 객체를 새롭게 생성하는 과정이 없어 성능이 좋습니다.
+```
+
+### Nested 클래스가 뭐죠? = 내부클래스가 뭐죠?
+
+```text
+Nested class는 static nested 클래스, 내부클래스인 local 내부 클래스와 익명 내부 클래스가 있습니다.  
+```
+
+### 내부 클래스를 왜 쓰나요?
+
+```text
+로컬 내부 클래스는 외부클래스의 private 멤버를 이용해야 하고, 만들려는 클래스가 외부에는 노출 시키고 싶지않을 때 사용합니다.
+익명 내부 클래스는 해당 인터페이스를 구현한 클래스를 재활용할 필요가 없고 일회용으로 사용할 때 사용됩니다.
+static 클래스는 논리적으로 묶을 필요가 있을때 와 바깥쪽 클래스의 변수 접근이 필요가 없을 때 사용합니다.
+```
+
+### 제네릭이 뭐고, 어디에 쓰이나요
+
+```text
+제네릭(Generic)은 클래스, 인터페이스, 메소드를 정의할 때 <> 기호 안에 타입 파라미터를 선언하여 사용하며, 이를 통해 다양한 데이터 타입에 대해 재사용 가능한 코드를 작성할 수 있습니다.
+제네릭을 사용하면 컴파일 시점에 타입 체크를 할 수 있어 잘못된 형변환을 방지하고, 불필요한 타입 캐스팅을 줄일 수 있습니다.
+
+컬렉션 프레임워크와 사용자 정의 클래스를 만들 때 사용합니다.
+저같은 경우, API 응답 객체를 만들 때 사용했었습니다.  
+```
+
+### bounded 와일드 카드와 unbounded 와일드 카드 차이점
+
+```text
+Unbounded 와일드카드는 모든 타입을 허용하지만, 오직 Object 객체로 조회만 가능하고 추가는 불가능합니다.
+Bounded 와일드카드는 두가지 형태가 있습니다. Upper Bounded 와일드카드는 extends 키워드를 사용하고, 읽기에 사용됩니다.
+Lower Bounded 와일드카드는 super 키워드를 사용하고, 쓰기에 사용됩니다. 이러한 원칙을 PECS라 부릅니다.  
+```
+
+### 제네릭 타입의 타입 소거(type erasure)에 대해 설명해 주세요
+
+```text
+제네릭에서는 타입정보가 런타임시 소거됩니다. 즉, 원소타입을 컴파일 시에만 검사하고 런타임시에는 따로 확인을 하지않습니다.
+```
+
+
