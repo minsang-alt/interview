@@ -156,20 +156,36 @@ Jira를 활용해 팀원들이 무엇을 하고 있는지 실시간으로 추적
 재미도 함께 있을것 같아 지원하게 되었습니다.
 ```
 
+## 본인을 뽑아야 하는 이유가 뭔가요?
+
+```text
+비록 저는 경력직 지원자들에 비해 직접적인 실무 경험은 부족할 수 있지만, 
+배우는 능력과 지속적인 기록을 통한 학습 방식으로 빠르게 성장해왔습니다. 
+실제로 새로운 기술이나 개념을 익힐 때 단순히 배우는 데 그치지 않고, 
+이를 기록하고 체계적으로 정리해 나가면서 깊이 있게 이해하는 것을 추구하고 있습니다. 
+
+예를 들어, '어노테이션 프로세서' 같은 복잡한 개념을 학습할 때, 
+관련된 소스 코드를 직접 작성하고 심도 있게 파고들면서 구체적인 구현 방법을 이해했습니다.
+
+또한, 에러 해결에 있어서도 항상 잠재적인 문제를 미리 생각하고, 
+적극적으로 테스트와 디버깅을 통해 문제를 해결하는 것을 즐깁니다. 
+과거 팀원들이 개발한 인증 시스템에서 발견한 문제를 함께 해결하면서, 
+프로젝트의 품질을 향상시키는 데 기여한 경험이 있습니다.
+
+마지막으로, 지식 공유와 협업을 중시하는 성향 덕분에, 
+저는 팀 내에서 기술적 지식의 격차를 줄이고, 효율적인 협업을 이끌어낼 수 있습니다. 
+Confluence를 이용한 문서화와 지식 공유를 통해 팀 전체가 함께 성장할 수 있는 환경을 조성하는 데 기여했습니다.
+
+이러한 학습 태도와 문제 해결 능력, 
+그리고 협업에서의 강점을 바탕으로, 빠르게 적응하고 기여할 수 있을 것이라고 확신합니다.
+```
+
 ## 회사 입사해서 목표
 
 ```text
 자율적인 팀의 문화와 팀원과의 커뮤니케이션 방식, 코드 스타일, 기술적인 지식 뿐 아니라 팀원들이 추구하는 가치에 대해 배우고 싶습니다.
 ```
 
-
-### 회사에 대해 궁금한 점 있나요?
-
-```text
-- 일본쪽에 서비스 하시려고 하는 걸로 알고있는데 어떤 계획이나 릴리즈 시점이나 혹시 그런게 있을까요?
-- 그리고 말하기 조심스러운데 유튜브 뮤직이 되게 압도적인데 어떤 계획이 있으실까 궁금했습니다.
-- 최근 NoSQL 데이터베이스에 대해 공부하고 있어서 그런데요, 회사에서는 MongoDB를 어떤 용도로 주로 활용하고 계신지 궁금합니다. 
-```
 
 
 ### 자율적인 조직과 시스템화된 조직 차이점 == 시스템기반으로 돌아가는 조직과 구성원의 자율적역량이 최대한 발휘되는 조직간의 장단
@@ -209,168 +225,26 @@ Jira를 활용해 팀원들이 무엇을 하고 있는지 실시간으로 추적
 계속해서 질문하고 반박하면서 회의나 토론을 많이 해서 좋은 결론에 도달할 수 있도록 노력하고자 합니다. 
 ```
 
+
+## 회사에 대해 궁금한 점 있나요?
+
+```text
+LINE Music의 
+Mission을 달성하기 위해 기술 외적인 부분에서 개발팀이 기여할 수 있는 방식은 어떤 것들이 있을까요? 
+예를 들어, 기술자들이 비즈니스 결정이나 음악 산업의 방향성에 어떤 식으로 관여하게 되는지 궁금합니다
+
+LINE Music의 Mission을 보면 일본 음악 스트리밍 시장에서의 점유율 확대가 목표인데, 
+서비스 상에서는 일본 음악 외에도 글로벌 음악이 많이 제공되는 것으로 알고 있습니다. 
+일본 음악과 글로벌 음악 간의 비율이나 중요도는 어떻게 설정되고 있나요?
+
+마지막으로 라인 뮤직은 웹서비스를 하고 있던데 프론트 개발도 같이 백엔드가 진행하는 건가요? 
+만약 그렇다면 어떤 기술 스택을 사용하고 있는 지 궁금합니다. 
+```
+
 ### 마지막 어필
 
 ```text
 저는 단순한 기술 구현이 아니라 LINE Music이 추구하는 음악의 진보와 긍정적 영향력 확대에 함께 기여하고 싶습니다. 
 새로운 기술을 통해 더 많은 사람들이 음악을 쉽게 접하고, 음악을 통해 긍정적인 변화를 이끌어낼 수 있는 서비스 개발에 일조하고 싶습니다. 
 저에게 이 기회를 주신다면 LINE Music의 성공을 위해 최선을 다하겠습니다. 
-```
-
-
-## 코딩 테스트
-
-**미완성 코드**
-
-```java
-package com.flab.book_challenge;
-
-
-import java.util.HashMap;
-import java.util.Map;
-
-public class Main {
-
-    public static void main(String[] args) {
-        Solution sol = new Solution();
-
-        // 테스트 케이스
-        System.out.println(sol.solution(new int[]{2, 3, 1, 4}, 3));  // 예상 출력: 3
-        System.out.println(sol.solution(new int[]{1, 2, 3, 4}, 5));  // 예상 출력: 4
-        System.out.println(sol.solution(new int[]{1, 2, 3, 4}, 20));  // 예상 출력: 4
-    }
-
-    static class Solution {
-        public int solution(int[] play_list, int listen_time) {
-            int n = play_list.length;
-
-            int maxSongs = 0;
-            int uniqueSongs = 0;
-            Map<Integer, Integer> songCount = new HashMap<>();
-
-            // 초기 윈도우 설정
-            for (int i = 0; i < listen_time && i < n * 2; i++) {
-                if (songCount.getOrDefault(i % n, 0) == 0) {
-                    uniqueSongs++;
-                }
-                songCount.put(i % n, songCount.getOrDefault(i % n, 0) + 1);
-
-            }
-
-            maxSongs = uniqueSongs;
-
-            // 슬라이딩 윈도우
-            for (int i = listen_time; i < n * 2; i++) {
-                // 윈도우의 시작 부분 제거
-                int removeIndex = i - listen_time;
-                songCount.put(removeIndex % n, songCount.get(removeIndex % n) - 1);
-                if (songCount.get(removeIndex % n) == 0) {
-                    uniqueSongs--;
-                }
-
-                // 윈도우의 끝에 새로운 부분 추가
-                if (songCount.getOrDefault(i % n, 0) == 0) {
-                    uniqueSongs++;
-                }
-                songCount.put(i % n, songCount.getOrDefault(i % n, 0) + 1);
-
-                maxSongs = Math.max(maxSongs, uniqueSongs);
-
-                // 모든 곡을 들었다면 종료
-                if (maxSongs == n) {
-                    break;
-                }
-            }
-
-            return maxSongs;
-        }
-
-
-    }
-}
-```
-
-완벽한 코드
-```java
-
-package com.example.javaspring.codingTest;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
-public class Main {
-
-    public static void main(String[] args) {
-        Solution sol = new Solution();
-
-        // 테스트 케이스
-        System.out.println(sol.solution(new int[]{2, 3, 1, 4}, 3));  // 예상 출력: 3
-        System.out.println(sol.solution(new int[]{1, 2, 3, 4}, 5));  // 예상 출력: 4
-        System.out.println(sol.solution(new int[]{1, 2, 3, 4}, 20));  // 예상 출력: 4
-        System.out.println(sol.solution(new int[]{2, 2, 4, 4}, 5));  // 예상 출력: 3 7~12 0,2,4,8,12,14
-        System.out.println(sol.solution(new int[]{2, 1, 3, 2, 1}, 2));  // 예상 출력: 2
-    }
-
-    static class Solution {
-        public int solution(int[] play_list, int listen_time) {
-            int n = play_list.length;
-            int totalTime = Arrays.stream(play_list).sum();
-
-            // 전체 재생 시간이 듣는 시간보다 짧으면 모든 곡을 들을 수 있음
-            if (totalTime <= listen_time) {
-                return n;
-            }
-
-            // 누적 재생 시간 계산
-            int[] cumulativeTime = new int[n * 2 + 1];
-            for (int i = 0; i < n * 2; i++) {
-                cumulativeTime[i + 1] = cumulativeTime[i] + play_list[i % n];
-            }
-
-            int maxUnique = 0;
-
-            // 모든 가능한 시작 지점에 대해 검사
-            for (int start = 0; start < totalTime; start++) {
-                int end = start + listen_time;
-                int startSong = findSong(cumulativeTime, start);
-                int endSong = findSong(cumulativeTime, end);
-
-                // unique한 곡의 수 계산
-                Set<Integer> uniqueSongs = new HashSet<>();
-                for (int i = startSong; i < endSong; i++) {
-                    uniqueSongs.add(i % n);
-                }
-                // endSong이 정확히 곡의 시작점이 아니라면 마지막 곡도 포함
-                if (cumulativeTime[endSong] != end) {
-                    uniqueSongs.add(endSong % n);
-                }
-
-                maxUnique = Math.max(maxUnique, uniqueSongs.size());
-
-                if (maxUnique == n) {
-                    break; // 모든 곡을 들었다면 종료
-                }
-            }
-
-            return maxUnique;
-        }
-
-        // 주어진 시간에 해당하는 곡의 인덱스를 찾는 메소드
-        private int findSong(int[] cumulativeTime, int time) {
-            int left = 0, right = cumulativeTime.length - 1;
-            while (left < right) {
-                int mid = left + (right - left) / 2;
-                if (cumulativeTime[mid] > time) {
-                    right = mid;
-                }
-                else {
-                    left = mid + 1;
-                }
-            }
-            return left - 1;
-        }
-    }
-
-}
 ```
