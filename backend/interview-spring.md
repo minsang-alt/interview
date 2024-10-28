@@ -479,7 +479,7 @@ Filter나 Interceptor와 달리 메소드 레벨에서 동작하여 더욱 세�
 ### Filter, Interceptor, AOP 사용시기
 
 ```text
-요청이 들어오면 Request → Filter → Dispatcher Servlet → Interceptor → AOP → Controller 순으로 처리됩니다.
+요청이 들어오면 보통 Request → Filter → Dispatcher Servlet → Interceptor → Controller -> AOP 순으로 처리됩니다.
 ```
 
 ### 스프링 시큐리티가 뭐죠
@@ -494,7 +494,6 @@ Spring Security는 Java 애플리케이션에 인증과 권한 부여를 모두 
 ```text
 - 인증 및 권한 부여
 - 세션 고정, 클릭재킹, SQL 인젝션, CSRF 등과 같은 공격으로부터 보호
-- 다른 라이브러리와의 통합 (jackson, spring data, Crypto, Oauth2)
 ```
 
 ### 공격에 대해 간단히 설명해보세요

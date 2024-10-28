@@ -1042,3 +1042,11 @@ Annotation Processor는
 
 사용하는 예로 자바의 @Override가 있으며, Lombok(롬북)이라는 라이브러리가 있습니다.
 ```
+
+### 어노테이션 retenstion 정책
+
+```text
+RetentionPolicy.SOURCE : 소스 코드(.java)까지 남아있는다.
+RetentionPolicy.CLASS : 클래스 파일(.class)까지 남아있는다.(=바이트 코드)
+RetentionPolicy.RUNTIME : 런타임까지 남아있는다.(=사실상 안 사라진다.)
+```
