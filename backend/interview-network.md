@@ -2,6 +2,8 @@
 
 ## 네트워크
 
+## HTTP 
+
 <details>
 <summary><strong style="font-size:1.17em">HTTP 프로토콜이 뭐죠?</strong></summary>
 
@@ -170,6 +172,8 @@ TLS 핸드셰이크까지 포함하면 여러 번의 왕복(RTT)이 필요합니
 
 ---
 
+## REST
+
 <details>
 <summary><strong style="font-size:1.17em">SOAP과 REST 차이점</strong></summary>
 
@@ -252,11 +256,14 @@ URL은 리소스가 어디에 있는지를 알려줍니다.
 
 ---
 
+## TCP 와 쿠키,세션,JWT
+
+
 <details>
 <summary><strong style="font-size:1.17em">Stateless와 Connectionless에 대해 설명해 주세요.</strong></summary>
 
 ```text
-Stateless란, 서버가 이전 요청에서의 클라이언트의 상태를 보존한다는 것을 말합니다.
+Stateless란, 서버가 이전 요청에서의 클라이언트의 상태를 보존하지 않는다는 의미입니다.
 
 Connectionless란, 클라이언트와 서버가 요청-응답 후 연결을 끊는 특성입니다. HTTP 1.0의 기본적인 특성 입니다.
 ```
@@ -581,6 +588,8 @@ TCP/IP 라는 전송제어 프로토콜을 사용하여 라우터 장비와 ISP�
 
 ---
 
+## OSI 7 Layer
+
 <details>
 <summary><strong style="font-size:1.17em">OSI 7 Layer란 뭔가요?</strong></summary>
 
@@ -646,26 +655,104 @@ TCP/IP 모델은 실무적으로 많이 사용되는 모델로, 4계층인 (네�
 
 ---
 
+## 보안
+
+<details>
+<summary><strong style="font-size:1.17em">SOP 정책에 대해 설명해주세요</strong></summary>
+
+```text
+웹 브라우저가 자바 스크립트에서 다른 출처(프로토콜,도메인,포트)의 리소스를 호출할 때
+적용되는 보안 정책입니다. 단, 이미지태그나 CSS파일등은 교차출처를 허용합니다.
+```
+
+</details>
+
+
+---
+
 <details>
 <summary><strong style="font-size:1.17em">CORS(Cross-Origin Resource Sharing)가 무엇이며, 어떻게 작동하나요?</strong></summary>
 
 ```text
-CORS는 웹 브라우저에서 실행되는 스크립트가 다른 출처(도메인, 프로토콜, 포트)의 리소스에 접근할 수 있도록 허용하는 보안 메커니즘입니다
-이것이 어떻게 작동하는지 설명해 드리겠습니다:
+CORS는 웹 브라우저에서 실행되는 스크립트가 다른 출처의 리소스에 접근할 수 있도록 허용하는 매커니즘입니다.
 
-기본적으로 웹 브라우저는 "동일 출처 정책(Same-Origin Policy)"을 따릅니다. 
-이는 웹 페이지와 그 페이지에서 요청하는 리소스의 출처가 같아야 한다는 정책입니다.
+기본동작은
+1. 클라이언트에서 HTTP 요청의 헤더에 Origin을 담아 전달합니다.
+2. 서버는 응답헤더에 Access-Control-Allow-Origin을 담아 클라이언트로 전달합니다.
+3. 클라이언트에서 Origin과 서버가 보내준 Access-Origin-Allow-Origin을 비교합니다.
+4. 만약 유효하지 않다면 그 응답을 사용하지 않고 버리고 유효하면 가져옵니다
 
-CORS 요청 과정은
-브라우저가 다른 출처로 HTTP 요청을 보낼 때, 요청 헤더에 'Origin' 필드를 추가합니다
-서버는 이 요청을 받고, 응답 헤더에 'Access-Control-Allow-Origin' 필드를 포함시켜 반환합니다.
-브라우저는 'Access-Control-Allow-Origin' 값을 확인하여 요청한 출처가 허용되는지 판단합니다.
-
-그리고 브라우저는 프리플라이트 요청(OPTIONS 메소드)을 보내고 서버가 허용하는지 확인한 후, 
-클라이언트가 실제 요청을 보내게됩니다. 
+정확히는 크게 3가지로, Simple Request, Preflight Request, Credentialed Request 방식이 있습니다.
 ```
 
 </details>
 
 ---
+
+<details>
+<summary><strong style="font-size:1.17em">Preflight에 대해 설명해 주세요.</strong></summary>
+
+```text
+1. 본 요청을 보내기 전에 OPTIONS 메서드로 예비 요청을 먼저 보내서 안전한지 확인합니다
+2. 이때 요청의 Origin 헤더에 자신의 출처를 넣고, 실제 요청에 사용할 메서드와 헤더를 설정합니다.
+3. 서버는 이 요청에 대한 응답으로 허용되는 Origin, 메서드,헤더 목록을 담고 preflight가 브라우저에 캐시될 수 있는 
+시간을 설정해서 반환합니다
+4. 브라우저는 보낸 요청과 서버가 응답해준 정책을 비교하여, 해당 요청이 안전한지 확인하고 본 요청을 보내게 됩니다.
+
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Credentialed Request에 대해 설명해주세요.</strong></summary>
+
+```text
+인증이 필요한 요청, 즉 쿠키나 JWT 같은 인증 정보를 포함할 때 사용합니다.
+credentials 옵션을 include로 설정해야 하고
+서버에서도 Allow-Credentials 헤더를 true로 설정해야 합니다.
+이때는 와일드카드(*)로 출처를 허용할 수 없고, 명시적인 출처를 설정해야 합니다
+```
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">왜 CORS가 필요한가요?</strong></summary>
+
+```text
+웹의 발전으로 브라우저에서 다른 출처의 API를 호출하는 일이 많아졌는데,
+이때 악의적인 스크립트가 사용자의 데이터를 탈취하는 것을 방지하기 위해 필요합니다.
+예를 들어 사용자가 로그인한 상태에서 악성 사이트가 은행 API를 호출하는 것을 막을 수 있습니다.
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">XSS에 대해서 설명해주세요</strong></summary>
+
+```text
+XSS는 웹사이트에 악성 스크립트를 삽입하여 사용자의 브라우저에서 실행되게 하는 공격입니다.
+주요 유형은 3가지입니다.
+
+저장형 XSS는 
+특정사이트의 DB에 악성 스크립트를 저장하고 다른 사용자가 해당 게시글을 볼 때마다 스크립트가 실행됩니다.
+
+반사형 XSS는
+공격 스크립트가 URL 등 요청 파라미터에 포함되어 서버의 응답에 그대로 반영되어 돌아오는 방식입니다.
+
+Dom 기반 XSS는
+DOM을 직접 조작하는 과정에서 발생합니다.
+```
+
+</details>
+
+---
+
+https://stupidsecurity.tistory.com/17
+
+
 
