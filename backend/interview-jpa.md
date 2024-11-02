@@ -1,6 +1,7 @@
 ## JPA
 
-### JPA가 뭔가요?
+<details>
+<summary><strong style="font-size:1.17em">JPA가 뭔가요?</strong></summary>
 
 ```text
 - 객체와 데이터베이스 테이블 간의 매핑:
@@ -10,7 +11,12 @@
 - 객체지향적 접근
 ```
 
-### 영속성 컨텍스트가 뭐죠?
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">영속성 컨텍스트가 뭐죠?</strong></summary>
 
 ```text
 영속성 컨텍스트란, 엔티티를 영구 저장하는 환경으로, 애플리케이션과 데이터베이스 사이에 엔티티를 보관하는 가상의 데이터베이스 역할을 합니다.
@@ -18,7 +24,12 @@
 엔티티매니저에 엔티티를 저장하거나 조회하면, 엔티티매니저는 영속성 컨텍스트에 엔티티를 보관하고 관리합니다. 
 ```
 
-### 영속성 컨텍스트를 왜 쓰죠?
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">영속성 컨텍스트를 왜 쓰죠?</strong></summary>
 
 ```text
 1. 1차 캐시
@@ -30,52 +41,62 @@
 4. 지연 로딩
 ```
 
-### N+1 문제가 뭔가요?
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">N+1 문제가 뭔가요?</strong></summary>
 
 ```text
 N+1 문제란, 1번의 쿼리를 날렸을 때, 의도하지 않은 N번의 쿼리가 추가적으로 실행되는 것을 말합니다.
 ```
 
-### JPA의 N+1 문제 해결 방법과 각 방법의 단점
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">JPA의 N+1 문제 해결 방법과 각 방법의 단점</strong></summary>
 
 ```text
-1. Fetch Join (페치 조인) 과 @EntityGraph
-   - 해결 방법: JPQL의 JOIN FETCH 또는 EntityGraph를 사용하여 연관 엔티티를 함께 조회
-   - 장점: 한 번의 쿼리로 연관 엔티티를 모두 가져옴
-   - 단점: 
-     - 1:N 관계에서 페이징 처리가 어려움 
-     - 여러 컬렉션을 페치 조인하면 카테시안 곱이 발생하여 데이터 중복 증가 (단, List가 아니라 Set으로 해야함) 
-
-2. @BatchSize
+1. @BatchSize
    - 해결 방법: 연관 엔티티를 IN 쿼리를 통해 일정 크기의 배치로 조회
    - 장점: 지정된 크기만큼의 연관 엔티티를 IN절로 한 번에 조회해서 N+1문제를 해결
    - 단점: 
      - 최적의 배치 크기를 찾기 어려움
      - 통일되게 배치사이즈를 정하면, 필요없는 쿼리가 발생하거나 필요없는 데이터까지 조회합니다
 
-3. DTO를 통한 직접 조회(프로젝션)
-   - 해결 방법: 필요한 데이터만 DTO로 직접 조회
-   - 장점: 불필요한 데이터를 가져오지 않아 효율적
-   - 단점: 
-     - 별도의 DTO 클래스 관리 필요
-
-4. Native SQL 사용
+2. Native SQL 사용
    - 해결 방법: JPA 대신 Native SQL을 사용하여 최적화된 쿼리 작성
    - 장점: 데이터베이스에 최적화된 쿼리 사용 가능
    - 단점: 
      - JPA의 장점 (객체 지향적 접근, 데이터베이스 독립성) 상실
      - SQL에 의존적인 코드 증가
      
-5. @Fetch(FetchMode.SUBSELECT)
+3. @Fetch(FetchMode.SUBSELECT)
    - 연관된 엔티티들을 조회할 때 서브쿼리를 사용합니다.
    - 장점: N+1 문제를 효과적으로 해결할 수 있습니다.
           Fetch Join과 달리 페이징과 함께 사용할 수 있습니다.
    - 단점: 
      - 항상 연관 엔티티를 모두 가져오므로, 필요하지 않은 경우에도 데이터를 로드할 수 있습니다.
      - 대량의 데이터를 다룰 때는 메모리 사용량에 주의해야 합니다.
+     
+4. Fetch Join (페치 조인) 과 @EntityGraph
+   - 해결 방법: JPQL의 JOIN FETCH 또는 EntityGraph를 사용하여 연관 엔티티를 함께 조회
+   - 장점: 한 번의 쿼리로 연관 엔티티를 모두 가져옴
+   - 단점: 
+     - 1:N 관계에서 페이징 처리가 어려움 
+     - 여러 컬렉션을 페치 조인하면 카테시안 곱이 발생하여 데이터 중복 증가 (Set으로 해야하거나 단, 순서 잘못,컬렉션 하나만 페치조인,쿼리분리) 
 ```
 
-### 1:N 관계에서 페이징 처리가 왜 어렵죠?
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">페치조인의 1:N 관계에서 페이징 처리가 왜 어렵죠?</strong></summary>
 
 ```text
 OneToMany 관계에서 Fetch Join과 페이징을 함께 사용할 경우 문제가 발생합니다. 
@@ -83,7 +104,12 @@ OneToMany 관계에서 Fetch Join과 페이징을 함께 사용할 경우 문제
 이는 대용량 데이터 처리 시 Out of Memory(OOM) 오류를 야기할 수 있습니다.
 ```
 
-### 왜 LIMIT와 OFFSET을 무시하나요?
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">왜 LIMIT와 OFFSET을 무시하나요?</strong></summary>
 
 ```text
 OneToMany 관계에서 Fetch Join을 사용하면 데이터베이스 결과 집합에 중복된 행이 포함될 수 있습니다.
@@ -95,23 +121,42 @@ OneToMany 관계에서 Fetch Join을 사용하면 데이터베이스 결과 집�
 대신 모든 데이터를 메모리로 로딩한 후, 애플리케이션 레벨에서 중복을 제거하고 페이징을 수행합니다.
 ```
 
-### 일대일 매핑에서 주의해야할 점이 뭔가요?
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">일대일 매핑에서 주의해야할 점이 뭔가요?</strong></summary>
 
 ```text
-- JPA에서 객체의 단방향 관계가 주(Main) 엔티티에서 대상(Target) 엔티티로 향할 때, 대상 테이블에 외래 키를 두는 구조는 지원되지 않습니다
-- 연관관계의 주인이 아닌 쪽 엔티티를 조회 시 지연 로딩이 동작하지 않고 즉시로딩으로 작동됩니다.
+- 객체의 단방향 관계가 주(Main) 엔티티에서 대상(Target) 엔티티로 향할 때, 
+데이터베이스에서 대상 테이블에 외래 키를 두는 구조는 지원되지 않습니다
+
+- 연관관계의 주인이 아닌 쪽에서 주인인 엔티티를 조회 시 지연 로딩이 동작하지 않고 즉시로딩으로 작동됩니다.
 ```
 
-### 지연로딩으로 설정했는 데 왜 즉시로딩이되나요?
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">지연로딩으로 설정했는 데 왜 즉시로딩이되나요?</strong></summary>
 
 ```text
 프록시의 한계 때문입니다. 
-OneToOne 관계에서 연관관계 주인인 쪽에서 조회시, 외래키로 연관맺은 객체의 아이디를 얻을 수 있고, 프록시를 생성할 수 있습니다.
+OneToOne 관계에서 연관관계 주인인 쪽에서 조회시, 
+지연로딩할때 외래키로 연관맺은 객체의 아이디를 얻을 수 있고, 프록시를 생성할 수 있습니다.
+
 반면, 연관관계 주인이 아닌 객체는 외래키가 없기 때문에 연관객체의 존재여부를 파악할 수가 없습니다. 
 이 상태로 프록시를 생성하기에는 null값을 처리하는 등 모호한 부분이 있어서 불가능하다 판단하에 조회쿼리를 결국 날려서 즉시로딩방식으로 진행합니다. 
 ```
 
-### 그럼 OneToMany에서는 이러한 현상이 발생하지 않나요?
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">그럼 OneToMany에서는 이러한 현상이 발생하지 않나요?</strong></summary>
 
 ```text
 일(1)에 해당하는 엔티티의 다(N) 에 해당하는 연관 관계 필드는 컬렉션 타입입니다.
@@ -119,7 +164,12 @@ OneToOne 관계에서 연관관계 주인인 쪽에서 조회시, 외래키로 �
 이것이 컬렉션에 대한 프록시 역할을 합니다. 
 ```
 
-### JPA 1차 캐시 , 2차 캐시 차이점이 뭔가요?
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">JPA 1차 캐시 , 2차 캐시 차이점이 뭔가요?</strong></summary>
 
 ```text
 1차 캐시는 영속성 컨텍스트 내부에 위치하며, 트랜잭션 범위에서 동작합니다.
@@ -130,7 +180,12 @@ OneToOne 관계에서 연관관계 주인인 쪽에서 조회시, 외래키로 �
 주로 자주 변경되지 않는 데이터에 효과적입니다.
 ```
 
-### 하이버네이트의 Cache 어노테이션의 속성에 대해 설명해주세요
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">하이버네이트의 Cache 어노테이션의 속성에 대해 설명해주세요</strong></summary>
 
 ```text
 usage: 캐시 동시성 전략을 지정합니다 (NONE, READ_ONLY, NONSTRICT_READ_WRITE, READ_WRITE, TRANSACTIONAL)
@@ -150,21 +205,38 @@ region: 캐시 영역의 이름을 지정할 수 있습니다. 이름을 달리 
 include 속성은 엔티티의 관계(연관)들을 어떻게 캐시할지 지정합니다.
 ```
 
-### 왜 분산환경에서 READ_WRITE 보다 NONSTRICT_READ_WRITE를 사용해야 하나요?
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">왜 분산환경에서 READ_WRITE 보다 NONSTRICT_READ_WRITE를 사용해야 하나요?</strong></summary>
 
 ```text
 READ_WRITE는 동기화 처리 때문에 성능에 문제가 있습니다. 
 그리고 분산 환경에서 캐시에 대한 동기화처리를 한다고 해도 DB에서는 디비에 대한 락킹이 아니기 때문에 일관성 보장이 안될수 있습니다.
 ```
 
-### 스프링에서 지원하는 캐시에 대해 설명해주세요
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">스프링에서 지원하는 캐시에 대해 설명해주세요</strong></summary>
 
 ```text
-- 스프링의 캐시 추상화는 캐시 특정 기술에 종속되지않으며, AOP를 통해 적용하기 때문에 애플리케이션 코드를 수정하지 않고, 캐시 부가 기능을 추가할 수 있습니다.
 - 캐시 구현 기술에 종속되지 않도록 추상화 기술인 PSA 를 제공합니다. (CacheManager)
-- ConcurrentHashMap을 통한 캐시 구현이 있는데, 기본적으로 제공하며 캐시관리에 대한 기능들이 부족합니다. 또한 Heap에 올라가기 때문에 직접 정리가 불가능합니다. 
-- 이외에도 EhCache, Redis 등등이 있으며 로컬 캐시 혹은 글로벌 캐시로 사용가능합니다.
+- AOP를 통해 적용하기 때문에 애플리케이션 코드를 수정하지 않고, 캐시 부가 기능을 추가할 수 있습니다.
+- 구현체로는 카페인,EhCache, Redis 등등이 있으며 로컬 캐시 혹은 글로벌 캐시로 사용가능합니다.
 ```
+
+</details>
+
+---
+
+ 
+
+
 
 ### 로컬 캐시와 글로벌 캐시 차이점이 뭐죠?
 
