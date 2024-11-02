@@ -745,14 +745,67 @@ XSS는 웹사이트에 악성 스크립트를 삽입하여 사용자의 브라�
 공격 스크립트가 URL 등 요청 파라미터에 포함되어 서버의 응답에 그대로 반영되어 돌아오는 방식입니다.
 
 Dom 기반 XSS는
-DOM을 직접 조작하는 과정에서 발생합니다.
+공격자가 조작 가능한 클라이언트 측 스크립트에서 발생하며, 서버로의 요청과 관계없이 브라우저에서 스크립트가 실행됩니다.
 ```
 
 </details>
 
 ---
 
-https://stupidsecurity.tistory.com/17
+<details>
+<summary><strong style="font-size:1.17em">CSRF랑 XSS는 어떤 차이가 있나요?</strong></summary>
+
+```text
+CSRF 공격은 사용자가 자신의 의지와는 무관하게 공격자가 의도한 행위를 웹 애플리케이션에 요청하게 만드는 공격입니다. 
+방지하기 위해 CSRF 토큰이나 SameSite 쿠키 속성 설정, Referrer 검증 등이 있습니다. 
+
+반면, XSS 공격은 공격자가 웹 페이지에 악의적인 스크립트를 삽입하여 사용자의 정보를 탈취하거나 조작하는 공격입니다.
+방지하기 위해 
+```
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">SameSite가 뭐죠</strong></summary>
+
+```text
+SameSite는 브라우저가 Cross-Site 요청할 때 쿠키를 어떻게 보낼지 결정하는 쿠키의 속성입니다. 
+세 가지 값을 설정할 수 있습니다:
+Strict는 가장 엄격한 설정으로, 같은 도메인의 요청에만 쿠키를 전송합니다
+Lax은 기본값으로, 다른 사이트에서 들어오는 GET 요청과 같은 '안전한' 요청에만 쿠키를 전송합니다.
+None은 모든 Cross-Site 요청에 쿠키를 전송합니다. 이 경우 반드시 Secure 속성을 함께 사용해야 합니다.
+```
+
+</details>
+
+---
 
 
+<details>
+<summary><strong style="font-size:1.17em">XSS는 프론트엔드에서만 막을 수 있나요?</strong></summary>
 
+```text
+백엔드단에서 
+입력 값들을 유효성 검증하고, 특수문자들을 제외하기위해 정규식을 통해서 제거합니다.
+```
+</details>
+
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">api.naver.com과 www.naver.com은 cors문제도 안생기고 same-site인가요?</strong></summary>
+
+```text
+SameSite 관점에서는 
+Public Suffix 기준 com 이므로, 그 앞부분까지 같은 사이트로 보기 때문에
+Same-site 맞습니다. 따라서 SameSite=Strict여도 쿠키는 전송됩니다.
+
+CORS 판단은 
+Origin 기준이므로 프로토콜,도메인,포트가 같아야하는데
+도메인이 다르므로
+CORS 설정이 필요합니다.
+```
+
+</details>
