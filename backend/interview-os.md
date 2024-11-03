@@ -1,3 +1,17 @@
+<details>
+<summary><strong style="font-size:1.17em">뮤택스와 세마포어 차이?</strong></summary>
+
+```text
+뮤텍스는 Locking 메커니즘으로 락을 걸은 쓰레드만이 임계 영역을 나갈때 락을 해제할 수 있습니다.
+wait와 signal 이라는 원자적 연산을 사용합니다.  
+
+하지만 세마포어는 Signaling 메커니즘으로 락을 걸지 않은 쓰레드도 signal을 사용해 락을 해제할 수 있습니다.
+```
+
+</details>
+
+
+
 ## OS 스케줄링 방식
 
 ```text

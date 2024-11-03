@@ -234,11 +234,8 @@ READ_WRITE는 동기화 처리 때문에 성능에 문제가 있습니다.
 
 ---
 
- 
-
-
-
-### 로컬 캐시와 글로벌 캐시 차이점이 뭐죠?
+<details>
+<summary><strong style="font-size:1.17em">로컬 캐시와 글로벌 캐시 차이점이 뭐죠?</strong></summary>
 
 ```text
 - Local Cache
@@ -248,20 +245,24 @@ READ_WRITE는 동기화 처리 때문에 성능에 문제가 있습니다.
 대신 서버 내에서 작동하기 때문에 속도가 빠르다.
 로컬 서버 장비의 Resource를 이용한다. (Memory, Disk)
 
-만약 캐시에 저장된 데이터가 변경되는 경우 정합성을 맞추기 위해 해당 서버를 제외한 모든 peer에 변경 사항 전달해야하기 때문에 WAS 인스턴스가 늘어나고, 캐시 저장 데이터 크기가 커지면 성능이 저하됩니다.
+만약 캐시에 저장된 데이터가 변경되는 경우 정합성을 맞추기 위해 
+해당 서버를 제외한 모든 peer에 변경 사항 전달해야하기 때문에 
+WAS 인스턴스가 늘어나고, 캐시 저장 데이터 크기가 커지면 성능이 저하됩니다.
 
 - Global Cache
 
-여러 서버에서 캐시 서버에 접근하여 참조 할 수 있다.
-별도의 캐시 서버를 이용하기 때문에 서버 간 데이터 공유가 쉽다.
+여러 서버에서 캐시 서버에 접근하여 참조 할 수 있습니다.
+별도의 캐시 서버를 이용하기 때문에 서버 간 데이터 공유가 쉽습니다.
 네트워크 트래픽을 사용해야 해서 로컬 캐시보다는 느리다.
-데이터를 분산하여 저장 할 수 있다. 
-
-만약 캐시에 저장된 데이터가 변경되는 경우 추가적인 작업 필요없습니다. 
-따라서 서비스 확장으로 WAS 인스턴스가 늘어나고, Cache 데이터 크기가 커질 수록 효과적입니다.
+데이터를 분산하여 저장 할 수 있습니다. 
 ```
 
-### 2차 캐시를 현업에서 잘 안쓰는 이유가 뭔가요?
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">2차 캐시를 현업에서 잘 안쓰는 이유가 뭔가요?</strong></summary>
 
 ```text
 설정이 복잡하고, 지원하는 캐시 라이브러리도 적습니다.(EhCache, Infinispan 등) 
@@ -272,8 +273,12 @@ READ_WRITE는 동기화 처리 때문에 성능에 문제가 있습니다.
 다중서버환경에서는 로컬 캐시보다는 글로벌 캐시를 사용합니다.
 ```
 
+</details>
 
-### 하이버네이트가 제공하는 캐시는 무엇이 있나요
+---
+
+<details>
+<summary><strong style="font-size:1.17em">하이버네이트가 제공하는 2차 캐시는 무엇이 있나요</strong></summary>
 
 ```text
 해당 캐시는 크게 3가지를 지원합니다.
@@ -283,19 +288,31 @@ READ_WRITE는 동기화 처리 때문에 성능에 문제가 있습니다.
 쿼리 캐시 : 쿼리와 파라미터 정보를 키로 사용해서 캐시한다. 결과가 엔티티면 식별자 값만 캐시한다.
 ```
 
-### 엔티티 매니저는 thread-safe 한가요? == EntityManger는 thread-safe 해야 할까요?
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">엔티티 매니저는 thread-safe 한가요? == EntityManger는 thread-safe 해야 할까요?</strong></summary>
 
 ```text
-멀티 스레드 환경에서 하나의 엔티티 매니저를 공유하면 race condition이 발생하고, 영속성 컨텍스트에서 더티리드, Non-repeatable read, Lost Updates가 발생할 수 있습니다. 
+EntityManager는 thread-safe 하지 않습니다.
+그리고 의도적으로 그렇게 설계되었습니다.
+
+왜냐면
+스프링에서는 트랜잭션 단위로 엔티티매니저를 생성하고
+스레드로컬을 사용하여 스레드 당 하나의 엔티티매니저를 보장합니다.
+
+따라서 엔티티매니저가 스레드세이프하지 않은것은 
+장점이 됩니다. 그 이유는 동기화할 필요가 없어 오버헤드도 없고
+데이터 정합성을 보장하기에도 쉽습니다. 
 ```
+</details>
 
-### 이를 방지하려면 어떻게 하나요?
+---
 
-```text
-스프링에서 주입받는 EntityManager는 프록시를 주입해주고 실제 EntityManager는 EntityManagerFactory를 사용하여 각각의 스레드에 대해 독립적인 EntityManager를 생성합니다.
-```
-
-### JPQL과 SQL의 차이점이 뭔가요? 
+<details>
+<summary><strong style="font-size:1.17em">JPQL과 SQL의 차이점이 뭔가요?</strong></summary>
 
 ```text
 - 테이블이 아닌 객체를 검색하는 객체지향 쿼리
@@ -303,7 +320,12 @@ READ_WRITE는 동기화 처리 때문에 성능에 문제가 있습니다.
 - JPA는 JPQL을 분석하여 SQL을 생성한 후 DB에서 조회
 ```
 
-### JPQL의 특징
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">JPQL의 특징</strong></summary>
 
 ```text
 - 엔티티와 속성은 대소문자를 구분합니다.
@@ -312,20 +334,33 @@ READ_WRITE는 동기화 처리 때문에 성능에 문제가 있습니다.
 - 파라미터 바인딩도 가능합니다.  
 ```
 
-### 쿼리DSL과 크리테리아 API의 차이점이 뭔가요
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">쿼리DSL과 크리테리아 API의 차이점이 뭔가요</strong></summary>
 
 ```text
-Criteria는 컴파일 시점에 에러를 잡아주는 장점이 있습니다. JPQL 처럼 String으로 쿼리를 작성하지 않아도 되고, 객체로 코드를 작성합니다.
-하지만 이 CriteriaBuilder를 통해서 쿼리를 만들면 실제 작성해야 하는 SQL 쿼리보다 훨씬 많은 양의 코드를 작성해야 합니다. 
-또한 코드가 장황해지다 보니 가독성이 떨어지면서 실제로 어떤 쿼리가 생성되는 것인지 한눈에 파악하기 어럽습니다.
+Criteria는 컴파일 시점에 에러를 잡아주는 장점이 있습니다. 
+JPQL 처럼 String으로 쿼리를 작성하지 않아도 되고, 객체로 코드를 작성합니다.
+
+하지만 이 CriteriaBuilder를 통해서 쿼리를 만들면 
+실제 작성해야 하는 SQL 쿼리보다 훨씬 많은 양의 코드를 작성해야 합니다. 
+또한 코드가 장황해지다 보니 가독성이 떨어지면서 실제로 어떤 쿼리가 생성되는 것인지 한눈에 파악하기 어렵습니다.
 
 쿼리DSL은 Criteria의 단점이 없어지고, JPQL과 비슷해서 한 눈에 들어옵니다.
 QueryDSL은 JPA 표준은 아니고 오픈소스 프로젝트입니다.
-쿼리 대로 날라가기 때문에 예상치 못한 쿼리가 날라가 N+1문제 안생김
-동적쿼리로 조건에 따라 다른 쿼리를 만들 수 있다. 
+쿼리 대로 날라가기 때문에 예상치 못한 쿼리가 날라가 N+1문제 안생깁니다.
+또한, 동적쿼리로 조건에 따라 다른 쿼리를 만들 수 있습니다. 
 ```
 
-### 캐스케이드 영속성전이 와 orphan removal 차이를 설명해주세요
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">캐스케이드 영속성전이 와 orphan removal 차이를 설명해주세요</strong></summary>
 
 ```text
 - CascadeType.REMOVE와 orphanRemoval = true는 부모 엔티티를 삭제하면 자식 엔티티도 삭제합니다.
@@ -333,7 +368,12 @@ QueryDSL은 JPA 표준은 아니고 오픈소스 프로젝트입니다.
 - OrphanRemoval 만 있는 것은 동작안합니다.
 ```
 
-### 하이버네이트의 세션이란 뭔가요?
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">하이버네이트의 세션이란 뭔가요?</strong></summary>
 
 ```text
 - 세션 객체는 응용 프로그램과 데이터베이스에 저장된 데이터 간의 인터페이스를 제공
@@ -344,34 +384,62 @@ QueryDSL은 JPA 표준은 아니고 오픈소스 프로젝트입니다.
 - 참고로 세션팩토리는 2차 캐시를 선택적으로 보유및 관리합니다. 세션팩토리는 싱글톤 객체로, 여러 세션간에 공유됩니다.  
 ```
 
-### HQL이란 뭔가요?
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">HQL이란 뭔가요?</strong></summary>
 
 ```text
-Hibernate를 통해 데이터베이스를 검색할 경우에 이용하는 쿼리입니다. 
-HQL을 Hibernate가 어떤 데이터베이스를 이용하고 있는지 살펴보고 알아서 그에 맞는 SQL 로 변환하여 준다는 장점이 있습니다.
-- JPQL → HQL → SQL
+Hibernate를 통해 데이터베이스를 검색할 경우에 이용하는 쿼리입니다.
+ 
+Hibernate가 어떤 데이터베이스를 이용하고 있는지 살펴보고 
+알아서 HQL을 그에 맞는 SQL 로 변환하여 준다는 장점이 있습니다.
+
 ```
 
-### entityManager랑 session이랑 뭔차이인가요?
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">entityManager랑 session이랑 뭔차이인가요?</strong></summary>
 
 ```text
 EntityManager: JPA(Java Persistence API)의 표준 인터페이스입니다.
 Session: Hibernate의 고유한 인터페이스로, JPA 표준을 확장한 것입니다.
 
-EntityManager: JPA를 사용하는 모든 ORM에서 동일하게 사용할 수 있습니다.
-Session: Hibernate에 특화된 기능을 제공합니다.
-
+따라서 
 Session은 EntityManager의 모든 기능을 포함하며, 추가적인 Hibernate 특화 기능을 제공합니다.
+
+또한 EntityManager의 Hibernate 구현체는 내부적으로 Session을 가지고 있어서,
+필요할 때 unwrap()을 통해 Session을 얻을 수 있습니다.
 ```
 
-### Spring Data JPA와 일반 JPA의 차이점을 말해주세요 
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Spring Data JPA와 일반 JPA의 차이점을 말해주세요</strong></summary>
 
 ```text
 스프링 데이터는 다양한 데이터 저장소에 대한 데이터 액세스를 단순화하고 통일된 방식으로 제공하는 프로젝트입니다. 
-Pageable객체로 페이징과 정렬, 메소드 이름으로 쿼리 생성, CRUD 메소드 제공, Repository 인터페이스를 정의하면 구현체를 자동 생성 등 개발자가 쉽게 사용할 수 있습니다. 
+
+예를들어 Pageable객체로 페이징과 정렬, 메소드 이름으로 쿼리 생성, CRUD 메소드 제공, 
+Repository 인터페이스를 정의하면 구현체를 자동 생성 등 개발자가 쉽게 사용할 수 있습니다. 
+
+일반 JPA는 모든 메서드를 직접 구현하고, EntityManager를 직접 다뤄야 합니다. 
 ```
 
-### 스프링 데이터 JPA 말고 다른 스프링 데이터 차이점
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">스프링 데이터 JPA 말고 다른 스프링 데이터 차이점</strong></summary>
 
 ```text
 스프링 데이터 JPA
@@ -380,4 +448,10 @@ Pageable객체로 페이징과 정렬, 메소드 이름으로 쿼리 생성, CRU
 스프링 데이터 Redis :  RedisTemplate을 사용하여 키-값 데이터를 저장하고 검색합니다.
 스프링 데이터 Elasticsearch : 전문 검색을 위한 메소드를 정의합니다.
 ```
+
+</details>
+
+---
+
+
 
