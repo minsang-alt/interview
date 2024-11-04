@@ -289,90 +289,198 @@ SerialVersionUID는 왜 선언해야 하나요?
 
 ---
 
-
-
-
-### 스택 메모리와 힙 메모리를 이야기 하셨는데 이 둘의 차이점에 대해 더 자세히 설명해주세요
+<details>
+<summary><strong style="font-size:1.17em">
+스택 메모리와 힙 메모리를 이야기 하셨는데 이 둘의 차이점에 대해 더 자세히 설명해주세요
+</strong></summary>
 
 ```text
-스택은 메소드 호출이나 로컬 변수등을 스택 프레임 형태로 저장하고 스택에 할당합니다. 또한, 각 스레드는 자신의 스택이 있으며, 
-해당 스택은 LIFO 순서를 따릅니다. 또한 값을 직접 저장하기 때문에 힙에 비해 접근속도가 빠릅니다.
+스택은 메소드 호출이나 로컬 변수등을 
+스택 프레임 형태로 저장하고 스택에 할당합니다. 
+또한, 각 스레드는 자신의 스택이 있으며, 
+해당 스택은 LIFO 순서를 따릅니다. 
+또한 값을 직접 저장하기 때문에 힙에 비해 접근속도가 빠릅니다.
 
-힙은 객체를 저장하는 데 유리합니다. 또한 힙 메모리는 모든 스레드에서 공유하기 때문에 객체의 상태등을 설정할 때 
-동시성에 유의해야하며, 가비지 컬렉터에 의해 참조되지않는 객체는 자동으로 정리되며 메모리 관리를 합니다.
+힙은 객체를 저장하는 데 유리합니다. 
+또한 힙 메모리는 모든 스레드에서 공유하기 때문에 
+객체의 상태등을 설정할 때 
+동시성에 유의해야하며, 
+가비지 컬렉터에 의해 참조되지않는 객체는 자동으로 정리되며 메모리 관리를 합니다.
 ```
 
-### JVM에는 어떤게 있죠?
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+JVM에는 어떤게 있죠?
+</strong></summary>
 
 ```text
 클래스로더, 런타임메모리영역, 실행엔진이 있습니다.
 ```
 
-### 자바의 메모리 구조에 대해 상세히 설명해 주세요
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+자바의 메모리 구조에 대해 상세히 설명해 주세요
+</strong></summary>
 
 ```text
 힙 메모리, 스택 메모리, PC 레지스터, 메타스페이스 , 네이티브 메서드 스택이 있습니다.
 
-- 힙 영역은 실제 객체 및 배열 할당을 위한 스레드의 공유 공간이자 가비지 수집을 합니다.
-- 스택 영역은 각 스레드 별로 따로 할당되는 영역이며 로컬 변수 및 참조변수 등에 대해 스택 프레임을 사용하여 스택에 할당
+- 힙 영역은 실제 객체 및 배열 할당을 위한 
+스레드의 공유 공간이자 가비지 수집을 합니다.
+
+- 스택 영역은 각 스레드 별로 따로 할당되는 영역이며 
+로컬 변수 및 참조변수 등에 대해 스택 프레임을 사용하여 스택에 할당
+
 - PC 레지스터는 각 스레드의 현재 명령을 추적합니다.
-- 메타스페이스는 상수 풀이나 클래스 및 메서드 정보를 포함한 클래스 수준 데이터를 저장하는 영역
+
+- 메타스페이스는 상수 풀이나 
+클래스 및 메서드 정보를 포함한 클래스 수준 데이터를 저장하는 영역
+
 - 네이티브 메서드 스택은 네이티브 메서드 실행을 위한 스택입니다. 
 ```
 
-### Java 컴파일 과정에 대해 자세히 설명해주세요
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+Java 컴파일 과정에 대해 자세히 설명해주세요
+</strong></summary>
 
 ```text
-1. 개발자가 자바 코드를 작성한 .java 파일을 javac 컴파일러를 이용해 바이트코드로 변환합니다.
-2. 컴파일된 class 파일은 클래스로더에 의해 JVM 메모리에 할당합니다. 이 과정은 loading, linking, initialising 과정을 거칩니다.
-3. 인터프리터는 로드된 코드를 한 줄씩 컴파일하고 실행합니다. 이때 Method Cache에서 명령문을 가져오고 어셈블리 코드로 변환하는 작업을 합니다.
-4. 성능 개선을 위해 JIT 컴파일러는 지속적으로 컴파일된 코드를 추적 합니다. JIT 컴파일러는 자주 실행되는 코드인 hotspot을 식별합니다.
-5. JIT 컴파일러가 hotspot인 코드를 미리 컴파일하여 만든 네이티브 코드를 Code Cache에 배치합니다. 향후 중복된 명령문에 대해 인터프리터는 Method Cache대신
+1. 개발자가 자바 코드를 작성한 .java 파일을 
+javac 컴파일러를 이용해 바이트코드로 변환합니다.
+
+2. 컴파일된 class 파일은 클래스로더에 의해 JVM 메모리에 할당합니다. 
+이 과정은 loading, linking, initialising 과정을 거칩니다.
+
+3. 인터프리터는 로드된 코드를 한 줄씩 컴파일하고 실행합니다. 
+이때 Method Cache에서 명령문을 가져오고 어셈블리 코드로 변환하는 작업을 합니다.
+
+4. 성능 개선을 위해 JIT 컴파일러는 지속적으로 컴파일된 코드를 추적 합니다. 
+JIT 컴파일러는 자주 실행되는 코드인 hotspot을 식별합니다.
+
+5. JIT 컴파일러가 hotspot인 코드를 미리 컴파일하여 만든 네이티브 코드를 Code Cache에 배치합니다. 
+향후 중복된 명령문에 대해 인터프리터는 Method Cache대신
 Code Cache에서 네이티브 코드를 가져옵니다. 
 ```
 
-### JDK, JRE, JVM 차이
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+JDK, JRE, JVM 차이
+</strong></summary>
 
 ```text
-JDK는 Java 애플리케이션을 개발하는 데 사용하는 소프트웨어개발 환경 입니다. 여기에는 JRE와 javac 컴파일러, 디버거 등 개발도구를 포함합니다.
-JRE는 JVM과 자바 클래스 라이브러리로 구성됩니다. 자바프로그램을 실행시키기위한 최소한의 환경입니다.
-JVM은 자바 바이트코드를 실행하는 가상머신입니다. 플랫폼 독립성을 제공하며, Interpreter와 JIT 컴파일러인 실행엔진이 있습니다. 
+JDK는 Java 애플리케이션을 개발하는 데 사용하는 소프트웨어개발 환경 입니다. 
+여기에는 JRE와 javac 컴파일러, 디버거 등 개발도구를 포함합니다.
+
+JRE는 JVM과 자바 클래스 라이브러리로 구성됩니다. 
+자바프로그램을 실행시키기위한 최소한의 환경입니다.
+
+JVM은 자바 바이트코드를 실행하는 가상머신입니다. 
+플랫폼 독립성을 제공하며, Interpreter와 JIT 컴파일러인 실행엔진이 있습니다. 
 ```
 
+</details>
 
-### 클래스의 멤버 변수 초기화 순서를 말해보세요
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+클래스의 멤버 변수 초기화 순서를 말해보세요
+</strong></summary>
 
 ```text
-정적(static) 변수: 클래스 로딩 시 초기화됩니다. 먼저 기본값으로 초기화된 후, 명시적 초기화와 static 블록이 순서대로 실행됩니다.
-인스턴스 변수: 객체 생성 시 초기화됩니다. 기본값 초기화 후, 명시적 초기화와 인스턴스 초기화 블록이 순서대로 실행됩니다.
+정적(static) 변수: 클래스 로딩 시 초기화됩니다. 
+먼저 기본값으로 초기화된 후, 명시적 초기화와 static 블록이 순서대로 실행됩니다.
+
+인스턴스 변수: 객체 생성 시 초기화됩니다. 
+기본값 초기화 후, 명시적 초기화와 인스턴스 초기화 블록이 순서대로 실행됩니다.
+
 생성자: 마지막으로 생성자에서 추가적인 초기화가 이루어집니다.
 ```
 
+</details>
 
-### 가비지 컬렉터를 이야기 했는데 이게 정확히 뭐고 가비지 컬렉션의 과정과 어떤 종류가 있는 지 자세히 설명해주세요
+---
+
+## GC
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+가비지 컬렉터를 이야기 했는데 이게 정확히 뭐고 가비지 컬렉션의 과정과 어떤 종류가 있는 지 자세히 설명해주세요
+</strong></summary>
 
 ```text
 가비지 컬렉터란, 참조되지 않은 객체를 추적하여 메모리를 회수합니다. 이렇게 메모리 관리를 하는 실행엔진입니다.
 
 이제 과정을 말씀드리면, 
 1. JVM은 가비지 컬렉션을 실행하기 위해 애플리케이션의 실행을 멈추는 stop-the-world를 먼저 실행합니다.
+
 2. stop-the-world를 실행하면 GC를 실행하는 쓰레드를 제외한 모든 쓰레드가 작업을 멈춥니다.
+
 3. 가비지 컬렉션 작업은 Young 영역에 대한 Minor GC와 Old 영역에 대한 Major GC로 구분됩니다.
-4. Young 영역은 1개의 Eden 영역, 2개의 Survivor 영역으로 구성되며, 처음 생성된 객체는 Eden 영역에 생성됩니다.
-5. Eden 영역이 가득차면, Minor GC가 발생하고, Eden 영역과 Survivor 영역에 있는 살아있는 객체는 비어진 Survivor공간으로 재배치됩니다. 즉, Survivor 영역 중 한 곳은 반드시 비어져있습니다.
+
+4. Young 영역은 1개의 Eden 영역, 2개의 Survivor 영역으로 구성되며, 
+처음 생성된 객체는 Eden 영역에 생성됩니다.
+
+5. Eden 영역이 가득차면, Minor GC가 발생하고, 
+Eden 영역과 Survivor 영역에 있는 살아있는 객체는 비어진 Survivor공간으로 재배치됩니다. 
+즉, Survivor 영역 중 한 곳은 반드시 비어져있습니다.
+
 6. 이 동작이 반복되어 특정 aging 만큼 살아남은 객체는 Old 영역으로 이동됩니다.
+
 7. 그리고 Old 영역이 가득차서 Survivor 영역에서 Old 영역으로 승격이 불가능할 때 Old 영역에 대한 Major GC가 발생합니다.
 
 가비지 컬렉션의 알고리즘 종류에는 Serial GC, Parallel GC, Parallel Old GC, CMS, G1 GC, ZGC가 있습니다.
 
-- Serial GC는 Young 영역에선 mark & copy 방식을 사용하며, Old 영역에서는 mark&sweep&compact 방식을 사용합니다. 이는 GC를 위해 단일 스레드를 사용합니다.
-- Parallel GC는 Serial GC와 기본적인 알고리즘은 같습니다. 하지만 Minor GC를 처리하는 스레드가 여러개 있습니다. 
-- Parallel Old GC는 Old 영역에서 Mark summary compact 방식을 사용합니다. 이 mark summary compact 방식은 여러 스레드를 사용하여 old 영역을 탐색하고 정리합니다.
-- CMS GC는 Concurrent Mark Sweep의 약자로,대부분의 GC 작업을 애플리케이션 실행과 동시에 수행합니다. Initial Mark, Concurrent Mark, Remark, Concurrent Sweep 단계로 구성됩니다. 
-- G1 GC는 힙을 균등한 크기의 영역으로 나누어 관리합니다. 각 영역은 Eden, Survivor, Old, Humongous 중 하나의 역할을 합니다. Young GC는 Eden 영역을 대상으로 수행합니다. Mixed GC는 Young 영역과 일부 Old 영역을 동시에 수집합니다.
+- Serial GC는 Young 영역에선 mark & copy 방식을 사용하며, 
+Old 영역에서는 mark&sweep&compact 방식을 사용합니다. 
+이는 GC를 위해 단일 스레드를 사용합니다.
+
+- Parallel GC는 Serial GC와 기본적인 알고리즘은 같습니다. 
+하지만 Minor GC를 처리하는 스레드가 여러개 있습니다. 
+
+- Parallel Old GC는 
+Old 영역에서 Mark summary compact 방식을 사용합니다. 
+이 mark summary compact 방식은 여러 스레드를 사용하여 old 영역을 탐색하고 정리합니다.
+
+- CMS GC는 Concurrent Mark Sweep의 약자로,
+대부분의 GC 작업을 애플리케이션 실행과 동시에 수행합니다. 
+Initial Mark, Concurrent Mark, Remark, Concurrent Sweep 단계로 구성됩니다. 
+
+- G1 GC는 힙을 균등한 크기의 영역으로 나누어 관리합니다. 
+각 영역은 Eden, Survivor, Old, Humongous 중 하나의 역할을 합니다.
+Young GC는 Eden 영역을 대상으로 수행합니다. 
+Mixed GC는 Young 영역과 일부 Old 영역을 동시에 수집합니다.
+
 또한 'Garbage First'라는 이름처럼 가비지가 많은 영역을 우선적으로 수집합니다. 전체 힙에 대한 Compact 작업 없이 점진적으로 압축하고 병렬, 동시 처리를 모두 사용하여 효율성을 높입니다.
 - ZGC는 힙을 고정 크기의 영역(ZPage)으로 나누어 관리합니다. 물리적 메모리 압축 없이 논리적으로 메모리를 재배치합니다. STW가 10ms 이하로, 힙 크기에 거의 영향을 받지 않습니다. 대부분의 GC 작업을 애플리케이션 실행과 동시에 수행합니다.
 ```
+
+
+</details>
+
+---
+
+
+
 
 ### minor gc는 왜 mark copy고 major gc는 mark sweep compact인가요?
 
