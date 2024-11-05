@@ -1619,17 +1619,29 @@ thenApply와 thenCompose는 비슷한거 같은데 뭔차이 인가요?
 
 ---
 
-
-
-### join()과 allOf() 차이점
+<details>
+<summary><strong style="font-size:1.17em">
+join()과 allOf() 차이점
+</strong></summary>
 
 ```text
-join으로만 구현하면 CompletableFutures의 결과를 순차적으로 처리한다는 것입니다. 결과적으로 값이 부분적으로 처리될 수 있습니다.
-반면에 allOf()를 사용하여 세 인스턴스를 결합한 다음 Join() 메서드를 호출하여 일종의 원자성을 달성할 수 있습니다. 
+join으로만 구현하면 CompletableFutures의 결과를 순차적으로 처리한다는 것입니다. 
+결과적으로 값이 부분적으로 처리될 수 있습니다.
+
+반면에 allOf()를 사용하여 세 인스턴스를 결합한 다음 
+Join() 메서드를 호출하여 일종의 원자성을 달성할 수 있습니다. 
+
 그렇게 하면 모든 요소를 한 번에 처리하거나 전혀 처리하지 않을 수 있습니다.
 ```
 
-### 스레드 상태가 왜 중요한가요?
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+스레드 상태가 왜 중요한가요?
+</strong></summary>
 
 ```text
 스레드 상태를 모니터링하면 애플리케이션의 성능 병목 현상을 식별할 수 있습니다.
@@ -1637,7 +1649,14 @@ join으로만 구현하면 CompletableFutures의 결과를 순차적으로 처�
 불필요하게 'RUNNABLE' 상태의 스레드가 많다면 CPU 사용량이 높아질 수 있습니다.
 ```
 
-### 이런 상태를 확인하려면 어떻게 해야하죠?
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+이런 상태를 확인하려면 어떻게 해야하죠?
+</strong></summary>
 
 ```text
 스레드 덤프를 분석하여 각 스레드의 상태를 확인하면 문제의 원인을 찾는 데 도움이 됩니다.
@@ -1645,76 +1664,32 @@ join으로만 구현하면 CompletableFutures의 결과를 순차적으로 처�
 Thread dump란 프로세스에 속한 모든 thread들의 상태를 기록. 즉, 스냅샷을 찍은 것
 ```
 
-### 자바 9에 나온 Flow에 대해 설명해주세요
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+자바 9에 나온 Flow에 대해 설명해주세요
+</strong></summary>
 
 ```text
-리액티브 프로그래밍을 위한 표준 인터페이스를 제공합니다. 이는 Reactive Streams 사양을 Java 표준 라이브러리에 통합한 것입니다. 
+리액티브 프로그래밍을 위한 표준 인터페이스를 제공합니다. 
+이는 Reactive Streams 사양을 Java 표준 라이브러리에 통합한 것입니다. 
 
 Flow API의 주요 구성 요소는 Publisher, Subscriber, Subscription, Processor를 지원하며,
 백프레셔를 지원하고, 데이터 스트림을 비동기처리합니다. 
 백프레셔란, Subscriber가 처리할 수 있는 만큼의 데이터만 요청할 수 있어, 과부하를 방지합니다. 
 ```
 
-### String, StringBuffer, StringBuilder의 차이점에 대해 말해주세요
+</details>
 
-```text
-String 클래스는 불변(immutable)이기 때문에 문자열을 변경할 때마다 새로운 객체를 생성합니다. 이러한 작업은 메모리 낭비를 초래하며 새롭게 객체를 생성하는 비용 때문에 성능 저하를 일으킵니다.
-StringBuilder는 Thread safe 하지 않습니다. 하지만 그만큼 속도가 빠릅니다. 
-StringBuffer는 멀티스레드 환경에 유리하게 임계영역을 설정했기때문에 Thread safe 하지만 속도가 느립니다.
-```
+---
 
-### 문자열을 연결하는 내부구현 차이를 알려주세요 == String, StringBuilder 문자열 연결 차이
-
-```text
-String의 + 연산은 버전마다 계속 최적화 되었습니다. 
-자바 5버전부터는 성능 향상을 목적으로 컴파일시 StringBuilder 혹은 StringBuffer로 변환되도록 변경되었습니다.
-JDK 9부터 StringConcatFactory을 이용하여 더 효율적으로 처리를 합니다.
-
-String concat 연산은 항상 concat 메소드를 사용할 때마다 new 키워드를 사용해 새롭게 객체를 생성하기 때문에 매우 비효율적입니다.
-
-StringBuffer와 StringBuilder append()는 
-문자열을 CharSequence의 내부 버퍼에 저장하고 참조변수 this를 통해 본인 인스턴스를 반환하기 때문에 객체를 새롭게 생성하는 과정이 없어 성능이 좋습니다.
-```
-
-### Nested 클래스가 뭐죠? = 내부클래스가 뭐죠?
-
-```text
-Nested class는 static nested 클래스, 내부클래스인 local 내부 클래스와 익명 내부 클래스가 있습니다.  
-```
-
-### 내부 클래스를 왜 쓰나요?
-
-```text
-로컬 내부 클래스는 외부클래스의 private 멤버를 이용해야 하고, 만들려는 클래스가 외부에는 노출 시키고 싶지않을 때 사용합니다.
-익명 내부 클래스는 해당 인터페이스를 구현한 클래스를 재활용할 필요가 없고 일회용으로 사용할 때 사용됩니다.
-static 클래스는 논리적으로 묶을 필요가 있을때 와 바깥쪽 클래스의 변수 접근이 필요가 없을 때 사용합니다.
-```
-
-### 제네릭이 뭐고, 어디에 쓰이나요
-
-```text
-제네릭(Generic)은 클래스, 인터페이스, 메소드를 정의할 때 <> 기호 안에 타입 파라미터를 선언하여 사용하며, 이를 통해 다양한 데이터 타입에 대해 재사용 가능한 코드를 작성할 수 있습니다.
-제네릭을 사용하면 컴파일 시점에 타입 체크를 할 수 있어 잘못된 형변환을 방지하고, 불필요한 타입 캐스팅을 줄일 수 있습니다.
-
-컬렉션 프레임워크와 사용자 정의 클래스를 만들 때 사용합니다.
-저같은 경우, API 응답 객체를 만들 때 사용했었습니다.  
-```
-
-### bounded 와일드 카드와 unbounded 와일드 카드 차이점
-
-```text
-Unbounded 와일드카드는 모든 타입을 허용하지만, 오직 Object 객체로 조회만 가능하고 추가는 불가능합니다.
-Bounded 와일드카드는 두가지 형태가 있습니다. Upper Bounded 와일드카드는 extends 키워드를 사용하고, 읽기에 사용됩니다.
-Lower Bounded 와일드카드는 super 키워드를 사용하고, 쓰기에 사용됩니다. 이러한 원칙을 PECS라 부릅니다.  
-```
-
-### 제네릭 타입의 타입 소거(type erasure)에 대해 설명해 주세요
-
-```text
-제네릭에서는 타입정보가 런타임시 소거됩니다. 즉, 원소타입을 컴파일 시에만 검사하고 런타임시에는 따로 확인을 하지않습니다.
-```
-
-### 스레드 혹시 써보셨어요
+<details>
+<summary><strong style="font-size:1.17em">
+스레드 혹시 써보셨어요
+</strong></summary>
 
 ```text
 네, 외부 API를 호출할 때 스레드를 사용해본 적이 있습니다. 
@@ -1722,13 +1697,27 @@ Lower Bounded 와일드카드는 super 키워드를 사용하고, 쓰기에 사�
 응답을 기다리는 동안 다른 작업을 진행할 수 있도록 구현했습니다. 
 ```
 
-### 스레드 구현체 중에 뭘 써봤나요? 
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+스레드 구현체 중에 뭘 써봤나요? 
+</strong></summary>
 
 ```text
 ExcutorService를 활용했습니다. 
 ```
 
-### 사용하면서 불편한 점이 있을까요?
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+사용하면서 불편한 점이 있을까요?
+</strong></summary>
 
 ```text
 - 여러 Future를 쉽게 연결하거나 조합할 수 없습니다.
@@ -1737,6 +1726,157 @@ ExcutorService를 활용했습니다.
 - 콜백 지원 부재: 작업 완료 시 자동으로 다음 작업을 트리거하는 메커니즘이 없습니다. 따라서 isDone과 같은 메소드로 계속 확인하는 동기 작업을 해야합니다.
 - CompletableFuture는 이러한 한계를 극복하고 더 유연하고 강력한 비동기 프로그래밍을 가능하게 합니다
 ```
+
+</details>
+
+---
+
+## String
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+String, StringBuffer, StringBuilder의 차이점에 대해 말해주세요
+</strong></summary>
+
+```text
+String 클래스는 불변하기 때문에 문자열을 변경할 때마다 새로운 객체를 생성합니다. 
+이러한 작업은 메모리 낭비를 초래하며 새롭게 객체를 생성하는 비용 때문에 성능 저하를 일으킵니다.
+
+StringBuilder는 Thread safe 하지 않습니다. 하지만 그만큼 속도가 빠릅니다.
+ 
+StringBuffer는 멀티스레드 환경에 유리하게 임계영역을 설정했기때문에 
+Thread safe 하지만 속도가 느립니다.
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+문자열을 연결하는 내부구현 차이를 알려주세요 == String, StringBuilder 문자열 연결 차이
+</strong></summary>
+
+```text
+String의 + 연산은 버전마다 계속 최적화 되었습니다. 
+자바 5버전부터는 성능 향상을 목적으로 컴파일시 StringBuilder 혹은 StringBuffer로 변환되도록 변경되었습니다.
+JDK 9부터 StringConcatFactory을 이용하여 더 효율적으로 처리를 합니다.
+
+String concat 연산은 항상 concat 메소드를 사용할 때마다 
+new 키워드를 사용해 새롭게 객체를 생성하기 때문에 매우 비효율적입니다.
+
+StringBuffer와 StringBuilder append()는 
+문자열을 CharSequence의 내부 버퍼에 저장하고 
+참조변수 this를 통해 본인 인스턴스를 반환하기 때문에
+객체를 새롭게 생성하는 과정이 없어 성능이 좋습니다.
+```
+
+</details>
+
+---
+
+## 내부클래스
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+Nested 클래스가 뭐죠? = 내부클래스가 뭐죠?
+</strong></summary>
+
+```text
+Nested class는 static nested 클래스, 
+내부클래스인 local 내부 클래스와 익명 내부 클래스가 있습니다.  
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+내부 클래스를 왜 쓰나요?
+</strong></summary>
+
+```text
+로컬 내부 클래스는 외부클래스의 private 멤버를 이용해야 하고, 
+만들려는 클래스가 외부에는 노출 시키고 싶지않을 때 사용합니다.
+
+익명 내부 클래스는 해당 인터페이스를 구현한 클래스를 재활용할 필요가 없고 
+일회용으로 사용할 때 사용됩니다.
+
+static 클래스는 논리적으로 묶을 필요가 있을때와 
+바깥쪽 클래스의 변수 접근이 필요가 없을 때 사용합니다.
+```
+
+
+</details>
+
+---
+
+## 제네릭
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+제네릭이 뭐고, 어디에 쓰이나요
+</strong></summary>
+
+```text
+제네릭(Generic)은 클래스, 인터페이스, 메소드를 정의할 때 <> 기호 안에 
+타입 파라미터를 선언하여 사용하고, 이를 통해 다양한 데이터 타입에 대해 
+재사용 가능한 코드를 작성할 수 있습니다.
+
+제네릭을 사용하면 컴파일 시점에 타입 체크를 할 수 있어 
+잘못된 형변환을 방지하고, 불필요한 타입 캐스팅을 줄일 수 있습니다.
+
+컬렉션 프레임워크와 사용자 정의 클래스를 만들 때 사용합니다.
+저같은 경우, API 응답 객체를 만들 때 사용했었습니다.  
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+bounded 와일드 카드와 unbounded 와일드 카드 차이점
+</strong></summary>
+
+```text
+Unbounded 와일드카드는 모든 타입을 허용하지만, 
+오직 Object 객체로 조회만 가능하고 추가는 불가능합니다.
+
+Bounded 와일드카드는 두가지 형태가 있습니다. 
+Upper Bounded 와일드카드는 
+extends 키워드를 사용하고, 읽기에 사용됩니다.
+
+Lower Bounded 와일드카드는 s
+uper 키워드를 사용하고, 쓰기에 사용됩니다. 이러한 원칙을 PECS라 부릅니다.  
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+제네릭 타입의 타입 소거(type erasure)에 대해 설명해 주세요
+</strong></summary>
+
+```text
+제네릭에서는 타입정보가 런타임시 소거됩니다. 
+즉, 원소타입을 컴파일 시에만 검사하고 런타임시에는 따로 확인을 하지않습니다.
+```
+
+</details>
+
+---
+
+
 
 ### 스레드 구현체 중에 뭘 써봤나요? 했을 때 컴플리터블 퓨처 사용했다고 말하면 그리고 걔를 쓸 때 어떤 문제가 발생했냐 뭘 조심하며 썼냐고 물어봤을 때
 
@@ -1792,15 +1932,26 @@ Virtual Thread는 기존 Java의 스레드 모델과 달리, 플랫폼 스레드
 - CPU 바운드가 많은 작업에서는 불필요합니다.  
 ```
 
+---
 
-## 불변이 뭔가요?
+<details>
+<summary><strong style="font-size:1.17em">
+불변이 뭔가요?
+</strong></summary>
 
 ```text
 불변성(Immutability)은 객체가 생성된 후에 그 상태를 변경할 수 없는 특성을 말합니다.
 따라서 여러 스레드에서 동시에 접근해도 값이 변하지 않아 동기화 없이 안전하게 사용할 수 있습니다. 
 ```
 
-### JDK 7에서 8로 올라가면서 바뀐거
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+JDK 7에서 8로 올라가면서 바뀐거
+</strong></summary>
 
 ```text
 람다식: 복잡한 Comparator 구현을 한 줄로 줄인 경험이 있습니다.
@@ -1825,8 +1976,14 @@ Java 8부터는 이 공간이 삭제되고 동일한 기능을 하는 Metaspace 
 이곳은 Native 영역에 속하며 OS가 크기를 자동으로 조정한다. 
 ```
 
+</details>
 
-### 검색 알고리즘도 아는거 설명하세요
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+검색 알고리즘도 아는거 설명하세요
+</strong></summary> 
 
 ```text
 선형 검색 (Linear Search)
@@ -1864,11 +2021,19 @@ Java 8부터는 이 공간이 삭제되고 동일한 기능을 하는 Metaspace 
 특이사항: 큐로 구현, 최단 경로 문제에 유용
 ```
 
-### 리플렉션이 뭐죠?
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+리플렉션이 뭐죠?
+</strong></summary>
 
 ```text
 리플렉션은 힙 영역에 로드 된 Class 타입의 객체를 통해, 
-접근 제어자 상관없이 원하는 클래스의 정보에 접근해서 조작할 수 있도록 지원하는 API입니다. 
+접근 제어자 상관없이 원하는 클래스의 정보에 접근해서 
+조작할 수 있도록 지원하는 API입니다. 
 
 조작할 수 있는 기능들에는
 
@@ -1880,20 +2045,45 @@ Java 8부터는 이 공간이 삭제되고 동일한 기능을 하는 Metaspace 
 생성자 가져오기
 ```
 
-### 어노테이션 프로세서가 뭐죠?
+</details>
+
+---
+
+## 어노테이션
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+어노테이션 프로세서가 뭐죠?
+</strong></summary>
 
 ```text
 Annotation Processor는 
 컴파일 단계에서 Annotation에 정의된 일렬의 프로세스를 동작하게 하는 것을 의미합니다.
-컴파일 단계에서 실행되기 때문에, 빌드 단계에서 에러를 출력하게 할 수 있고, 소스코드 및 바이트 코드를 생성할 수도 있습니다.
+
+컴파일 단계에서 실행되기 때문에, 빌드 단계에서 에러를 출력하게 할 수 있고, 
+소스코드 및 바이트 코드를 생성할 수도 있습니다.
 
 사용하는 예로 자바의 @Override가 있으며, Lombok(롬북)이라는 라이브러리가 있습니다.
 ```
 
-### 어노테이션 retenstion 정책
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+어노테이션 retenstion 정책
+</strong></summary>
 
 ```text
 RetentionPolicy.SOURCE : 소스 코드(.java)까지 남아있는다.
 RetentionPolicy.CLASS : 클래스 파일(.class)까지 남아있는다.(=바이트 코드)
 RetentionPolicy.RUNTIME : 런타임까지 남아있는다.(=사실상 안 사라진다.)
 ```
+
+</details>
+
+
