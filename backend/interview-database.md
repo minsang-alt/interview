@@ -892,4 +892,21 @@ NULL을 제외한 특정 컬럼의 행 수가 필요하면 COUNT(column).
 
 </details>
 
+---
+
+## 락
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+DB Locking에 대해 설명해 주세요.
+</strong></summary>
+
+```text
+락은 동시성 제어를 위해 사용되는 기술로, 
+데이터베이스에서 여러 트랜잭션이 동시에 데이터를 읽거나 쓰는 것을 제어합니다.
+```
+
+</details>
 
