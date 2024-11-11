@@ -704,24 +704,22 @@ WHERE 절의 필터 조건을 최대한 활용하여 중간 결과 집합을 작
 
 ---
 
+## B 트리
+
+---
+
 <details>
 <summary><strong style="font-size:1.17em">
  B-Tree와 B+Tree에 대해 설명해 주세요.
 </strong></summary>
 
 ```text
-B-Tree는 
-- 이진트리의 확장된 형태로 최대 N차 만큼의 자식을 가질 수 있습니다. 
-- 또한 이진트리와 달리 트리가 균형있게 구성되기 때문에 최악의 경우에도 시간복잡도가 O(logn)입니다.
-- 모든 노드(내부 노드와 리프 노드)에 키와 데이터를 저장합니다.
-- 범위 검색 시 트리를 여러 번 탐색해야 함
+B-트리는 모든 노드에 데이터와포인터를 저장하지만,
+B+트리는 오직 리프노드에만 데이터와포인터 저장하고 
+내부노드는 인덱스 역할만 합니다.
 
-B+Tree는 B-Tree의 변형 구조입니다.
-- 오직 리프 노드에만 데이터 저장
-따라서 모든 검색은 리프 노드까지 도달해야 완료됩니다
-- 리프 노드가 연결리스트로 연결되어 있어 범위 검색이 매우 효율적입니다
--  내부 노드에는 데이터 대신 인덱스 키만 저장되므로 더 많은 인덱스 키를 저장할 수 있어, 
-트리의 높이를 낮춰 성능을 향상시킵니다.
+또한,B+트리는 리프노드들이 LinkedList처럼 서로 연결되어 있으므로
+순차검색이 빠릅니다. 
 ```
 
 </details>
@@ -734,7 +732,162 @@ B+Tree는 B-Tree의 변형 구조입니다.
 </strong></summary>
 
 ```text
+B+트리는 특정 키 하나를 찾을 때도 무조건 리프노드까지 내려가야 하지만,
+B-트리는 간 노드에서도 데이터를 찾을 수 있어 더 빠를 수 있습니다.
 
+또한 B+트리는 모든 키가 리프노드에 중복되어 저장되야하므로
+내부노드의 키가 리프노드에도 있어야 합니다.
+B-트리는 중복 저장이 없습니다.
+
+단일 검색이 대부분이고 공간이 중요한 경우 B-트리가 유리합니다.
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+DB에서 RBT를 사용하지 않고, B-Tree/B+Tree를 사용하는 이유가 있을까요?
+</strong></summary>
+
+```text
+이유는 디스크 I/O 접근 횟수 차이입니다.
+RBT는 하나의 노드에 하나의 데이터만 저장할 수 있어서 트리의 높이가 깊어지는데요. 
+반면 B-Tree는 하나의 노드에 여러 데이터를 저장할 수 있어 
+같은 양의 데이터를 보다 낮은 높이로 저장할 수 있습니다.
+
+이 말은 노드마다 한번의 디스크 I/O가 발생한다면,
+B-Tree는 한 번의 디스크 I/O로 여러 데이터를 한꺼번에 읽을 수 있어서, 
+디스크 접근 횟수를 최소화할 수 있습니다.
+
+즉, RBT와 B-Tree 모두 O(logN)이지만 
+실제 디스크에 접근하는 횟수는 B-Tree가 훨씬 적어서 성능상 이점이 큽니다.
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+오름차순으로 정렬된 인덱스가 있다고 할 때, 내림차순 정렬을 시도할 경우 성능이 어떻게 될까요? B-Tree/B+Tree의 구조를 기반으로 설명해 주세요.
+</strong></summary>
+
+```text
+B-Tree의 경우, 단일 검색은 효율적이지만 순차 접근에서는 비효율적입니다. 
+오름차순이든 내림차순이든, 각 값에 접근할 때마다 중위순회를 통해 탐색하기 때문입니다.
+
+반면 B+Tree는 모든 데이터가 리프노드에 있고, 이 리프노드들이 LinkedList처럼 서로 연결되어 있습니다.
+따라서 첫 번째 값을 찾은 후에는 리프노드의 연결을 따라가기만 하면 되므로, 
+오름차순이나 내림차순 모두 효율적인 순차 접근이 가능합니다.
+```
+
+</details>
+
+---
+
+## 커넥션 풀
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+DB의 Connection Pool에 대해 설명해 주세요.
+</strong></summary>
+
+
+```text
+Connection Pool은 
+데이터베이스 연결(Connection) 객체들을 미리 생성하여 pool로 관리하는 것입니다
+애플리케이션에서 DB 연결이 필요할 때마다 
+pool에서 연결을 가져다 쓰고 반환하는 방식으로 동작합니다
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+DB와 Client가 Connection을 어떻게 구성하는지 설명해 주세요.
+</strong></summary>
+
+```text
+먼저, TCP/IP 연결 과정을 통해 연결을 맺습니다.
+1) Client가 DB 서버의 IP:Port로 TCP/IP 연결 요청
+2) DB 서버의 Listener가 요청을 수신
+3) 3-way handshaking으로 TCP 연결 수립
+
+
+그리고 DB 인증 및 세션 생성 과정
+
+1) Client가 사용자 인증 정보 전송 (username, password)
+2) DB 서버가 인증 정보 검증
+3) 인증 성공 시 서버에서 세션 생성
+4) 세션 ID를 Client에게 반환
+
+
+```
+
+</details>
+
+---
+
+## 테이블풀스캔,레인지스캔..
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+Table Full Scan, Index Range Scan에 대해 설명해 주세요.
+</strong></summary>
+
+```text
+
+테이블 풀스캔:
+- 순차적 I/O로 데이터 파일 블록을 연속해서 읽음
+- 멀티블록 I/O로 한 번에 여러 블록 읽기 가능
+- 대량 데이터 처리시 효율적
+
+인덱스 레인지 스캔:
+- 인덱스를 사용하여 조건에 맞는 범위의 데이터만 액세스
+- B-Tree 인덱스 구조를 활용
+- 인덱스 선두 칼럼이 조건절에 있어야 적용되고
+- 랜덤 I/O 발생합니다.
+
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+가끔은 인덱스를 타는 쿼리임에도 Table Full Scan 방식으로 동작하는 경우가 있습니다. 왜 그럴까요?
+</strong></summary>
+
+```text
+인덱스를 사용하면 랜덤 I/O가 발생할 수 있어, 많은 양의 데이터를 읽을 때 오히려 성능이 떨어질 수 있습니다.
+옵티마이저 판단하에 전체 테이블을 순차적으로 읽는 것이 더 빠르다고 판단할 경우
+테이블 풀 스캔을 진행합니다.
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+COUNT (개수를 세는 쿼리) 는 어떻게 동작하나요? 
+COUNT(1), COUNT(*), COUNT(column) 의 동작 과정에는 차이가 있나요?
+</strong></summary>
+
+```text
+전체 행 수가 필요하면 COUNT(*)
+COUNT(1)은 COUNT(*)와 동일하므로 굳이 사용할 필요 없음
+
+NULL을 제외한 특정 컬럼의 행 수가 필요하면 COUNT(column).
 ```
 
 </details>
