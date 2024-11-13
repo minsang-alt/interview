@@ -169,7 +169,52 @@ TLS 핸드셰이크까지 포함하면 여러 번의 왕복(RTT)이 필요합니
 
 ---
 
+<details>
+<summary><strong style="font-size:1.17em">HTTP 응답코드에 대해 설명해 주세요.</strong></summary>
+
+```text
+HTTP 응답 상태 코드는 특정 HTTP 요청이 성공적으로 완료되었는지 여부를 나타냅니다. 
+응답은 5가지 클래스로 분류됩니다.
+100번대는 정보성 응답, 200번대는 성공 응답, 
+300번대는 리다이렉션, 400번대는 클라이언트 오류, 500번대는 서버 오류를 나타냅니다.
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">401 (Unauthorized) 와 403 (Forbidden)은 의미적으로 어떤 차이가 있나요?
+</strong></summary>
+
+```text
+401은 인증이 안된 상태라, 로그인이 필요합니다.
+403은 인가가 안된 상태라, 특정 요청페이지에 접근 권한이 없습니다.
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">200 (ok) 와 201 (created) 의 차이에 대해 설명해 주세요.
+</strong></summary>
+
+```text
+200은 요청이 성공적으로 수행되었으므로 
+주로 조회(GET), 수정(PUT/PATCH), 삭제(DELETE) 작업에서 사용됩니다.
+
+요청이 성공적으로 수행되어 새로운 리소스가 생성되었음을 의미
+주로 생성(POST) 작업에서 사용됩니다.
+```
+
+</details>
+
+---
+
 ## REST
+
+---
 
 <details>
 <summary><strong style="font-size:1.17em">SOAP과 REST 차이점</strong></summary>
@@ -238,6 +283,63 @@ DELETE 역시 여러 번 호출해도 삭제된 리소스에 대한 결과는 �
 ---
 
 <details>
+<summary><strong style="font-size:1.17em">GET과 POST의 차이는 무엇인가요?</strong></summary>
+
+```text
+GET은 정보를 검색, 요청할 때 사용합니다.
+또한 캐시가 가능합니다.
+
+POST는 데이터를 body에 담아 전송하고
+POST 요청을 성공적으로 처리한 결과로 원본 서버에 하나 이상의 리소스가 생성된 경우 원본 서버
+는 다음을 제공하는 Location 헤더 필드가 포함된 201(생성됨) 응답을 보내야 합니다.
+캐시되지않으며 POST요청이라도 body내용에 민감한
+데이터를 담는 경우 반드시 암호화해 전송해야합니다.
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">POST와 PUT, PATCH의 차이는 무엇인가요?</strong></summary>
+
+```text
+POST는 새로운 리소스를 생성할 때 사용합니다.
+클라이언트는 리소스의 URI를 모르는 상태에서 리소스를 생성할 수 있습니다
+POST는 멱등하지 않습니다.
+서버에서 정의한 다양한 작업을 모두 처리할 수 있는 통합 메서드로 사용됩니다.
+
+PUT 요청에서는 클라이언트가 리소스의 정확한 URI를 알아야 됩니다.
+POST 요청과 달리 PUT 요청은 멱등합니다. 
+그래서 PUT 메서드는 주로 리소스를 업데이트할 때 사용합니다.
+그러나 PUT 메서드는 리소스 전체를 업데이트해야 된다는 특징이 있어요. 
+즉, 리소스 일부만 수정하고 싶어도 전체 필드 데이터를 요청 본문에 포함해야 돼요.
+
+PATCH 메서드도 PUT 메서드와 같이 특정 리소스 URI를 정확히 알고 있어야 합니다.
+PATCH는 클라이언트의 요청에 따라 리소스를 수정하고 부분 업데이트를 합니다
+멱등하지 않고 안전하지 않습니다.
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">HTTP 1.1 이후로, GET에도 Body에 데이터를 실을 수 있게 되었습니다. 그럼에도 불구하고 왜 아직도 이런 방식을 지양하는 것일까요?</strong></summary>
+
+```text
+GET의 의미는 읽기 작업을 하기 위함인데 요청 본문은 서버에서 처리할 데이터를 전달합니다. 
+즉, GET으로 본문을 보내면 이러한 명확한 구분이 흐려집니다.
+
+서버가 GET 요청의 본문을 무시하거나 요청을 완전히 거부할 수도 있습니다.
+또 본문이 있는 GET 요청은 캐시되지 않을 수 있습니다.
+```
+
+</details>
+
+---
+
+<details>
 <summary><strong style="font-size:1.17em">URI URL 차이</strong></summary>
 
 ```text
@@ -253,8 +355,9 @@ URL은 리소스가 어디에 있는지를 알려줍니다.
 
 ---
 
-## TCP 와 쿠키,세션,JWT
+## TCP
 
+---
 
 <details>
 <summary><strong style="font-size:1.17em">Stateless와 Connectionless에 대해 설명해 주세요.</strong></summary>
@@ -423,6 +526,10 @@ Keep-Alive 연결로 여러 요청을 처리할 때, 앞선 요청이 지연되�
 
 ---
 
+## 쿠키,세션,JWT
+
+---
+
 <details>
 <summary><strong style="font-size:1.17em">쿠키와 세션 차이에 대해 설명해주세요</strong></summary>
 
@@ -444,6 +551,23 @@ Keep-Alive 연결로 여러 요청을 처리할 때, 앞선 요청이 지연되�
 ---
 
 <details>
+<summary><strong style="font-size:1.17em">세션 방식의 로그인 과정에 대해 설명해 주세요.
+</strong></summary>
+
+```text
+1. 클라이언트가 서버에 로그인 요청을 보냅니다.
+2. 서버는 요청을 받아 로그인 정보를 검증합니다.
+3. 로그인 정보가 유효하다면, 서버는 세션 ID를 생성하고, 세션 ID와 사용자 정보를 서버에 저장합니다.
+4. 세션 ID를 클라이언트에 쿠키로 전송합니다.
+5. 클라이언트는 이후 요청 시 쿠키에 저장된 세션 ID를 서버에 전송합니다.
+6. 서버는 세션 ID를 통해 사용자 정보를 확인하고, 요청을 처리합니다.
+```
+
+</details>
+
+---
+
+<details>
 <summary><strong style="font-size:1.17em">HttpSession.getAttritube("user") 사용자 A가 접속해도 "user"를 Key로 값을 가져오고, 사용자 B가 접속해도 "user"를 Key로 가져옵니다. 같은 Key를 쓰는데 어떻게 A와 B를 구분해서 값을 가져오나요?</strong></summary>
 
 ```text
@@ -452,6 +576,60 @@ Keep-Alive 연결로 여러 요청을 처리할 때, 앞선 요청이 지연되�
 이후 요청시마다 브라우저는 자신의 JSESSIONID를 서버에 전송합니다
 서버는 JSESSIONID를 기반으로 해당 사용자의 세션을 찾습니다
 같은 "user" key를 사용하더라도 다른 세션에 저장되어 있어 값이 섞이지 않습니다
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+HTTP의 특성인 Stateless에 대해 설명해 주세요.
+</strong></summary>
+
+```text
+Stateless란 서버가 클라이언트의 상태를 보존하지 않는다는 의미입니다.
+따라서 모든 HTTP 요청은 이전 요청과 완전히 독립적으로 처리됩니다
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+Stateless의 의미를 살펴보면, 세션은 적절하지 않은 인증 방법 아닌가요?
+</strong></summary>
+
+```text
+세션은 실제로 Stateful한 특성을 가지고 있어서, 
+HTTP의 Stateless 원칙과는 어긋납니다.
+
+하지만, 세션은 서버 측에서 상태 정보를 유지하므로,
+보안에 더 강력하고, 민감한 정보를 다룰 때 사용하기 좋습니다.
+
+아니면 stateless한 jwt를 사용할 수도 있습니다.
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+규모가 커져 서버가 여러 개가 된다면, 세션을 어떻게 관리할 수 있을까요?
+</strong></summary>
+
+```text
+1. Sticky Session 방식은 세션을 최초에 생성한 서버로 요청을 고정하는 방식입니다. 
+정합성 이슈를 해결할 수 있으나, 로드 밸런싱과 가용성면에서 문제가 있을 수 있습니다.
+
+2. Session Clustering 은 세션을 생성될 때마다 복제하여 각 서버의 세션 정보를 일치시켜 정합성 이슈를 해결합니다. 
+하지만, 매번 세션 객체를 복제하는데 오버헤드가 발생하므로 사용 시, 이를 고려해야 합니다.
+
+3. 세션 스토리지 분리 방식은 별도의 세션 저장소를 사용하는 것으로, 
+서버가 아무리 늘어난다고 할 지라도 세션 스토리지에 대한 정보만 각각의 서버에 입력해주면 세션을 공유할 수 있게 됩니다.
+하지만 세션 저장소에 대한 부하가 발생할 수 있으므로, 이를 고려해야 합니다.
 ```
 
 </details>
