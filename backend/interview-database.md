@@ -670,6 +670,35 @@ WHERE 절의 필터 조건을 최대한 활용하여 중간 결과 집합을 작
 
 <details>
 <summary><strong style="font-size:1.17em">
+이상현상 이 뭐고 종류가 뭐가있는지?
+</strong></summary>
+
+```text
+삽입이상은 
+데이터 삽입 시 원하지 않는 데이터까지 함께 삽입해야하는 문제입니다.
+예를들어, 학생과 수업 테이블이 같은 테이블에 있을 때 학생이 듣는 수업이 없을 때
+가짜 수업이나 null을 추가해야하는 문제가 발생합니다.
+
+삭제 이상은 
+데이터 삭제 시 원하지 않는 데이터까지 삭제해야하는 문제입니다.
+예를들어, 교수와 과목이 같은 테이블에 있다면
+과목이 삭제될때 교수도 함께 삭제되어야하는 문제가 발생합니다.
+
+수정이상은
+데이터 수정 시 일부만 수정되어 불일치가 발생하는 문제입니다.
+예를들어, 직원 부서명이 같이 있을 때
+부서명을 수정하면 같은 부서에 속한 직원들의 부서명도 수정해야하는 문제가 발생합니다.
+
+```
+
+</details>
+
+
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
 각 정규화에 대해, 그 정규화가 진행되기 전/후의 테이블의 변화에 대해 설명해 주세요.
 </strong></summary>
 
@@ -910,3 +939,393 @@ DB Locking에 대해 설명해 주세요.
 
 </details>
 
+---
+
+## SQL 인젝션
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+SQL Injection에 대해 설명해 주세요
+</strong></summary>
+
+```text
+공격자가 입력폼에 악위적으로 조작된 쿼리를 삽입하여 
+데이터베이스 정보를 불법적으로 열람하거나 조작할 수 있는 취약점입니다.
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+SQL Injection 방어 및 방지 방법
+</strong></summary>
+
+```text
+입력값 검증을 하고, Prepared Statement를 사용합니다.
+또한 DB관련 에러는 사용자에게 노출되지 않도록 로그를 찍고 ,
+사용자에게는 일반적인 에러를 반환하도록
+합니다.
+```
+
+</details>
+
+---
+
+## 분산시스템
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+CAP 이론에 대해 설명해주세요
+</strong></summary>
+
+```text
+분산 시스템에서 일관성, 가용성, 분할 허용성을 모두 동시에 만족할 수 없다는 이론입니다.
+
+일관성이란, 
+모든 노드가 같은 시간에 같은 데이터를 보여줘야 합니다.
+
+가용성은
+모든 요청에 대해 정상적인 응답을 해야 합니다.
+즉, 노드 일부가 죽어도 다른 노드는 정상 응답해야합니다.
+
+분할 허용성은
+네트워크 단절이 일어나도 다른 네트워크는 정상 동작해야합니다.
+
+실제로 적용되는 선택은
+CP, AP 중 하나를 선택해야합니다.
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+PACELC 이론에 대해 설명해주세요
+</strong></summary>
+
+```text
+CAP 이론은 장애 상황일 때 , CP혹은 AP 둘 중하나를 선택하는 것을 말하는데,
+PACELC 이론은 장애 상황이 아닌 정상적인 상황에서의 선택을 말합니다.
+
+PAC은 장애시, 일관성과 가용성 중 어떤 것을 선택할 것인지를 의미합니다.
+
+ELC는 정상상황에서 모든 노드들이 같은 데이터를 보여주는 것을 EC라 하고, 
+해당 시스템은 MongoDB가 있습니다.
+
+만약 정상상황에서 속도가 더 중요하면 EL을 선택합니다.
+해당 시스템은 Cassandra와 DynamoDB가 있습니다.
+```
+![img.png](img.png)
+
+</details>
+
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+DELETE , TRANCATE , DROP의 차이점 
+</strong></summary>
+
+```text
+DELETE : 
+DML이고, 
+테이블의 특정 행을 삭제할 수 있고,
+트랜잭션 로그를 기록하며 
+행 단위로 삭제하므로 상대적으로 느리며
+AUTO_INCREMENT 값 유지됩니다.
+
+TRUNCATE :
+DDL이고,
+데이터만 삭제하고 테이블 구조는 유지합니다.
+전체 삭제만 가능하고,
+트랜잭션 로그를 기록하지 않으며,
+테이블 전체를 한번에 삭제하므로 빠름
+AUTO_INCREMENT 값 초기화됩니다.
+
+DROP :
+테이블 자체를 삭제합니다.
+제약조건,인덱스 모두 삭제합니다.
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+클러스터링이 뭐죠? 
+</strong></summary>
+
+```text
+똑같은 구성의 여러대의 서버를 병렬로 연결한 상태를 말합니다
+
+구성방식은 
+1. Active-Active 클러스터로, 
+[Server A] ↔ 양방향 복제 ↔ [Server B]
+- 모든 서버가 동시에 서비스
+- 로드밸런싱 가능
+- 더 높은 가용성
+
+2. Active-Standby 클러스터는 
+[Active Server] → 단방향 복제 → [Standby Server]
+- 평소에는 Active만 서비스
+- Active 장애시 Standby가 대체
+- 자원 낭비가 있지만 관리 쉬움
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+리플리케이션은 무엇인가요? 
+</strong></summary>
+
+```text
+리플리케이션은 2대이상의 DBMS를 나눠서 데이터를 저장하는 방식이며
+Master/Slave로 구성합니다. 
+
+이렇게 구성하면 가용성과 부하를 분산 시킬 수 있습니다. 
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+클러스트링이랑 리플리케이션 차이 
+</strong></summary>
+
+```text
+리플리케이션은 Master-Slave로 구축되고
+비동기 방식으로 노드들간의 데이터를 동기화합니다
+비동기방식이라 지연 시간이 거의 없고 다만, 데이터가 일관성있는 데이터를
+얻지 못할 수도 있습니다.
+
+클러스터링은 여러대의 서버를 병렬로 연결한 상태를 말하며
+동기 방식으로 데이터를 동기화합니다.
+장점은 1개의 노드가 죽어도 다른 노드가 살아있어, 높은 가용성과
+부하분산이 가능합니다.
+다만, 여러 노드들간의 데이터를 동기화하는 시간이 필요해
+리플리케이션에 비해 쓰기 성능이 떨어집니다.
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+파티셔닝과 샤딩 차이
+</strong></summary>
+
+```text
+파티셔닝은 단일 데이터베이스 내에서 테이블을 더 작은 단위로 나누는 것입니다
+수평 파티셔닝은 행을 기준으로 나누고, 수직 파티셔닝은 열을 기준으로 나눕니다.
+예를 들어 주문 테이블을 연도별로 나누거나, 자주 사용하는 컬럼과 아닌 컬럼을 분리하는 식입니다.
+
+샤딩은 이와 달리 데이터를 물리적으로 다른 데이터베이스 서버로 분산하는 방식입니다. 
+
+즉, 파티셔닝은 단일 DB 내에서 이뤄지지만, 샤딩은 여러 서버에 걸쳐 있습니다.
+
+파티셔닝은 관리가 쉽고 백업이 용이하지만 파티션 간 조인이 어렵습니다. 
+샤딩은 수평 확장이 쉽고 처리량이 좋지만 일관성 관리가 어렵습니다.
+```
+
+</details>
+
+---
+
+
+## 옵티마이저
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+옵티마이저란 
+</strong></summary>
+
+```text
+옵티마이저는 SQL 쿼리를 실행할 때 가장 효율적인 실행 계획을 선택하는 역할을 합니다.
+```
+
+</details>
+
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+Explain 요소에 대해 설명해주세요
+</strong></summary>
+
+```text
+- id
+    - 쿼리 실행 계획의 각 단계를 구분하는 번호
+        - 하나의 SELECT 문만 있는 경우, 여러 테이블을 조인하는 경우에도 보통 'id'는 1입니다.
+    - 일반적으로 'id'가 큰 순서부터 실행됩니다.
+    - 같은 'id'를 가진 행들은 위에서 아래로 실행됩니다.
+- table
+    - 어떤 테이블을 접근을 표시하고 있는 지
+- select_type
+    - SIMPLE: 단순한 SELECT 문
+    - PRIMARY: 서브쿼리를 감싸는 외부쿼리, UNION이 포함될 경우 첫번째 SELECT 문
+    - SUBQUERY: 독립적으로 수행되는 서브쿼리 (SELECT,WHERE 절에 추가된 서브쿼리)
+    - DERIVED: FROM절에 작성된 서브쿼리
+    - UNION: UNION, UNION ALL로 합쳐진 SELECT
+- type
+    - system: 테이블에 데이터가 없거나 한 개만 있는 경우
+    - const: 조회되는 데이터가 단 1건일 때
+    - eq_ref: 조인이 수행될 때 드리븐 테이블의 데이터에 PK 혹은 고유인덱스로 단 1건의 데이터를 조회할때
+    - ref: eq_ref와 같으나 데이터가 2건이상일경우
+    - index: 인덱스 풀 스캔
+    - range: 인덱스 레인지 스캔
+    - all: 테이블 풀 스캔
+- key: 옵티마이저가 선택한 인덱스
+- ref: 인덱스를 사용하기 위해 어떤 칼럼을 썼는지
+- extra: Extra 필드는 옵티마이저가 동작하는데 대해서 우리에게 알려주는 힌트다. 
+이 필드는 EXPLAIN을 사용해 옵티마이저의 행동을 파악할 때 아주 중요하다.
+    - Distinct: 중복 제거 시
+        - 결과 집합에서 중복된 행을 제거할 때 사용됩니다.
+        - 성능에 영향을 줄 수 있으므로 필요한 경우에만 사용해야 합니다.
+    - Using where: WHERE 절로 필터 시
+        - 쿼리의 WHERE 절을 사용하여 결과를 필터링할 때 나타납니다.
+        - 일반적으로 정상적인 동작을 나타냅니다.
+    - Using temporary: 임시 테이블 사용 시
+        - 쿼리 처리 중 임시 테이블이 생성될 때 나타납니다.
+        - DISTINCT, GROUP BY, ORDER BY 등의 연산에서 자주 발생합니다.
+        - 대량의 데이터를 처리할 때 성능에 영향을 줄 수 있습니다.
+    - Using index: 커버링 인덱스 사용 시
+        - 쿼리가 인덱스만을 사용하여 결과를 얻을 수 있을 때 나타납니다.
+        - 테이블 데이터에 접근하지 않아도 되므로 매우 효율적입니다.
+    - Using filesort: 정렬 시
+        - MySQL이 결과를 정렬할 때 나타납니다.
+        - 메모리나 디스크에서 추가적인 정렬 작업이 필요함을 의미합니다.
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+Oracle, Mysql 차이점이 뭐야?
+</strong></summary>
+
+```text
+오라클은 라이선스 비용이 높지만 MySQL은 무료입니다.
+
+Oracle이 대규모 데이터베이스 처리에 더 적합하고 더 나은 성능을 제공합니다.
+Oracle은 MVCC(다중 버전 동시성 제어)를 완벽하게 지원하며 트랜잭션 처리가 더 견고합니다.
+ MySQL은 스토리지 엔진에 따라 다른데, InnoDB에서는 MVCC를 지원하지만 MyISAM은 지원하지 않습니다.
+ 
+ 또한, Oracle은 더 많은 고급 기능을 제공합니다
+ 예를들면, PL/SQL 프로시저 등이 있습니다. 
+```
+
+</details>
+
+---
+
+
+<details>
+<summary><strong style="font-size:1.17em">
+CHAR, VARCHAR  차이점
+</strong></summary>
+
+```text
+CHAR는 고정 길이 문자열을 저장합니다.
+VARCHAR는 가변 길이 문자열을 저장합니다.
+
+CHAR는 검색이 빠르고, 자주 수정되는 데이터에 유리하며
+VARCHAR는 저장공간을 절약할 수 있습니다. 디스크 I/O가 적습니다.
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+BLOB과 TEXT의 차이점
+</strong></summary>
+
+```text
+BLOB(Binary Large Object)은 이진 데이터를 저장합니다
+따라서, 이미지, 비디오, PDF 등의 바이너리 파일을 저장합니다.
+
+TEXT는 문자 데이터를 저장합니다
+긴 문자열, 글내용 등의 텍스트 데이터를 저장합니다.
+
+둘 다 데이터가 큰 경우 실제 데이터는 외부에 저장하고 포인터만 로우에 저장합니다.
+이로 인해 검색이나 정렬에서는 성능이 떨어질 수 있습니다.
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+트리거란 
+</strong></summary>
+
+```text
+트리거(Trigger)는 데이터베이스에서 특정 이벤트가 발생했을 때 자동으로 실행되는 프로시저입니다
+
+이벤트란, INSERT, UPDATE, DELETE 등의 DML문이 실행될 때 발생합니다.
+
+주로 감사(Audit) 로그 기록이나 참조 무결성 유지 등에 사용됩니다.
+대신, 디버깅도 어렵고 성능 저하를 가져올 수 있습니다.
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+옵티마이져 힌트란 
+</strong></summary>
+
+```text
+옵티마이저 힌트는 쿼리에 대한 실행계획을
+개발자가 직접 제어하는 방법입니다.
+
+인덱스힌트나 조인힌트등을 줄 수 있습니다.
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+인덱스 힌트란 
+</strong></summary>
+
+```text
+인덱스 힌트는 쿼리 실행 시 옵티마이저가 특정 인덱스를 사용하도록 지정하는 방법입니다
+
+옵티마이저가 비효율적인 실행계획을 선택하거나,
+특정 인덱스의 사용이 확실히 성능상 유리할 때
+대용량 데이터 처리시 특정 인덱스가 필요할 때 사용합니다.
+
+하지만
+잘못된 인덱스 힌트는 성능 저하의 원인이 될 수 있음
+실제 업무에서는 먼저 실행계획을 분석하고, 
+정말 필요한 경우에만 인덱스 힌트를 사용하는 것이 좋습니다. 
+```
+
+</details>

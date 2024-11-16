@@ -685,19 +685,6 @@ URL에서 안전하게 사용할 수 있습니다.
 ---
 
 <details>
-<summary><strong style="font-size:1.17em">TCP와 UDP의 차이점은 무엇인가요?</strong></summary>
-
-
-```text
-TCP는 연결 지향적이며 데이터 전송의 신뢰성을 보장하는 프로토콜로, 흐름 제어, 오류 수정, 순서 보장을 제공합니다.
-UDP는 연결 설정 없이 데이터를 바로 전송하고, 오버헤드가 적으며, 패킷 손실, 순서 보장, 재전송 같은 복잡한 절차가 없기 때문에 빠릅니다. 
-```
-
-</details>
-
----
-
-<details>
 <summary><strong style="font-size:1.17em">신뢰성이라는 말이 어려운데 당신이 이해한 바론 뭔가요</strong></summary>
 
 ```text
@@ -1040,3 +1027,243 @@ CORS 설정이 필요합니다.
 ```
 
 </details>
+
+---
+
+## TCP 와 UDP
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">TCP와 UDP의 차이점은 무엇인가요?</strong></summary>
+
+
+```text
+TCP는 연결 지향적이며 데이터 전송의 신뢰성을 보장하는 프로토콜로, 흐름 제어, 오류 수정, 순서 보장을 제공합니다.
+UDP는 연결 설정 없이 데이터를 바로 전송하고, 오버헤드가 적으며, 패킷 손실, 순서 보장, 재전송 같은 복잡한 절차가 없기 때문에 빠릅니다. 
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Checksum이 무엇인가요?</strong></summary>
+
+```text
+체크섬이란, 데이터 무결성을 보장하기 위한 값입니다.
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">TCP와 UDP 중 어느 프로토콜이 Checksum을 수행할까요?</strong></summary>
+
+```text
+둘 다 수행합니다.
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">그렇다면, Checksum을 통해 오류를 정정할 수 있나요?</strong></summary>
+
+```text
+Checksum은 오류를 감지할 수 있지만, 정정할 수는 없습니다.
+오류가 감지되면, TCP는 해당 패킷을 폐기하고 재전송을 요청합니다.
+UDP는 이런 메커니즘이 없어 오류 복구가 불가능합니다.
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">TCP가 신뢰성을 보장하는 방법에 대해 설명해 주세요.</strong></summary>
+
+```text
+흐름제어로 송신측과 수신측의 데이터 처리 속도 차이로 인한 데이터 손실을 방지합니다.
+예를들면, Stop and Wait, Sliding Window 등이 있습니다.
+
+혼잡제어는 네트워크 내의 패킷 수를 제어하여 네트워크 혼잡을 방지합니다.
+이를 실현하기 위한 방법으로는 AIMD, Slow Start, Fast Recovery 등이 있습니다.
+
+이외에 순서제어, 재전송 등이 있습니다.
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em"> AIMD, Slow Start, Fast Recovery 설명해주세요.</strong></summary>
+
+```text
+AIMD는
+RTT(Round Trip Time)마다 혼잡 윈도우를 1씩 선형적으로 증가하다
+패킷 손실이 발생하면 혼잡 윈도우를 절반으로 줄이는 방식입니다.
+
+Slow Start는
+처음에는 작은 혼잡 윈도우로 시작하고, 
+ACK를 받을 때마다 윈도우 크기를 2배씩 증가시키는 방식입니다.
+
+Fast Recovery는
+패킷 손실이 발생했을 때 Slow Start로 돌아가지 않고 AIMD로 바로 진행하는 방식입니다.
+
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">TCP의 혼잡 제어 처리 방법에 대해 설명해 주세요.</strong></summary>
+
+```text
+TCP의 혼잡 제어는
+
+Slow Start
+
+
+처음엔 혼잡 윈도우 크기를 1 로 시작
+ACK 받을 때마다 윈도우 크기를 2배씩 증가(지수적 증가)
+ssthresh에 도달하거나 패킷 손실이 발생할 때까지 계속
+
+
+AIMD
+
+ssthresh 도달 후 적용
+RTT마다 윈도우 크기를 1씩 증가(선형적 증가)
+패킷 손실 시 윈도우 크기를 절반으로 감소
+
+
+Fast Recovery
+
+
+중복 ACK 3번 받으면 패킷 손실로 간주
+혼잡 윈도우 절반으로 줄이고
+바로 AIMD로 진행 (Slow Start로 돌아가지 않음)
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">왜 HTTP는 TCP를 사용하나요?</strong></summary>
+
+```text
+HTTP는 신뢰성 있는 데이터 전송을 위해 TCP를 사용합니다.
+TCP는 순서보장, 데이터 무결성, 흐름,혼잡 제어로 신뢰성을 보장하기 때문입니다.
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">그렇다면, 왜 HTTP/3 에서는 UDP를 사용하나요? 위에서 언급한 UDP의 문제가 해결되었나요?</strong></summary>
+
+```text
+HTTP 3는 QUIC 프로토콜을 사용하는데, QUIC은 UDP를 기반으로 하지만, TCP의 기능을 대부분 구현했습니다.
+즉, UDP를 사용해 연결 설정 시간을 단축하고, 오버헤드를 줄이면서 TCP의 신뢰성을 유지할 수 있게 되었습니다.
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">그런데, 브라우저는 어떤 서버가 TCP를 쓰는지 UDP를 쓰는지 어떻게 알 수 있나요?</strong></summary>
+
+```text
+http 버전에 따라 판단합니다.
+예를들면 1.1,2.0은 TCP를 사용하고 3.0은 UDP를 사용합니다.
+```
+
+</details>
+
+---
+
+## DHCP
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">DHCP가 무엇인지 설명해 주세요</strong></summary>
+
+```text
+네트워크에서 컴퓨터 및 기타 네트워크 장치들에게 자동으로 IP주소와 관련 네트워크 설정을 할당하는 프로토콜
+입니다.
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">DHCP는 몇 계층 프로토콜인가요?</strong></summary>
+
+```text
+DHCP는 7계층 응용 계층에 속합니다.
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">DHCP는 어떻게 동작하나요?</strong></summary>
+
+```text
+1. 클라이언트가 네트워크에 참여할 때 DHCP 서버를 찾기 위해 브로드캐스트 메시지를 보냅니다.
+2. DHCP 서버가 할당 가능한 IP 주소를 클라이언트에게 제안
+3. 클라이언트가 제안받은 IP 주소 사용을 요청
+4. DHCP 서버가 IP 주소 사용을 최종 승인, 
+임대 기간(Lease Time) 정보도 포함하여 클라이언트에게 전달
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">DHCP에서 UDP를 사용하는 이유가 무엇인가요?</strong></summary>
+
+```text
+1. UDP의 가벼운 특성과 최소한의 처리 오버헤드는 빠른 IP 주소 할당할 수 있습니다.
+연결 설정 및 해제 절차가 없기 때문에 DHCP 메시지를 신속하게 전송할 수 있습니다.
+
+2. UDP는 DHCP 작동에 필수적인 브로드캐스트와 멀티캐스트를 지원합니다.
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">DHCP에서, IP 주소 말고 추가로 제공해주는 정보가 있나요?</strong></summary>
+
+```text
+서브넷 마스크,기본 게이트웨이,DNS 서버 주소 등을 제공합니다.
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">DHCP의 유효기간은 얼마나 긴가요?</strong></summary>
+
+```text
+DHCP의 유효기간은 DHCP 서버관리자가 설정한 시간에 따라 다릅니다.
+보편적으로 8시간에서 7일정도로 설정합니다.
+```
+
+
+
+
