@@ -66,31 +66,20 @@ DP 문제에서 흔히 나타나는 두 번째 특징은 미래의 "결정"이 �
 물론 이 특성은 첫 번째 특성만큼 잘 정의되어 있지 않으며 이를 식별하는 가장 좋은 방법은 몇 가지 예를 살펴보는 것입니다.
 ```
 
-## 문제 1
+---
+
+## 문제 1  ✅
 
 https://leetcode.com/problems/climbing-stairs/description/
 
-```java
-class Solution {
-    public int climbStairs(int n) {
-        int[] dp = new int[n+1];
-        dp[0] = 1;
-        dp[1] = 1;
-
-        for(int i = 2; i <= n; i++){
-            dp[i] = dp[i-1] + dp[i-2];
-        }
-
-        return dp[n];
-    }
-}
-```
-
-## 문제 2
+## 문제 2  ✅
 
 https://leetcode.com/problems/min-cost-climbing-stairs/description
 
-## 문제 3
+## 문제 3  ✅
 
 https://leetcode.com/problems/n-th-tribonacci-number/?envType=study-plan-v2&envId=dynamic-programming
 
+## 문제 4  ✅
+
+https://leetcode.com/problems/house-robber/description/?envType=study-plan-v2&envId=dynamic-programming
