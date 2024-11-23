@@ -83,3 +83,36 @@ https://leetcode.com/problems/n-th-tribonacci-number/?envType=study-plan-v2&envI
 ## 문제 4  ✅
 
 https://leetcode.com/problems/house-robber/description/?envType=study-plan-v2&envId=dynamic-programming
+
+## 문제 5  ✅
+
+https://leetcode.com/problems/delete-and-earn/description/?envType=study-plan-v2&envId=dynamic-programming
+
+## 문제 6  ✅
+
+https://leetcode.com/problems/unique-paths/description/?envType=study-plan-v2&envId=dynamic-programming
+
+## 문제 7  ✅
+
+https://leetcode.com/problems/minimum-path-sum/description/?envType=study-plan-v2&envId=dynamic-programming
+
+## 문제 8  ✅
+
+https://leetcode.com/problems/unique-paths-ii/description/?envType=study-plan-v2&envId=dynamic-programming
+
+## 문제 9  ✅
+
+https://leetcode.com/problems/triangle/description/?envType=study-plan-v2&envId=dynamic-programming
+
+## 문제 10  ✅
+
+https://leetcode.com/problems/minimum-falling-path-sum/description/?envType=study-plan-v2&envId=dynamic-programming
+
+## 문제 11  ✅
+
+https://leetcode.com/problems/maximal-square/description/?envType=study-plan-v2&envId=dynamic-programming
+
+## 문제 12  ✅
+
+https://leetcode.com/problems/longest-palindromic-substring/description/?envType=study-plan-v2&envId=dynamic-programming
+
