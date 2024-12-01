@@ -130,3 +130,11 @@ LCS 푸는 방법: https://velog.io/@emplam27/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%
 ## 문제 14  ✅
 
 https://leetcode.com/problems/longest-common-subsequence/
+
+## 문제 15  ✅
+
+https://leetcode.com/problems/longest-palindromic-subsequence/
+
+## 문제 16  ✅
+
+https://leetcode.com/problems/edit-distance/description/

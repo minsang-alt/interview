@@ -231,7 +231,6 @@ REST
 - 리소스 중심의 설계
 - HTTP 메서드로 행위 정의 (GET/POST/PUT/DELETE)
 - 주로 JSON 사용합니다.
-- 빠른 응답이 필요한 서비스에 사용됩니다. 
 ```
 </details>
 
@@ -249,6 +248,20 @@ REST
 6. HTTP 상태 코드를 상황에 맞게 반환하고요
 7. HATEOAS(헤이티오스)로 응답에 관련 리소스의 링크를 포함시켜 API 탐색을 용이하게 합니다. 
 ```
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">GET,POST 이런거 말고 또 아는 메소드 있나요?</strong></summary>
+
+```text
+HEAD: GET과 동일하지만 응답 본문을 포함하지 않습니다. 예를들어,
+헬스체크나 버젼 확인 등의 용도로 사용됩니다.
+
+OPTIONS: 서버가 지원하는 메서드를 확인하기 위해 사용합니다. CORS에서 사용됩니다.
+```
+
 </details>
 
 ---
