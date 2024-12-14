@@ -1,0 +1,3 @@
+[submodule "companies"]
+	path = companies
+	url = https://github.com/minsang-alt/interview-archives-private.git
