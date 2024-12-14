@@ -1,4 +1,6 @@
 
+---
+
 <details>
 <summary><strong style="font-size:1.17em">Search in Rotated Sorted Array</strong></summary>
 
@@ -182,3 +184,136 @@ class Solution {
 
 </details>
 
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Search a 2D Matrix</strong></summary>
+
+https://leetcode.com/problems/search-a-2d-matrix/description/?envType=study-plan-v2&envId=binary-search
+
+이해하기 어려운 부분을 차근차근 설명해드리겠습니다.
+
+2D 행렬(matrix)에서 특정 원소의 위치를 찾는 방법에 대한 설명이었는데요. 예시를 들어 설명해보겠습니다:
+
+```python
+matrix = [
+    [1,  2,  3,  4],
+    [5,  6,  7,  8],
+    [9, 10, 11, 12]
+]
+```
+
+이런 3x4 행렬이 있다고 해봅시다. 여기서 각 숫자의 위치를 1차원 인덱스로 나타내면:
+- 1은 인덱스 0
+- 2는 인덱스 1
+- 5는 인덱스 4
+- 6은 인덱스 5
+  이런 식입니다.
+
+이제 1차원 인덱스(i)에서 행과 열의 위치를 구하는 방법은:
+1. 행 번호 = i ÷ 열의 개수 (몫)
+2. 열 번호 = i ÷ 열의 개수 (나머지)
+
+예를 들어 숫자 6의 위치(인덱스 5)를 구해보면:
+- 열의 개수는 4
+- 행 번호 = 5 ÷ 4 = 1 (몫)
+- 열 번호 = 5 ÷ 4 = 1 (나머지)
+  따라서 6은 [1][1] 위치에 있습니다.
+
+이런 방식으로 계산하는 이유는 행렬에서 한 행이 끝나면 다음 행으로 넘어가기 때문입니다. 열의 개수로 나누면 몫은 몇 번째 행인지, 나머지는 그 행에서 몇 번째 열인지를 알려주게 됩니다.
+
+이걸 더 직관적으로 이해해보겠습니다.
+
+위의 3x4 행렬을 일렬로 나열해보면 이렇게 됩니다:
+
+```
+[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+ 0  1  2  3  4  5  6  7  8  9  10  11  (인덱스)
+```
+
+여기서 중요한 패턴이 있습니다:
+- 첫 번째 행: 인덱스 0,1,2,3
+- 두 번째 행: 인덱스 4,5,6,7
+- 세 번째 행: 인덱스 8,9,10,11
+
+보시면 각 행은 4(열의 개수)개씩 묶여있죠.
+
+이제 예를 들어 인덱스 6의 위치를 찾아봅시다:
+- 6 ÷ 4 = 1 남은 2
+- 몫이 1이라는 건 "4개씩 묶었을 때 1개의 묶음이 완전히 지나갔다"는 뜻입니다
+    - 즉, 첫 번째 행을 지나 두 번째 행에 있다는 의미
+- 나머지가 2라는 건 "현재 행에서 2번째 위치"라는 뜻입니다
+
+다른 예시로 인덱스 11을 보면:
+- 11 ÷ 4 = 2 남은 3
+- 몫이 2: "4개씩 두 묶음이 지나감" = 세 번째 행
+- 나머지가 3: "현재 행에서 3번째 위치"
+
+이렇게 열의 개수로 나누면:
+1. 몫은 "몇 개의 완전한 행이 지나갔는지" = 현재 행 번호
+2. 나머지는 "현재 행에서의 위치" = 열 번호
+
+를 자연스럽게 알려주게 되는 것입니다.
+
+```java
+class Solution {
+    public boolean searchMatrix(int[][] matrix, int target) {
+        int m = matrix.length;
+        int n = matrix[0].length;
+
+        int left = 0;
+        int right = (m*n)-1;
+
+        while(left <= right){
+            int mid = left + (right-left)/2;
+
+            if(matrix[mid/n][mid%n] == target){
+                return true;
+            }else if(matrix[mid/n][mid%n] < target){
+                left = mid+1;
+            }else{
+                right = mid-1;
+            }
+
+
+        }
+
+        return false;
+        
+    }
+}
+```
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Binary Search</strong></summary>
+
+https://leetcode.com/problems/binary-search/description/?envType=study-plan-v2&envId=binary-search
+
+```java
+class Solution {
+    public int search(int[] nums, int target) {
+        int left = 0;
+        int right = nums.length - 1;
+
+        while(left <= right){
+            int mid = left + (right-left)/2;
+
+            if(nums[mid] == target){
+                return mid;
+            }else if(nums[mid] > target){
+                right = mid-1;
+            }else{
+                left = mid+1;
+            }
+        }
+
+        return -1;
+    }
+}
+```
+
+</details>
