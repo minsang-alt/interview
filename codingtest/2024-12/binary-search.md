@@ -1,4 +1,3 @@
-## 문제 1
 
 <details>
 <summary><strong style="font-size:1.17em">Search in Rotated Sorted Array</strong></summary>
@@ -115,6 +114,69 @@ class Solution {
         return -1;
         
     }
+}
+```
+
+</details>
+
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Find First and Last Position of Element in Sorted Array</strong></summary>
+
+https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/description/?envType=problem-list-v2&envId=binary-search&difficulty=MEDIUM%2CEASY
+
+```java
+class Solution {
+    public int[] searchRange(int[] nums, int target) {
+        int[] result = {-1,-1};
+        // 엣지 케이스 처리
+        if(nums == null || nums.length == 0 ) return result;
+
+        // 여기에 로직을 구현하겠습니다.
+        result[0] = findPosition(nums, target, true);
+
+        if(result[0] != -1){
+            result[1] = findPosition(nums, target, false);
+        }
+
+
+        return result;
+    }
+    
+    
+    private int findPosition(int[] nums, int target, boolean isFirst){
+        int left = 0;
+        int right = nums.length -1;
+        int position = -1;
+
+        while(left <= right){
+            int mid = left + (right-left)/2;
+
+            // 중간값이 target값과 같을때
+            if(nums[mid] == target){
+                //먼저 해당 위치 저장
+                position = mid;
+
+                //만약 isFirst 즉, 첫 위치를 찾는거면 
+                if(isFirst){
+                    right = mid-1;
+                }else{
+                    left = mid+1;
+                }
+            }else if(target < nums[mid]){
+                right = mid -1;
+            }else{
+                left = mid + 1;
+            }
+
+        }
+
+        return position;
+    }
+
+
 }
 ```
 
