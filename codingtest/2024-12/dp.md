@@ -183,3 +183,119 @@ class Solution {
 ```
 
 </details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Maximum Length of Pair Chain</strong></summary>
+
+https://leetcode.com/problems/maximum-length-of-pair-chain/?envType=study-plan-v2&envId=dynamic-programming
+
+### 풀이 1. 그리디로 풀기 (정렬 후 순회) O(nlogn)
+
+```java
+class Solution {
+    public int findLongestChain(int[][] pairs) {
+        if(pairs.length == 1){
+            return 1;
+        }
+
+
+        Arrays.sort(pairs, new Comparator<int[]>() {
+            public int compare(int[] a, int[] b){
+                return Integer.compare(a[1],b[1]);
+            }
+        });
+
+        int prev = 0;
+        int res = 1;
+
+        for(int i = 1; i < pairs.length; i++){
+            if(pairs[prev][1] < pairs[i][0]){
+                prev = i;
+                res++;
+            }
+        }
+
+        return res;
+
+
+    }
+    // 형성될 수 있는 가장 긴 체인의 길이를 반환
+    // 두번째 인덱스로 정렬 -> 순서가 바뀌어도 상관없으니(어차피 긴 길이 반환) 스테블이든,언스테블이든 어떤 정렬 알고리즘 써도 상관 x
+    // prev로 비교하고 조건에 만족하면 +1 후 이동 
+    // [1,2] [2,3] [3,4] [5,8]
+
+}
+
+```
+
+### 풀이 2. LIS O(N^2)
+
+```java
+class Solution {
+    public int findLongestChain(int[][] pairs) {
+        if(pairs.length == 1){
+            return 1;
+        }
+
+        int n = pairs.length;
+        int[] length = new int[n];
+
+        Arrays.fill(length,1);
+        Arrays.sort(pairs, (a,b)-> Integer.compare(a[1],b[1]));
+
+        for(int i = 1; i < n; i++){
+            for(int j = 0; j < i; j++){
+                if(pairs[j][1] < pairs[i][0] && 1 + length[j] > length[i]){
+                    length[i] = length[j] +1;
+                }
+            }
+        }
+
+        int maxLength = 1;
+        for(int l : length){
+            maxLength = Math.max(l, maxLength);
+        }
+
+        return maxLength;
+
+    }
+    // 형성될 수 있는 가장 긴 체인의 길이를 반환
+    // 두번째 인덱스로 정렬 -> 순서가 바뀌어도 상관없으니(어차피 긴 길이 반환) 스테블이든,언스테블이든 어떤 정렬 알고리즘 써도 상관 x
+    // prev로 비교하고 조건에 만족하면 +1 후 이동 
+    // [1,2] [2,3] [3,4] [5,8]
+
+}
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Longest Arithmetic Subsequence of Given Difference</strong></summary>
+
+시간복잡도 O(n)으로 하기 위해 map 사용
+
+```java
+import java.util.*;
+class Solution {
+    public int longestSubsequence(int[] arr, int difference) {
+        
+        int n = arr.length;
+        Map<Integer, Integer> map = new HashMap<>();
+
+
+
+        for(int i = 0; i < n; i++){
+            map.put(arr[i], map.getOrDefault(arr[i] - difference, 0) + 1);
+        }
+
+        return Collections.max(map.values());
+    }
+}
+```
+
+</details>
+

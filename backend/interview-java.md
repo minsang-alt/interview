@@ -552,6 +552,37 @@ compaction단계에서 살아있는 객체의 메모리이동이 일어나면서
 
 ---
 
+<details>
+<summary><strong style="font-size:1.17em">
+G1 GC에 대해 설명해주세요
+</strong></summary>
+
+
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+CMS GC보다 G1 GC가 더 좋은 이유가 뭐고, 뭐땜에 교체되었나요?
+</strong></summary>
+
+```text
+CMS는 gc가 일어날때마다, 메모리 파편화가 생기고
+그 비어있는 공간에 객체를 할당할 수가 없어서 
+그럴때마다 compaction을 하게됩니다. 그 과정에서 stop-the-world가
+발생해서 성능이 저하됩니다.
+
+G1 GC는 리전별로 나누기때문에 이런 compaction 단계가
+간소화돼서 좀 더 빠를 수 있습니다. 
+```
+
+</details>
+
+---
+
+
 ## final, equals, hashcode
 
 ---
