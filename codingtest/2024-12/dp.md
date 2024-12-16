@@ -1,7 +1,10 @@
-## 문제 1 ✅
+
+---
 
 <details>
-<summary><strong style="font-size:1.17em">https://leetcode.com/problems/minimum-ascii-delete-sum-for-two-strings/?envType=study-plan-v2&envId=dynamic-programming</strong></summary>
+<summary><strong style="font-size:1.17em">Minimum ASCII Delete Sum for Two Strings</strong></summary>
+
+https://leetcode.com/problems/minimum-ascii-delete-sum-for-two-strings/description/?envType=study-plan-v2&envId=dynamic-programming
 
 ```java
 
@@ -275,6 +278,8 @@ class Solution {
 
 <details>
 <summary><strong style="font-size:1.17em">Longest Arithmetic Subsequence of Given Difference</strong></summary>
+
+https://leetcode.com/problems/longest-arithmetic-subsequence-of-given-difference/?envType=study-plan-v2&envId=dynamic-programming
 
 시간복잡도 O(n)으로 하기 위해 map 사용
 
