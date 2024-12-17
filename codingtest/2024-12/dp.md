@@ -304,3 +304,48 @@ class Solution {
 
 </details>
 
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Longest Arithmetic Subsequence</strong></summary>
+
+https://leetcode.com/problems/longest-arithmetic-subsequence/description/?envType=study-plan-v2&envId=dynamic-programming
+
+```java
+class Solution {
+    public int longestArithSeqLength(int[] nums) {
+        int n = nums.length;
+        Map<Integer,Integer>[] dp = new HashMap[n];
+        for(int i = 0; i < n; i++){
+            dp[i] = new HashMap<>();
+        }
+
+        int len = 0;
+
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < i; j++){
+                int diff = nums[i] - nums[j];
+                int d = dp[j].getOrDefault(diff,1);
+                dp[i].put(diff,d+1);
+                len = Math.max(len,d+1);
+            }
+        }
+
+        return len;
+    }
+
+    // 가장 긴 산술적 부분 수열 길이 반환
+    // seq[i+1] - seq[i]가 같은거 
+    // 각 배열의 요소마다 맵을 만듦
+    // 그리고 그 맵엔 각 요소의 차이에 대한 개수를 저장하는데, 그전에 비교하는 요소의 맵에 그 차이값만큼이 맵에 존재하면 그이전요소의 차이값의 value+1해서 저장
+    // 가장 긴건 수시로 업데이트 
+}
+```
+
+
+</details>
+
+
+---
+
+
