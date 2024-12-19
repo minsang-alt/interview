@@ -104,3 +104,35 @@ class Solution {
 
 </details>
 
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Minimum Add to Make Parentheses Valid</strong></summary>
+
+https://leetcode.com/problems/minimum-add-to-make-parentheses-valid/description/
+
+O(n)으로 스택을 사용해서 풂
+```java
+class Solution {
+    public int minAddToMakeValid(String s) {
+        Deque<Character> st = new LinkedList<>();
+        for(char c: s.toCharArray()){
+            if(!st.isEmpty()){
+                if(st.peek() == '(' && c ==')'){
+                    st.pop();
+                }else{
+                    st.push(c);
+                }
+            }else{
+                st.push(c);
+            }
+        }
+
+        return st.size();
+    }
+}
+```
+
+
+
+</details>

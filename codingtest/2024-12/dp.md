@@ -348,4 +348,45 @@ class Solution {
 
 ---
 
+## LCS
 
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Uncrossed Lines</strong></summary>
+
+https://leetcode.com/problems/uncrossed-lines/description/?envType=study-plan-v2&envId=dynamic-programming
+
+O(N^2) 
+
+```java
+class Solution {
+    public int maxUncrossedLines(int[] nums1, int[] nums2) {
+
+        int nums1Len = nums1.length;
+        int nums2Len = nums2.length;
+
+        int[][] dp = new int[nums1Len+1][nums2Len+1];
+
+        for(int i = 0; i <= nums1Len; i++){
+            for(int j = 0; j <= nums2Len; j++){
+                if(i==0 || j==0){
+                    dp[i][j] = 0;
+                }else if(nums1[i-1] == nums2[j-1]){
+                    dp[i][j] = dp[i-1][j-1] + 1;
+                }else{
+                    dp[i][j] = Math.max(dp[i-1][j], dp[i][j-1]);
+                }
+            }
+        }
+
+        return dp[nums1Len][nums2Len];
+        
+    }
+
+    // 앞 뒤로 길게  선을 그어 버리면 많은 선을 그을 수가 없음
+    // 최장 공통 부분 수열 LCS
+}
+```
+
+</details>
