@@ -390,3 +390,63 @@ class Solution {
 ```
 
 </details>
+
+---
+
+## Best Time to Buy & Sell Stock / State Machine
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Best Time to Buy and Sell Stock with Cooldown</strong></summary>
+
+https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/submissions/1486103368/?envType=study-plan-v2&envId=dynamic-programming
+
+상태가 중요
+
+주식을 구매한 상태에서 다음 날이 되었을 때 아무것도 안해서 주식을 보유하거나, 판다.
+주식을 판매한 상태는 다음 날이 되었을 때 쿨다운 상태이고 
+쿨다운 상태는 다음날이 되었을 때 주식을 구매하거나 아무것도 안함
+
+1일차 2일차 
+
+```java
+public class Solution {
+    public int maxProfit(int[] prices) {
+        if(prices == null || prices.length <= 1){
+            return 0;
+        }
+
+        // 해당 날짜의 주식을 산 상태의 최대값 (전날 산 상태를 유지 or 판 상태에서 + 이번에 산 상태)
+        // 판 상태에서 + 이번에 산 상태 라는 말은 이날 사게되면 전날은 무조건 cool 상태여야한다. 
+        int[] buy = new int[prices.length];
+
+        // 해당 날짜의 주식이 없는 상태의 최대값 (전날 판 상태를 유지 or 산 상태에서 + 이번에 판 상태)
+        int[] sell = new int[prices.length];
+
+        // 첫날
+        buy[0] = -prices[0];
+        sell[0] = 0;
+
+        // 둘째날
+        if(prices.length > 1){
+            buy[1] = Math.max(buy[0], -prices[1]);
+            sell[1] = Math.max(sell[0],buy[0] + prices[1]);
+        }
+
+        for(int i = 2; i < prices.length; i++){
+            buy[i] = Math.max(buy[i-1],sell[i-2]-prices[i]);
+            sell[i] = Math.max(sell[i-1],buy[i-1] + prices[i]);
+        }
+
+        return sell[prices.length-1];
+        
+    }
+}
+```
+
+
+</details>
+
+
+

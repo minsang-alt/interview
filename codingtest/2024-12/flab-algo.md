@@ -136,3 +136,45 @@ class Solution {
 
 
 </details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Count Binary Substrings</strong></summary>
+
+https://leetcode.com/problems/count-binary-substrings/description/
+
+```java
+class Solution {
+    public int countBinarySubstrings(String s) {
+        int cur = 1;
+        int prev = 0;
+        int result = 0;
+
+        for(int i = 1; i < s.length(); i++){
+            if(s.charAt(i)== s.charAt(i-1)){
+                // 이전 문자열과 같을 경우 현재 그룹개수를 늘림
+                cur++;
+            }else{
+                // 문자가 바뀌면 이제 새로운 그룹으로 진입이니 그전에 이전그룹과 비교
+                result += Math.min(prev,cur);
+                // 현재그룹은 이제 이전그룹이 됨
+                prev = cur;
+                // 이제 바뀐 문자열개수 = 1로 다시초기화하고 시작
+                cur = 1;
+            }
+
+        }
+
+        // 문자열이 끝나면 이제 이전그룹과 지금까지 업데이트한 그룹 비교
+        return result + Math.min(prev, cur);
+    }
+
+}  
+
+// 연속된 이전 그룹과 연속된 현재 그룹의 개수 중 최소값이 지금까지 만들수있는 최대 만족시킬수있는 개수 
+// 만족이란, 0011처럼 그룹이되있꼬, 0,1개수가 같은 것
+
+```
+
+</details>
