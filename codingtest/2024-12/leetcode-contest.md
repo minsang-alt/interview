@@ -48,3 +48,78 @@ class Solution {
 </details>
 
 ---
+
+<details>
+<summary><strong style="font-size:1.17em">Minimum Remove to Make Valid Parentheses</strong></summary>
+
+https://leetcode.com/problems/minimum-remove-to-make-valid-parentheses/
+
+O(N)이지만 느림 
+```java
+class Solution {
+    public String minRemoveToMakeValid(String s) {
+        // left -> right
+        int leftNum = 0;
+        int rightNum = 0;
+
+        StringBuilder sb = new StringBuilder();
+        for(char c : s.toCharArray()){
+            if(c=='('){
+                leftNum++;
+            }else if(c==')' && leftNum < rightNum +1){
+                continue;
+            }else if(c==')'){
+                rightNum++;
+            }
+
+            sb.append(c);
+        }
+
+        s = sb.toString();
+        System.out.println(s);
+
+
+        // right -> left  
+        sb = new StringBuilder();
+        leftNum = 0;
+        rightNum = 0;
+
+        for (int i = s.length() - 1; i >= 0; i--) {
+            char c = s.charAt(i);
+            if (c == ')') {
+                rightNum++;
+            } else if (c == '(' && leftNum + 1 > rightNum) {
+                continue;
+            } else if (c == '(') {
+                leftNum++;
+            }
+            sb.insert(0, c);  
+        }
+
+        return sb.toString();
+
+    }
+}
+
+```
+
+인덱스와 스택으로 해결하는 방법
+
+```java
+public String minRemoveToMakeValid(String s) {
+  StringBuilder sb = new StringBuilder(s);
+  Stack<Integer> st = new Stack();
+  for (int i = 0; i < sb.length(); ++i) {
+    if (sb.charAt(i) == '(') st.add(i + 1);
+    if (sb.charAt(i) == ')') {
+      if (!st.empty() && st.peek() >= 0) st.pop();
+      else st.add(-(i + 1));
+    }
+  }
+  while (!st.empty())
+    sb.deleteCharAt(Math.abs(st.pop()) - 1);
+  return sb.toString();
+}
+```
+
+</details>

@@ -448,5 +448,44 @@ public class Solution {
 
 </details>
 
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Best Time to Buy and Sell Stock with Transaction Fee</strong></summary>
+
+```java
+class Solution {
+    public int maxProfit(int[] prices, int fee) {
+        if(prices == null || prices.length <= 1){
+            return 0;
+        }
+
+        int[] buy = new int[prices.length];
+        int[] sell = new int[prices.length];
+
+        // 1day
+        buy[0] = -prices[0];
+        sell[0] = 0;
+
+        //2day
+        if(prices.length > 1){
+            buy[1] = Math.max(buy[0],-prices[1]);
+            sell[1] = Math.max(sell[0], buy[0] + prices[1] - fee);
+        }
+
+        for(int i = 2; i < prices.length; i++){
+            buy[i] = Math.max(buy[i-1], sell[i-1] -prices[i]);
+            sell[i] = Math.max(buy[i-1] + prices[i] -fee, sell[i-1]);
+        }
+
+        return sell[prices.length-1];
+
+    }
+}
+```
+
+</details>
+
+
 
 
