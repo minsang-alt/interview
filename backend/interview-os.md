@@ -74,3 +74,38 @@ LRU의 근사 알고리즘으로, 구현이 더 간단합니다.
 각 페이지에 '참조 비트'와 '수정 비트'를 사용합니다.
 최근에 사용되지 않은 페이지 중에서 수정되지 않은 페이지를 우선적으로 교체합니다.
 ```
+
+---
+
+## 동기, 비동기, 블로킹, 논블로킹
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">동기와 비동기, 블로킹과 논블로킹의 차이에 대해 설명해 주세요.</strong></summary>
+</details>
+
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">그렇다면, 동기이면서 논블로킹이고, 비동기이면서 블로킹인 경우는 의미가 있다고 할 수 있나요?</strong></summary>
+
+
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">I/O 멀티플렉싱에 대해 설명해 주세요.</strong></summary>
+
+```text
+관심있는 I/O 작업들을 동시에 모니터링하고 
+그중에 완료된 I/O 작업들을 한번에 알려줍니다.
+```
+
+</details>
+
+
+
