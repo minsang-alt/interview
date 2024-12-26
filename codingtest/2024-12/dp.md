@@ -487,5 +487,136 @@ class Solution {
 </details>
 
 
+---
+
+## On Trees
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Unique Binary Search Trees</strong></summary>
+
+https://leetcode.com/problems/unique-binary-search-trees/?envType=study-plan-v2&envId=dynamic-programming
+
+n=1일 때 , 1번 루트를 통해서 왼쪽은 무조건 0개, 오른쪽도 0개 총 1개
+n=2일 때, 1번 루트를 통해서 왼쪽은 무조건 0개, 오른쪽은 무조건 1개 총 1개, 2번 루트를 통해서 왼쪽은 1개, 오른쪽은 0개 총 1개
+n=3일 때, 1번 루트를 통해서 왼쪽은 무조건 0개, 오른쪽은 2개 0이라는게 0의 묶음 하나이고, 오른쪽은 2,3 묶음이라는게 2개이니 1*2이므로 2,
+2번 루트를 통해서 왼쪽은 1개, 오른쪽은 1개 총 1개, 3번 루트를 통해서 왼쪽은 2개, 오른쪽은 0개 총 2개
+
+그림을 그려가며 숫자도 적어야 이해간다 그리고서 함수만들기
+G(n) = F(1,n) + F(2,n) + ... + F(n,n) 1,2,...n은 루트가 될 수 있는 숫자이고 오른쪽 n은 구해달라는 값 
+그리고 각 F(i,n)은 G(i-1) * G(n-i) 이다.
+
+
+```text
+class Solution {
+    public int numTrees(int n) {
+        int[] G = new int[n+1];
+        G[0] = 1;
+        G[1] = 1;
+
+        for(int i = 2; i <=n; i++){
+            for(int j = 1; j <= i; j++){
+                G[i] += G[j-1]*G[i-j];
+            }
+        }
+
+        return G[n];
+    }
+}
+```
+
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Unique Binary Search Trees II</strong></summary>
+
+https://leetcode.com/problems/unique-binary-search-trees-ii/?envType=study-plan-v2&envId=dynamic-programming
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+
+
+    public List<TreeNode> generateTrees(int n) {
+        if(n==0) return new ArrayList<>();
+        return generateSubtrees(1,n);
+    }
+
+    private List<TreeNode> generateSubtrees(int left, int right){
+        List<TreeNode> result = new ArrayList<>();
+
+        if(left > right){
+            result.add(null);
+            return result;
+        }
+
+        // 각 숫자를 루트로 선택
+        for(int i = left; i <= right; i++){
+            // 왼쪽 서브트리 생성
+            List<TreeNode> leftSubtrees = generateSubtrees(left, i-1);
+
+            // 오른쪽 서브트리 생성
+            List<TreeNode> rightSubtrees = generateSubtrees(i+1, right);
+
+            // 가능한 모든 왼쪽/오른쪽 조합 생성
+            for(TreeNode l : leftSubtrees){
+                for(TreeNode r : rightSubtrees){
+                    TreeNode root = new TreeNode(i);
+                    root.left = l;
+                    root.right = r;
+                    result.add(root);
+                }
+            }
+
+
+        }
+
+        return result;
+
+
+    }
+
+    // 1 일때
+    // 루트가 1만 있고, 1
+
+
+    //  2일 때
+    // 루트가 1이면 
+    // 1 왼쪽은 null, 오른쪽은 2
+    // 루트가 2이면
+    // 2 왼쪽은 1, 오른쪽은 null 
+
+
+    // 3일 때
+    // 루트가 1이면  
+    // 왼쪽은 null, 오른쪽은 (2,3) 
+    // 루트가 2이면
+    // 왼쪽은 1, 오른쪽은 2
+    // 루트가 3이면
+    // 왼쪽은 
+
+}
+```
+
+
+</details>
 
 
