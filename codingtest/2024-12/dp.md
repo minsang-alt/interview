@@ -619,4 +619,41 @@ class Solution {
 
 </details>
 
+---
+
+<details>
+<summary><strong style="font-size:1.17em">House Robber III</strong></summary>
+
+https://leetcode.com/problems/house-robber-iii/?envType=study-plan-v2&envId=dynamic-programming
+
+```java
+class Solution {
+
+    // 후의 연산 dfs + dp문제 
+    public int rob(TreeNode root) {
+        // [root를 포함할때, root를 포함하지 않을 때]
+        int[] result = robSub(root);
+        return Math.max(result[0],result[1]);
+    }
+
+    private int[] robSub(TreeNode root){
+        if(root == null){
+            return new int[2];
+        }
+
+        int[] left = robSub(root.left);
+        int[] right = robSub(root.right);
+
+        int[] res = new int[2];
+        res[0] = root.val + left[1] + right[1];
+        res[1] = Math.max(left[0],left[1]) + Math.max(right[0],right[1]);
+
+        return res;
+    }
+}
+
+```
+
+</details>
+
 

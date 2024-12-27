@@ -172,3 +172,31 @@ class Solution {
 ```
 
 </details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Find All Duplicates in an Array</strong></summary>
+
+https://leetcode.com/problems/find-all-duplicates-in-an-array/
+
+```java
+class Solution {
+    public List<Integer> findDuplicates(int[] nums) {
+        Map<Integer,Integer> map = new HashMap<>();
+
+        List<Integer> ans = new ArrayList<>();
+        for(int num : nums){
+            if(map.containsKey(num)){
+                ans.add(num);
+            }else{
+                map.put(num,1);
+            }
+        }
+
+        return ans;
+    }
+}
+```
+
+</details>
