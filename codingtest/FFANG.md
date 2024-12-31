@@ -291,7 +291,7 @@ class Solution {
 ---
 
 <details>
-<summary><strong style="font-size:1.17em">. Find Minimum in Rotated Sorted Array</strong></summary>
+<summary><strong style="font-size:1.17em">Find Minimum in Rotated Sorted Array</strong></summary>
 
 https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/description/
 
@@ -467,6 +467,70 @@ class Solution {
 
     // 1,1,1,2,2,3 k=2
     // 1,2
+}
+```
+
+</details>
+
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Reorder List</strong></summary>
+
+연결리스트의 중간지점 부터 찾아야되므로 slow, fast 포인터로 중간지점 찾기
+중간지점부터 뒤집기
+두 리스트 합치기
+
+```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public void reorderList(ListNode head) {
+        if(head==null) return;
+
+        ListNode slow = head; ListNode fast = head;
+        while(fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        ListNode pointer = slow.next;
+        slow.next = null;
+        ListNode node = null;
+
+        while(pointer != null){
+            ListNode temp = pointer.next;
+            pointer.next = node;
+            node = pointer;
+            pointer = temp;
+        }
+
+
+        ListNode first = head;
+        ListNode second = node;
+
+        while(second != null){
+            ListNode temp1 = first.next;
+            ListNode temp2 = second.next;
+            first.next = second;
+            second.next = temp1;
+            first = temp1;
+            second = temp2;
+        }
+
+
+
+
+    }
 }
 ```
 
