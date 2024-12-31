@@ -200,3 +200,274 @@ class Solution {
 ```
 
 </details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Set Matrix Zeroes</strong></summary>
+
+https://leetcode.com/problems/set-matrix-zeroes/description/
+
+```java
+class Solution {
+    public void setZeroes(int[][] matrix) {
+        int m = matrix.length;
+        int n = matrix[0].length;
+
+        // 0행에 0이 있으면 flag 갖고있기
+        boolean rowflag = false;
+        for(int i = 0; i < n; i++){
+            if(matrix[0][i] == 0){
+                rowflag = true;
+                break;
+            }
+        }
+
+        // 0열에 0이 있으면 flag 갖고있기
+        boolean colflag = false;
+        for(int i = 0; i < m; i++){
+            if(matrix[i][0]==0){
+                colflag = true;
+                break;
+            }
+        }
+
+        // 순회하면서 0을 찾고 해당 0을 왼쪽 끝, 위쪽 끝에 0을 세팅
+        for(int i = 1; i < m; i++){
+            for(int j = 1; j < n; j++){
+                if(matrix[i][j]==0){
+                    matrix[i][0] = 0;
+                    matrix[0][j] = 0;
+                }
+            }
+        }
+
+        // 0행 순회하면서 0있으면 그 행의 열에 모두 0채우기
+        for(int i = 1; i < n; i++){
+            if(matrix[0][i] == 0){
+                for(int j = 1; j < m; j++){
+                    matrix[j][i] = 0;
+                }
+            }
+        }
+
+        // 0열 순회하면서 0있으면 그 열의 행에 모두 0채우기
+        for(int i = 1; i < m; i++){
+            if(matrix[i][0]==0){
+                for(int j = 1; j < n; j++){
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+
+        
+
+        if(rowflag){
+            for(int i = 0; i < n; i++){
+                matrix[0][i] = 0;
+            }
+        }
+
+        if(colflag){
+            for(int i = 0; i < m; i++){
+                matrix[i][0] = 0;
+            }
+        }
+
+
+    }
+
+    // 공간복잡도가 O(1) 이어야 함 
+    // 만약 순회하면서 0을 마주하면 거기의 행과 열을 다 0으로 바꿔버리면 순회할때 진짜 0을 못찾아서 문제가 생긴다.
+    // 그렇다고, 미리 0인 곳을 저장하기에도 공간복잡도를 어기니깐 배열을 조작해서 해나가야 한다.
+
+    // 일단 순회하면서 
+}
+
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">. Find Minimum in Rotated Sorted Array</strong></summary>
+
+https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/description/
+
+```java
+class Solution {
+    public int findMin(int[] nums) {
+
+        int left = 0;
+        int right = nums.length -1;
+
+        if(nums[left] <= nums[right]){
+            return nums[left];
+        }
+
+        while(left <= right){
+
+            if(right-left == 1){
+                return Math.min(nums[left],nums[right]);
+            }
+
+            int mid = left + (right-left)/2;
+
+            if(nums[mid] > nums[right]){
+                left = mid;
+            }else if(nums[mid] < nums[right]){
+                right = mid;
+            }
+        }
+        
+        return nums[left];
+    }
+
+    // 그냥 최솟값 구하는 거고, nums는 정렬된 형태에서 n번 오른쪽으로 이동한 채로 제공
+    // 그냥 순회하면 O(n)으로 구할 수 있지만, O(logn)으로 풀어야 하는 요구사항을 받았습니다.
+
+    // O(logn)은 이진검색트리
+
+    // 회전해도 어차피 증가함 그런데 어느 지점에서 갑자기 순서가 뒤틀릴 때가 있음 
+    // 그니깐 위로 갔다가 갑자기 퐉 떨어지는 구간 있음
+
+    // 목표는 가장 작은 걸 찾아야 함 
+    // 3,4,5,1,2
+}
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Longest Consecutive Sequence</strong></summary>
+
+https://leetcode.com/problems/longest-consecutive-sequence/description/
+
+hashset에 넣고, 순회하면서 연속된 숫자를 찾아나가기
+O(n)이지만, 최악의 경우 O(n^2)이 될 수 있음
+
+```java
+class Solution {
+    public int longestConsecutive(int[] nums) {
+        Set<Integer> numbers = new HashSet<>();
+
+        int longestlength = 0;
+
+        for(int num : nums){
+            numbers.add(num);
+        }
+
+        for(int num : nums){
+            if(!numbers.contains(num-1)){
+                int t = 1;
+
+                while(numbers.contains(num+t)){
+                    t++;
+                }
+
+                longestlength = Math.max(longestlength, t);
+            }
+        
+        }
+
+        return longestlength;
+    }
+
+    // 100,99,101,98
+    // 4가 나와야 됨 
+    
+    // 100 1
+    // 순회 99+1
+
+
+
+
+}
+```
+
+O(nlogn)이지만 실제 문제에서는 제일 빠름
+
+```java
+class Solution {
+    public int longestConsecutive(int[] nums) {
+        
+        ArrayList<Integer> arrs = Arrays.stream(nums)
+              .sorted()
+              .distinct()
+              .boxed()
+              .collect(Collectors.toCollection(ArrayList::new));
+
+
+        int count = 1;
+        int longestLen = 1;
+
+        if(nums.length == 0){
+            return 0;
+        }
+
+        for(int i = 1; i < arrs.size(); i++){
+            if(arrs.get(i) == arrs.get(i-1)+1){
+                count++;
+            }else{
+                count = 1;
+            }
+
+            longestLen = Math.max(count,longestLen);
+        }
+
+        return longestLen;
+
+    }
+}
+```
+
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Top K Frequent Elements</strong></summary>
+
+https://leetcode.com/problems/top-k-frequent-elements/description/
+
+
+시간복잡도 O(nlogk) 이며 k <=n 이고, 조건인 nlogn 보다는 조금 빠름
+map으로 순회하면서 발견숫자 업데이트하고 우선순위큐로 뽑는데 우선순위 큐는 offer이든 poll이든 logk이기 때문에 O(nlogk)가 됨
+
+```java
+class Solution {
+    public int[] topKFrequent(int[] nums, int k) {
+
+        Map<Integer,Integer> map = new HashMap<>();
+        for(int num : nums){
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a,b)-> b[1]-a[1]);
+
+        for(Map.Entry<Integer,Integer> entry : map.entrySet()){
+            pq.offer(new int[]{entry.getKey(),entry.getValue()});
+        }
+
+
+        int[] ans = new int[k];
+
+        for(int i = 0; i < k; i++){
+            int[] p = pq.poll();
+            ans[i] = p[0];
+        }
+
+        return ans;
+        
+    }
+
+    // 1,1,1,2,2,3 k=2
+    // 1,2
+}
+```
+
+</details>

@@ -881,6 +881,24 @@ DB와 Client가 Connection을 어떻게 구성하는지 설명해 주세요.
 
 <details>
 <summary><strong style="font-size:1.17em">
+랜덤 I/O와 순차 I/O의 차이점은 무엇인가요?
+</strong></summary>
+
+```text
+순차 I/O에서는 읽기,쓰기 암이 연속적으로 일어나며 탐색과 회전 대기시간이 딱 한번만 일어납니다.
+반면, 랜덤 I/O에서는 읽거나 쓸 데이터 조각이 저장장치 어느 위치에서나 있을 수 있기 때문에
+탐색 대기 시간과 회전 대기 시간이 여러번 일어날 수 있습니다.
+
+따라서, 랜덤 I/O는 순차 I/O보다 느립니다.
+```
+
+</details>
+
+---
+
+
+<details>
+<summary><strong style="font-size:1.17em">
 Table Full Scan, Index Range Scan에 대해 설명해 주세요.
 </strong></summary>
 
