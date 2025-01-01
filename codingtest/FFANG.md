@@ -535,3 +535,86 @@ class Solution {
 ```
 
 </details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Find All Numbers Disappeared in an Array</strong></summary>
+
+https://leetcode.com/problems/find-all-numbers-disappeared-in-an-array/description/
+
+```java
+class Solution {
+    public List<Integer> findDisappearedNumbers(int[] nums) {
+       int n = nums.length; 
+
+       for(int i = 0; i < nums.length; i++){
+            
+            // swap
+            // 다를 때만
+            while(true){
+                int num = nums[i];
+                int tmp = num; // 4
+                int comp = nums[tmp-1];
+                if(tmp == comp){
+                    break;
+                }
+                nums[i] = comp;
+                nums[tmp-1] = tmp;
+            }
+
+       }
+
+       List<Integer> list = new ArrayList<>();
+       for(int i = 0; i < nums.length; i++){
+         if(i+1 != nums[i]){
+            list.add(i+1);
+         }
+       }
+
+        return list;
+    }
+
+    // nums의 요소가 [1,n] 없는 요소 반환
+    // O(n), O(1)
+
+    // [4,3,2,7,8,2,3,1]
+    // 인덱스로 생각
+    // 7,3,2,4,8,2,3,1
+    // 7,2,3,4,8,2,3,1
+    // 7,2,3,4,1,2,3,8
+    // 7,2,3,4,1,2,3,8
+
+
+
+}
+```
+
+음수로 표시
+
+```java
+class Solution {
+    public List<Integer> findDisappearedNumbers(int[] nums) {
+        List<Integer> list = new ArrayList<>();
+
+        for(int i = 0; i < nums.length; i++){
+            int ele = Math.abs(nums[i])-1;
+
+            if(nums[ele] > 0){
+                nums[ele] = nums[ele] * -1;
+            }
+
+        }
+
+        for(int i = 0; i < nums.length; i++){
+            if(nums[i] > 0){
+                list.add(i+1);
+            };
+        }
+
+        return list;
+    }
+}
+```
+
+</details>
