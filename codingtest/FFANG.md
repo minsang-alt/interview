@@ -618,3 +618,72 @@ class Solution {
 ```
 
 </details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Partition Equal Subset Sum</strong></summary>
+
+https://leetcode.com/problems/partition-equal-subset-sum/description/
+
+냅색 문제고 0/1 배낭문제와 비슷한 문제 인데 이해하기 ㅈㄴ 어려움
+밑에 주석 참고
+
+```java
+class Solution {
+    public boolean canPartition(int[] nums) {
+        int sum = 0;
+        for(int num : nums){
+            sum+=num;
+        }
+
+        if(sum % 2 != 0){
+            return false;
+        }
+
+        int target = sum / 2;
+
+        boolean[][] dp = new boolean[nums.length+1][target+1];
+        dp[0][0] = true;
+
+        for(int i = 1; i <= nums.length; i++){
+            for(int j = 1; j <= target; j++){
+                dp[i][j] = dp[i-1][j];
+                if(j>=nums[i-1]){
+                    dp[i][j] = dp[i-1][j] || dp[i-1][j-nums[i-1]];
+                }
+            }
+        }
+
+        return dp[nums.length][target];
+
+
+    }
+
+    // [1,5,11, 5] target = 11
+    // {0,1,5,6,11,12,16,17,10}
+
+    // i번 인덱스까지의 수로 0~target까지 완성시킬수있는 지 확인 
+    // dp[i][j] i까지 원소에서 j를 만들 수 있나??  ->
+    //  i-1부터 j까지 true이면 원소 i에선 선택안하면 된다
+    // 또는 i원소를 선택하고 dp[i-1][j-nums[i]]가 true이면 됨 
+    // e.g. dp[1][1] = dp[0][1] || dp[0][1-1]
+
+    // target = 11 입니다.
+//        0 1 2 3 4
+//   0 // t t f f f
+//   1 // f f f f f
+//   2 // f f f f f
+//   3 // f f f f f
+//   4 // f f f f f
+//   5 // 
+//   6
+//   7
+//   8
+//   9
+//   10
+//   11
+}
+```
+
+</details>
