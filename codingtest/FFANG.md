@@ -766,3 +766,76 @@ class Solution {
 ```
 
 </details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Minimum Height Trees</strong></summary>
+
+https://leetcode.com/problems/minimum-height-trees/description/
+
+리프노드를 계속 제거해서 1,2개 남았을 때 노드를 반환한다.
+-> 이 생각은 노드를 한개 , 두개 늘려가면서 규칙을 찾을 수 있다. 
+
+```java
+class Solution {
+    public List<Integer> findMinHeightTrees(int n, int[][] edges) {
+        // 노드가 1개나 2개인 경우의 예외처리
+        if(n <= 2){
+            List<Integer> centroids = new ArrayList<>();
+            for(int i = 0; i < n; i++){
+                centroids.add(i);
+            }
+            return centroids;
+        }
+
+        // 인접리스트 그래프로 표현
+        List<Set<Integer>> graph = new ArrayList<>();
+        for(int i = 0; i < n; i++){
+            graph.add(new HashSet<>());
+        }
+
+        // edges 배열을 이용해 그래프 구성
+        for(int[] edge : edges){
+            graph.get(edge[0]).add(edge[1]);
+            graph.get(edge[1]).add(edge[0]);
+        }
+
+        List<Integer> leaves = new ArrayList<>();
+        // 초기 리프 노드 찾기
+        for(int i = 0; i < n; i++){
+            if(graph.get(i).size() == 1){
+                leaves.add(i);
+            }
+        }
+
+        // 남은 노드 수
+        int remainingNodes = n;
+
+        // 노드가 1개 또는 2개만 남을 때까지 반복
+        while(remainingNodes > 2){
+            remainingNodes -= leaves.size();
+            List<Integer> newLeaves = new ArrayList<>();
+
+            // 현재 리프 노드들을 제거
+            for(int leaf : leaves){
+                // 리프노드의 이웃 노드 찾기 (무조건 1개임)
+                int neighbor = graph.get(leaf).iterator().next();
+                // 이웃 노드에서 현재 리프 노드 제거
+                graph.get(neighbor).remove(leaf);
+
+                //이웃 노드가 새로운 리프 노드가 되었는지 확인
+                if(graph.get(neighbor).size()==1){
+                    newLeaves.add(neighbor);
+                }
+            }
+
+            leaves = newLeaves;
+        }
+
+        return leaves;
+    }
+}
+```
+
+</details>
