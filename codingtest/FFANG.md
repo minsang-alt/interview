@@ -687,3 +687,82 @@ class Solution {
 ```
 
 </details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Combination Sum</strong></summary>
+
+https://leetcode.com/problems/combination-sum/
+
+
+백트래킹
+
+```java
+class Solution {
+
+    private List<List<Integer>> result = new ArrayList<>();
+
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+
+
+        combPath(candidates, target, new ArrayList<>(),0);
+
+        return result;
+    }
+
+    private void combPath(int[] cand, int target, List<Integer> comb,int st){
+        if(target == 0){
+            result.add(new ArrayList<>(comb));
+            return;
+        }else if(target < 0){
+            return;
+        }
+
+
+        for(int i = 0; i < cand.length; i++ ){
+            if(st > i)continue;
+            int c = cand[i];
+            comb.add(c);
+            combPath(cand, target-c, comb,i);
+            comb.remove(comb.size()-1);
+        }
+    }
+
+    // 중복되고, 
+    // 2,3,6,7 target=7
+    // 
+}
+```
+
+dp로 풀었을 때
+공간복잡도, 시간복잡도가 매우 증가
+
+```java
+class Solution {
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        // dp[i]는 합이 i가 되는 모든 조합들을 저장
+        List<List<Integer>>[] dp = new List[target+1];
+
+        for(int i = 0; i <= target; i++){
+            dp[i] = new ArrayList<>();
+        }
+
+        dp[0].add(new ArrayList<>());
+
+        for(int candidate : candidates){
+            for(int j = candidate; j <= target; j++){
+                for(List<Integer> comb : dp[j-candidate]){
+                    List<Integer> newComb = new ArrayList<>(comb);
+                    newComb.add(candidate);
+                    dp[j].add(newComb);
+                }
+            }
+        }
+
+        return dp[target];
+    }
+}
+```
+
+</details>
