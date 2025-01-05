@@ -839,3 +839,36 @@ class Solution {
 ```
 
 </details>
+
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Maximum Subarray</strong></summary>
+
+https://leetcode.com/problems/maximum-subarray/description/
+
+prefix가 음수이면 0으로 초기화하고 다음부터 계산해야 최대크기를 구할 수 있다.
+
+```java
+class Solution {
+    public int maxSubArray(int[] nums) {
+        if(nums.length==1){
+            return nums[0];
+        }
+        
+        int sum = nums[0];
+        int max = sum;
+        for(int i = 1; i < nums.length; i++){
+            if(sum < 0){
+                sum = 0;
+            }
+            max = Math.max(max, sum + nums[i]);
+            sum+= nums[i];
+        }
+        return max;
+    }
+}
+```
+
+</details>
