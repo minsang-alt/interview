@@ -872,3 +872,84 @@ class Solution {
 ```
 
 </details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Sort List</strong></summary>
+
+https://leetcode.com/problems/sort-list/description/
+
+조건이 시간복잡도 O(nlogn)이고 공간복잡도 O(1)이어야 한다.
+
+정렬 알고리즘 중 하나인 병합정렬을 사용한다.
+그리고 병합정렬을 링크드리스트로 구현하는 방법을 알아야 하며, 
+이때 중간을 찾기위해 fast, slow 포인터를 사용한다.
+
+```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode sortList(ListNode head) {
+        
+        if(head == null || head.next == null){
+            return head;
+        }
+
+        ListNode slow = head;
+        ListNode fast = head;
+        ListNode prev = null;
+
+        while(fast != null && fast.next != null){
+            prev = slow;
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        // 리스트 나누기
+        prev.next = null;
+
+        ListNode l1 = sortList(head);
+        ListNode l2 = sortList(slow);
+
+        return merge(l1,l2);
+    }
+
+    private ListNode merge(ListNode l1, ListNode l2){
+        ListNode dummy = new ListNode(0);
+        ListNode curr = dummy;
+
+        while(l1 != null && l2 != null){
+            if(l1.val <= l2.val){
+                curr.next = l1;
+                l1 = l1.next;
+            }else{
+                curr.next = l2;
+                l2 = l2.next;
+            }
+
+            curr = curr.next;
+        }
+
+        if(l1 != null){
+            curr.next = l1;
+        }
+        if(l2 != null){
+            curr.next = l2;
+        }
+
+        return dummy.next;
+    }
+}
+```
+
+</details>
+
