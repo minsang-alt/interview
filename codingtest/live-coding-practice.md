@@ -78,3 +78,6 @@ def is_prime(n):
 
 3. 책
 https://m.yes24.com/Goods/Detail/44305533
+
+4. 리트코드 공부하는 과정의 모든 대화들
+https://inner-game.tistory.com/525?t
