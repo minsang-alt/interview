@@ -953,3 +953,46 @@ class Solution {
 
 </details>
 
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Minimum Number of Arrows to Burst Balloons</strong></summary>
+
+https://leetcode.com/problems/minimum-number-of-arrows-to-burst-balloons/description/
+
+```java
+class Solution {
+    public int findMinArrowShots(int[][] points) {
+        if(points.length <= 1){
+            return points.length;
+        }
+
+        Arrays.sort(points, (a,b)->Integer.compare(a[1],b[1]));
+        int arrowPos = points[0][1];
+        int arrowCnt = 1;
+
+        for(int i = 1; i < points.length; i++){
+            if(arrowPos >= points[i][0]){
+                continue;
+            }
+
+            arrowCnt++;
+            arrowPos = points[i][1];
+        }
+
+        return arrowCnt;
+    }
+
+    // 최소 화살 개수
+    // [x1,x2] x1<= <=x2
+    // 모든 풍선을 터뜨려야함
+    // 쏜 화살이 x위치 사이에 있으면 터짐 
+    
+    // [1,6], [2,8], [3,4], [10,16]
+    // -> [3,4], [1,6], [2,8], [10,16]
+
+}
+```
+
+</details>
+
