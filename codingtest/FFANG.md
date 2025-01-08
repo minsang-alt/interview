@@ -996,3 +996,196 @@ class Solution {
 
 </details>
 
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Maximum Width of Binary Tree</strong></summary>
+
+https://leetcode.com/problems/maximum-width-of-binary-tree/description/
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    class Pair {
+        TreeNode node;
+        int index;
+
+        Pair(TreeNode node, int index){
+            this.node = node;
+            this.index = index;
+        }
+    }
+
+    public int widthOfBinaryTree(TreeNode root) {
+        return bfs(root);
+    }
+
+    private int bfs(TreeNode root){
+        Deque<Pair> q = new LinkedList<>();
+        q.offer(new Pair(root,0));
+        int maxWidth = 0;
+
+        while(!q.isEmpty()){
+            // 현재 레벨의 노드 사이즈 
+            int size = q.size();
+            int left = q.peek().index;
+            int right = left;
+
+            for(int i = 0; i < size; i++){
+                Pair current = q.poll();
+                right = current.index;
+
+                if(current.node.left != null){
+                    q.offer(new Pair(current.node.left,current.index*2+1));
+                }
+
+                if(current.node.right != null){
+                    q.offer(new Pair(current.node.right,current.index*2+2));
+                }
+            }
+
+            maxWidth = Math.max(maxWidth, right-left + 1);
+
+
+
+
+        }
+
+        return maxWidth;
+
+    }
+}
+
+// 레벨 너비 최대 구하고
+// 그 너비란, null이 아닌 왼쪽 끝 노드부터 오른쪽 끝노드까지의 개수
+// 그리고 그 사이의 null은 포함해서 계산 
+
+
+// 1
+// 2, 3
+// 4, 5, 6,7
+// 8, 9, 10, 11, 12, 13, 14
+// 2n ~ 2n
+```
+
+</details>
+
+
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Unique Paths</strong></summary>
+
+https://leetcode.com/problems/unique-paths/
+
+겁나쉬운 dp
+
+```java
+class Solution {
+    public int uniquePaths(int m, int n) {
+        int[][] dp = new int[m][n];
+
+        for(int i = 0; i < m; i++){
+            dp[i][0] = 1;
+        }
+
+        for(int i = 0; i < n; i++){
+            dp[0][i] = 1;
+        }
+
+        for(int i = 1; i < m; i++){
+            for(int j = 1; j < n; j++){
+                dp[i][j] = dp[i-1][j] + dp[i][j-1];
+            }
+        }
+
+        return dp[m-1][n-1];
+    }
+}
+
+// 1 1 1 1 1 1 1
+// 1 2 3 4 5 6 7
+// 1 3 6 10 15 21 28
+
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Spiral Matrix</strong></summary>
+
+https://leetcode.com/problems/spiral-matrix/description/
+
+```java
+class Solution {
+    int[] dx= new int[]{-1,0,1,0};
+    int[] dy = new int[]{0,1,0,-1};
+
+    public List<Integer> spiralOrder(int[][] matrix) {
+        int m = matrix.length;
+        int n = matrix[0].length;
+
+        List<Integer> result = new ArrayList<>();
+
+        int nx = 0;
+        int ny = 0;
+        while(nx < m && ny < n){
+            //오른쪽
+            for(int i = ny; i < n; i++){
+                result.add(matrix[nx][i]);
+            }
+            nx = nx+1;
+
+            // 아래쪽
+            for(int i = nx; i < m; i++){
+                result.add(matrix[i][n-1]);
+            }
+            n--;
+
+            // 왼쪽
+            if(nx < m){
+                for(int i = n-1; i>= ny; i-- ){
+                    result.add(matrix[m-1][i]);
+                }
+            }
+            
+            m--;
+
+            // 위쪽
+            if(ny < n){
+                for(int i = m-1; i >= nx; i--){
+                    result.add(matrix[i][ny]);
+                }
+            }
+            
+            ny++;
+
+        }
+
+        return result;
+
+
+    }
+
+    // 오른쪽 아래쪽 왼쪽 위쪽 
+}
+```
+
+</details>
