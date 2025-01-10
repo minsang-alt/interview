@@ -1189,3 +1189,144 @@ class Solution {
 ```
 
 </details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Find K Closest Elements</strong></summary>
+
+https://leetcode.com/problems/find-k-closest-elements/description/
+
+```java
+class Solution {
+    public List<Integer> findClosestElements(int[] arr, int k, int x) {
+        List<Integer> result = new ArrayList<>();
+        if(arr.length == 1){
+            result.add(arr[0]);
+            return result;
+        }
+
+        int minIdx = 0;
+        int minElement = Math.abs(arr[0]-x);
+        for(int i = 0; i < arr.length; i++){
+            if(minElement > Math.abs(arr[i]-x)){
+                minIdx = i;
+                minElement = Math.abs(arr[i]-x);
+            }
+        }
+
+        int left = minIdx;
+        int right = minIdx;
+        int cnt = 1;
+
+        while(cnt < k){
+            if(left <= 0){
+                right++;
+            }else if(right >= arr.length-1){
+                left--;
+            }else{
+                if(Math.abs(arr[left-1]-x) <= Math.abs(arr[right+1]-x)){
+                    left--;
+                }else{
+                    right++;
+                }
+            }
+
+            cnt++;
+        }
+
+        for(int i = left; i <= right; i++){
+            result.add(arr[i]);
+        }
+
+        return result;
+    }
+}
+
+// 2 2 3 4 5 6
+// 오름차순으로 주어지고
+// 
+
+// -1 1 if: x = -1  2 2 , -1 < 1 -1을 가져옵니다. 
+
+// 반환할때도 오름차순으로 반환 
+
+// 브루도포스로 진행하면
+// [1,1,2,3,4,5] 
+// x = 3
+
+// [1,1,2,3,4,5] x = 3 k = 4 
+// 2,2,1,0,1,2
+// 2,3,4,5
+
+// 1,2,3,4,5,6,7,8,9
+// . . . . 
+// 
+
+// 순회하면서 절댓값으로 가장 작은 곳 포인터로 잡고, 즉 인덱스를 저장하고
+```
+
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Longest Palindromic Substring</strong></summary>
+
+https://leetcode.com/problems/longest-palindromic-substring/description/
+
+```java
+class Solution {
+    public String longestPalindrome(String s) {
+        if(s.length() == 1){
+            return s;
+        }
+
+        String longest = s.substring(0,1);
+
+
+        for(int i = 0; i < s.length(); i++){
+            String tmp = expandFromCenter(s,i,i);
+            if(tmp.length() > longest.length()){
+                longest = tmp;
+            }
+
+            tmp = expandFromCenter(s,i,i+1);
+                        if(tmp.length() > longest.length()){
+                longest = tmp;
+            }
+        }
+
+        return longest;
+        
+    }
+
+    private String expandFromCenter(String s, int left, int right){
+        while(left >= 0 && right < s.length()
+            && s.charAt(left) == s.charAt(right)
+        ){
+            left--;
+            right++;
+        }
+
+        return s.substring(left+1,right);
+    }
+
+    // b a b a d
+    // 0 1 2 3 4
+
+//   1번 인덱스 0,2 dp[0][2] = true; dp[2][0] = true; dp[1][1] = true;
+
+
+    //   0 1 2 3 4
+    // 0 1 1 3
+    // 1 1 1 
+    // 2     1
+    // 3       1
+    // 4         1
+
+}
+```
+
+</details>
