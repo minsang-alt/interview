@@ -1330,3 +1330,153 @@ class Solution {
 ```
 
 </details>
+
+
+----
+
+<details>
+<summary><strong style="font-size:1.17em">Letter Combinations of a Phone Number</strong></summary>
+
+https://leetcode.com/problems/letter-combinations-of-a-phone-number/description/
+
+백트래킹
+
+```java
+class Solution {
+    
+    private List<String> result = new ArrayList<>();
+
+    public List<String> letterCombinations(String digits) {
+
+        if(digits.length() <= 0){
+            return new ArrayList<>();
+        }
+
+        Map<Character, String> map = new HashMap<>();
+        map.put('2',"abc"); map.put('3',"def");
+        map.put('4',"ghi"); map.put('5',"jkl"); map.put('6',"mno");
+        map.put('7',"pqrs"); map.put('8',"tuv"); map.put('9',"wxyz");
+
+        // "234"
+        comb(map, new StringBuilder(),digits, 0);
+
+
+        return result;
+    }
+
+    private void comb(Map<Character,String> map, StringBuilder combString,String digits, int st ){
+        if(digits.length() == combString.length()){
+            result.add(combString.toString());
+            return;
+        }
+
+        for(int i = st; i < digits.length(); i++){
+            Character c = digits.charAt(st);
+            String dic = map.get(c);
+
+            for(char alpha : dic.toCharArray()){
+                combString.append(alpha);
+                comb(map,combString,digits,i+1);
+                combString.deleteCharAt(combString.length()-1);
+            }
+        }
+    }
+
+    // 2 -> [a,b,c]
+    // 3 -> [d,e,f]
+}
+
+
+```
+
+FIFO 큐로 구현
+
+```java
+public List<String> letterCombinations(String digits) {
+		LinkedList<String> ans = new LinkedList<String>();
+		if(digits.isEmpty()) return ans;
+		String[] mapping = new String[] {"0", "1", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+		ans.add("");
+		for(int i =0; i<digits.length();i++){
+			int x = Character.getNumericValue(digits.charAt(i));
+			while(ans.peek().length()==i){
+				String t = ans.remove();
+				for(char s : mapping[x].toCharArray())
+					ans.add(t+s);
+			}
+		}
+		return ans;
+	}
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Sort Colors</strong></summary>
+
+https://leetcode.com/problems/sort-colors/description/
+
+
+선택 정렬 O(n^2), 공간복잡도 O(1)
+
+```java
+class Solution {
+    public void sortColors(int[] nums) {
+        int n = nums.length;
+
+        for(int i = 0; i < n-1; i++){
+            
+            int minIdx = i;
+
+            for(int j = i+1; j < n; j++){
+                if(nums[minIdx] > nums[j]){
+                    minIdx = j;
+                }
+            }
+
+            int temp = nums[i];
+            nums[i] = nums[minIdx];
+            nums[minIdx] = temp;
+        }
+
+
+    }
+}
+```
+
+
+Dutch National Flag 문제로 풀 수 있음 배열에 0,1,2 세 가지 숫자만 있다는 특징과 한번의 순회로 해결, 
+투포인터 기법 
+
+```java
+class Solution {
+    public void sortColors(int[] nums) {
+        int left = 0; // 0을 위한 포인터
+        int right = nums.length -1; // 2을 위한 포인터
+        int current = 0; // 현재 검사중인 위치
+
+        while(current <= right){
+            if(nums[current] == 0){
+                swap(nums,left, current);
+                left++;
+                current++;
+            }else if(nums[current] == 2){
+                swap(nums,current,right);
+                right--;
+            }else{
+                current++;
+            }
+        }
+    }
+
+    private void swap(int[] nums, int i, int j){
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+}
+```
+
+</details>
