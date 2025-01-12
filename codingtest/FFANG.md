@@ -1480,3 +1480,137 @@ class Solution {
 ```
 
 </details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Lowest Common Ancestor of a Binary Tree</strong></summary>
+
+https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/description/
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        List<TreeNode> p1 = new ArrayList<>();
+        List<TreeNode> q1 = new ArrayList<>();
+
+        dfs(root, p, p1, new ArrayList<>());
+        dfs(root, q, q1, new ArrayList<>());
+
+        Map<TreeNode, Integer> map = new HashMap<>();
+        for(TreeNode node : p1) {
+            map.put(node, 1);
+        }
+
+        for(int i = q1.size()-1; i >= 0; i--) {
+            if(map.containsKey(q1.get(i))) {
+                return q1.get(i);
+            }
+        }
+        return root;
+    }
+
+    private void dfs(TreeNode root, TreeNode target, List<TreeNode> result, List<TreeNode> arr) {
+        if(root == null || result.size() != 0) {
+            return;
+        }
+
+        arr.add(root);
+
+        if(root == target) {
+            result.addAll(new ArrayList<>(arr));
+            return;
+        }
+
+        dfs(root.left, target, result, arr);
+        dfs(root.right, target, result, arr);
+
+        arr.remove(arr.size()-1);
+    }
+
+
+}
+
+// 노드 p,q가 주어지면 최하위 공통 조상을 찾는 문제 
+// 노드 자체가 조상인겸, 후손이 될 수 있습니다.
+
+// p=5, q=1 -> 3
+// 이게 왜 dfs?, tree?, binary tree?
+// dfs를 순회해서 특정 노드를 찾으면 그때 거쳐갔던 노드들을 리스트에 넣고
+// 리스트를 비교해서 가장 오른쪽에 있으면서 같은 노드를 반환 
+
+```
+
+
+양쪽에서 p,q를 찾으면 내가 LCA, 아니면 찾은 것만 위로 전달
+
+```java
+public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+    if (root == null || root == p || root == q) {
+        return root;
+    }
+    
+    TreeNode left = lowestCommonAncestor(root.left, p, q);
+    TreeNode right = lowestCommonAncestor(root.right, p, q);
+    
+    if (left != null && right != null) {
+        return root;
+    }
+    
+    return left != null ? left : right;
+}
+```
+</details>
+
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Peak Index in a Mountain Array</strong></summary>
+
+https://leetcode.com/problems/peak-index-in-a-mountain-array/
+
+```java
+class Solution {
+    public int peakIndexInMountainArray(int[] arr) {
+        int left = 0;
+        int right = arr.length -1;
+
+        while(left < right){
+            int mid = left + (right-left) / 2 ;
+
+            // 증가하는 형태 
+            if(arr[mid] < arr[mid + 1]){
+                left = mid + 1;
+            }else{
+                right = mid;
+            }
+
+        }
+
+        return left;
+
+
+    }
+}
+
+// 증가했다가 감소하는 지점의 인덱스를 반환
+// 시간복잡도는 O(logn)
+
+// 이분탐색 
+// [0,2,3,4,5,3,1,0]
+// 4를 선택하고 만약 왼쪽 오른쪽 3 < 4 < 5 이런형태면 오른쪽으로이동
+// 4< 5 > 3인 형태를 찾습니다.
+```
+
+</details>
+
