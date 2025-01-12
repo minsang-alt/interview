@@ -581,10 +581,70 @@ compaction단계에서 살아있는 객체의 메모리이동이 일어나면서
 
 <details>
 <summary><strong style="font-size:1.17em">
+CMS GC에 대해 설명해주세요 
+</strong></summary>
+
+```text
+CMS GC는 애플리케이션의 응답 시간을 최적화하기 위해 설계된 가비지 컬렉터입니다. 
+가장 큰 특징은 가비지 컬렉션 작업의 대부분을 애플리케이션 스레드와 동시에 수행한다는 점입니다.
+
+Old Generation에서는 Initial Mark, Concurrent Mark, Remark, Concurrent Sweep 이렇게 4단계로 동작하는데, 
+이 중 Initial Mark와 Remark 단계에서만 짧은 STW(Stop-The-World)가 발생하고 
+나머지는 애플리케이션과 동시에 실행됩니다.
+
+Young Generation에서는 ParNew 콜렉터를 사용하여 STW 방식으로 동작합니다.
+
+단, CMS는 CPU 사용량이 높고 메모리 단편화 문제가 있으며, 
+Compaction을 기본적으로 수행하지 않는다는 단점이 있습니다. 
+
+그래서 일반적으로 응답 시간이 중요한 애플리케이션에서 
+힙 크기가 작은 경우(4GB 미만)에 주로 사용됩니다
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
 G1 GC에 대해 설명해주세요
 </strong></summary>
 
+```text
+G1GC는 Java 9부터 기본 GC로 채택된 가비지 컬렉터입니다. 
 
+가장 큰 특징은 힙 영역을 동일한 크기의 Region들로 나누어 관리한다는 점입니다.
+각 Region은 Eden, Survivor, Old 등 역할이 동적으로 부여되며, 
+G1GC는 'Garbage First'라는 이름처럼 가비지가 가장 많은 Region부터 수집하는 방식으로 동작합니다. 
+
+그리고 GC 과정은 크게 Young GC와 Mixed GC로 나뉩니다
+
+Young GC는 Eden Region이 차면 발생하며, Remember Set을 봐서 
+살아있는 객체를 Survivor Region으로 복사합니다.
+
+Mixed GC는 Old Region의 점유율이 임계값을 넘으면 발생하며, 
+Young Region과 일부 Old Region을 함께 수집합니다.
+
+이런 특성 때문에 G1GC는 대용량 메모리를 사용하는 애플리케이션에서 특히 효과적입니다.
+```
+
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">
+G1GC에서 Remembered Set와 Collection Set이 무엇인지 설명해주세요 
+</strong></summary>
+
+```text
+Remembered Set은 각 Region마다 존재하는 자료구조로, 
+다른 Region에서 이 Region을 참조하는 객체들의 정보를 담고 있습니다.
+
+Collection Set은 GC를 수행할 때 수집 대상이 되는 Region들의 집합입니다. 
+Young GC 때는 Young Region만, Mixed GC 때는 Young Region과 일부 Old Region이 포함됩니다.
+```
 
 </details>
 
@@ -597,12 +657,12 @@ CMS GC보다 G1 GC가 더 좋은 이유가 뭐고, 뭐땜에 교체되었나요?
 
 ```text
 CMS는 gc가 일어날때마다, 메모리 파편화가 생기고
-그 비어있는 공간에 객체를 할당할 수가 없어서 
-그럴때마다 compaction을 하게됩니다. 그 과정에서 stop-the-world가
-발생해서 성능이 저하됩니다.
+그럴때마다 compaction을 하게됩니다. 
+그 과정에서 stop-the-world가
+발생해서 성능이 매우 저하됩니다.
 
-G1 GC는 리전별로 나누기때문에 이런 compaction 단계가
-간소화돼서 좀 더 빠를 수 있습니다. 
+G1 GC는 Heap 메모리를 Region으로 나눠서 
+점진적으로 수행함으로써 기존의 Compaction 처리 구조가 개선되었습니다.  
 ```
 
 </details>
