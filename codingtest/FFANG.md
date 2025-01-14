@@ -1614,3 +1614,241 @@ class Solution {
 
 </details>
 
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Insert Interval</strong></summary>
+
+https://leetcode.com/problems/insert-interval/description/
+
+```java
+class Solution {
+    public int[][] insert(int[][] intervals, int[] newInterval) {
+        List<int[]> intervalList = new ArrayList<>(Arrays.asList(intervals));
+        intervalList.add(newInterval);
+        Collections.sort(intervalList,(a,b)->Integer.compare(a[0],b[0]));
+
+        List<int[]> res = new ArrayList<>();
+        int[] current = intervalList.get(0);
+
+        for(int i = 1; i <intervalList.size(); i++){
+            int[] interval = intervalList.get(i);
+
+            if(current[1] >= interval[0]){
+                current[1] = Math.max(current[1],interval[1]);
+            }else{
+                res.add(current);
+                current = interval;
+            }
+        }
+
+        res.add(current);
+        return res.toArray(new int[res.size()][]);
+
+
+    }
+}
+```
+
+</details>
+
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Jump Game</strong></summary>
+
+https://leetcode.com/problems/jump-game/description/
+
+```java
+class Solution {
+    public boolean canJump(int[] nums) {
+        
+        if(nums.length==1){
+            return true;
+        }
+
+        boolean[] dp = new boolean[nums.length];
+        dp[nums.length-1] = true;
+
+        for(int i = nums.length -2; i >= 0; i--){
+            for(int j = 1; j<= nums[i] && i+j <= nums.length-1; j++){
+                if(dp[i+j]){
+                    dp[i] = true;
+                    break;
+                }
+            }
+        }
+
+        return dp[0];
+        
+    }
+
+    // dp[i] = i 위치에서 끝점까지 도달할 수 있는지 여부
+    // 3 2 1 0 4
+    //       f t
+
+    // dp[4] = true
+    // dp[3] = dp[nums[3]+ 3] = f
+    // dp[2] = dp[nums[2]+ 2] = dp[3] = f
+    // dp[1] = dp[nums[1]+1] = dp[3] = f
+    // dp[0] = dp[nums[0] + 0]3 = dp[3] = f
+
+    // 2 3 1 1 4
+    // dp[4] = t
+    // dp[3] = dp[nums[3]+ 3] = dp[4] = t
+    // dp[2] = dp[nums[2]+ 2] = dp[3] = t
+    
+    // if: nums[x] >= nums.length-1 -> 무조건 t 배열 outof
+    
+
+}
+```
+
+O(n)방법
+
+뒤에서부터 앞으로 오면서, 각 위치에서 last에 도달할 수 있는지 확인
+도달할 수 있다면 last를 현재 위치로 업데이트
+
+```java
+class Solution {
+    public boolean canJump(int[] nums) {
+
+        if (nums.length == 1) {
+            return true;
+        }
+
+        int last = nums.length - 1;
+        for (int i = nums.length - 2; i >= 0; i--) {
+            if (i + nums[i] >= last) {
+                last = i;
+            }
+        }
+
+        return last <= 0;
+
+    }
+}
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Palindromic Substrings</strong></summary>
+
+https://leetcode.com/problems/palindromic-substrings/description/
+
+```java
+class Solution {
+    public int countSubstrings(String s) {
+        
+        if(s.length()==1){
+            return 1;
+        }
+
+        int result = 0;
+        for(int i = 0; i < s.length(); i++){
+            char cur = s.charAt(i);
+            result++;
+
+
+            // 홀수
+            int left = i-1;
+            int right = i+1;
+            while(left >= 0 && right <= s.length()-1){
+                if(s.charAt(left)== s.charAt(right)){
+                    result++;
+                    left--;
+                    right++;
+                }else{
+                    break;
+                }
+            }
+
+
+            //짝수
+            left = i;
+            right = i+1;
+
+            while(left >= 0 && right <= s.length()-1){
+                if(s.charAt(left)== s.charAt(right)){
+                    result++;
+                    left--;
+                    right++;
+                }else{
+                    break;
+                }
+            }
+        }
+
+        return result;
+    }
+}
+```
+
+```java
+class Solution {
+    public int countSubstrings(String s) {
+        if(s.length() == 1){
+            return 1;
+        }
+
+        int ans = 0;
+        for(int i = 0; i < s.length(); i++){
+            for(int j = i; j < s.length(); j++){
+                if(isPalindlom(i,j,s)) ans++;
+            }
+        }
+
+        return ans;
+    }
+
+    private boolean isPalindlom(int st, int en, String s){
+        while(st<=en){
+            if(s.charAt(st)!=s.charAt(en)){
+                return false;
+            }
+            st++;
+            en--;
+        }
+        return true;
+    }
+}
+```
+
+```java
+class Solution {
+    public int countSubstrings(String s) {
+        int n = s.length();
+        boolean[][] palindrome = new boolean[n][n];
+        int ans = 0;
+
+        for(int i=0;i<n;i++) {
+            palindrome[i][i] = true;
+            ans++;
+        }
+
+        for(int i=0;i<n-1;i++) {
+            if(s.charAt(i) == s.charAt(i+1)) {
+                palindrome[i][i+1] = true;
+                ans++;
+            }
+        }
+
+        for(int len=3;len<=n;len++) {
+            for(int i=0;i<n-len+1;i++) {
+                if(s.charAt(i) == s.charAt(i+len-1) && palindrome[i+1][i+len-2]) {
+                    palindrome[i][i+len-1] = true;
+                    ans++;
+                }
+            }
+        }
+
+        return ans;
+    }
+}
+```
+
+</details>
