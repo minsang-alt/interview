@@ -1852,3 +1852,206 @@ class Solution {
 ```
 
 </details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Number of Islands</strong></summary>
+
+https://leetcode.com/problems/number-of-islands/description/
+
+```java
+class Solution {
+
+    private int[] dx = {-1,0,1,0};
+    private int[] dy = {0,1,0,-1};
+    private int M;
+    private int N;
+
+    public int numIslands(char[][] grid) {
+        M = grid.length;
+        N = grid[0].length;
+
+        boolean[][] visited = new boolean[M][N];
+        
+        int islandCnt = 0;
+        for(int i = 0; i < M; i++){
+            for(int j = 0; j < N; j++){
+                if(grid[i][j] == '1' && !visited[i][j]){
+                    dfs(i,j,grid,visited);
+                    islandCnt++;
+                }
+            }
+        }
+
+        return islandCnt;
+    }
+
+    private void dfs(int x, int y, char[][] grid, boolean[][] visited){
+
+        visited[x][y] = true;
+        
+        for(int i = 0; i < 4; i++){
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+
+            if(0 > nx || nx >= M || 0 > ny || ny >= N){
+                continue;
+            }
+
+            if(!visited[nx][ny] && grid[nx][ny] == '1'){
+                dfs(nx,ny, grid, visited);
+            }
+
+
+        }
+        
+    }
+}
+
+// 00 부터 진입을 하고, 상하좌우를 보면서 dfs를 돌리고 방문표시를 한다
+// 만약에 0을 만나면 그 자리에서 즉시 다음방향으로 넘어갑니다
+// 그렇게 해서 빠져나가면 섬 1개가 충족되고, 또 다른 곳에서 섬이 있을 수 있으니
+// 0,1 .. 0,2 이렇게 전붇 살펴봅니다. 하지만 visit된 곳과 0인 곳은 dfs를 돌리지않습니다.
+
+// O(n^3) = 90000 -> 27 000 000
+```
+
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Kth Smallest Element in a BST</strong></summary>
+
+https://leetcode.com/problems/kth-smallest-element-in-a-bst/description/
+
+```java
+class Solution {
+    public int kthSmallest(TreeNode root, int k) {
+        List<Integer> treeNodes = new ArrayList<>();
+        dfs(root, treeNodes);
+
+        return treeNodes.get(k-1);
+    }
+
+    private void dfs(TreeNode root, List<Integer> treeNodes){
+        if(root == null){
+            return;
+        }
+
+        dfs(root.left, treeNodes);
+        treeNodes.add(root.val);
+        dfs(root.right, treeNodes);
+    }
+}
+
+// 왼쪽 -> 루트 -> 오른쪽 이렇게 다 리스트에 담고 k 번쨰 값을 꺼냅니다.
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">3Sum</strong></summary>
+
+```java
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        Arrays.sort(nums);
+
+        for(int i = 0; i < nums.length; i++){
+            if(i > 0 && nums[i] == nums[i-1]) continue;
+
+            List<Integer> threeNum = new ArrayList<>();
+            
+
+            int target = -nums[i];
+
+            int left = i+1;
+            int right = nums.length -1;
+
+            while(left < right){
+                if(nums[left] + nums[right] == target){
+                    result.add(Arrays.asList(nums[i],nums[left],nums[right]));
+
+                    // 중복 건너뛰기
+                    while (left < right && nums[left] == nums[left+1]) left++;
+                    while (left < right && nums[right] == nums[right-1]) right--;
+                
+                    left++;
+                    right--;
+                }else if(nums[left] + nums[right] > target){
+                    right--;
+                }else{
+                    left++;
+                }
+
+            }
+
+        }
+        
+        return result;
+    }
+}
+
+// 인덱스가 다른 세개의 값의 합이 0이 되게 해야하고
+
+// [-1,0,1,2,-1,-4]
+// -4 -1 -1 0 1 2
+
+// 한놈을 고정
+
+// -4 고정 후 나머지를 4가되게.
+// 정렬된 배열에서 두 수의 합이 4가되게 하는 문제로 바뀜 
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Generate Parentheses</strong></summary>
+
+https://leetcode.com/problems/generate-parentheses/description/
+
+```java
+class Solution {
+    public List<String> generateParenthesis(int n) {
+        List<String> result = new ArrayList<>();
+
+        dfs(result, n,n, new StringBuilder());
+
+        return result;
+    }
+
+    private void dfs(List<String> result, int left, int right, StringBuilder path){
+        if(left > right || left < 0 || right < 0){
+            return;
+        }
+
+        if(left == 0 && right == 0){
+            result.add(path.toString());
+            return;
+        }
+
+        dfs(result, left-1, right, path.append("("));
+        path.deleteCharAt(path.length()-1);
+        dfs(result, left, right-1, path.append(")"));
+        path.deleteCharAt(path.length()-1);
+    }
+}
+
+// n쌍이면
+
+// n 개의 (, )이 있다는 것
+// (()) , ()() -> 완전탐색
+
+// 스택 판단처럼 
+```
+
+
+</details>
