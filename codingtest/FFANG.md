@@ -2054,4 +2054,203 @@ class Solution {
 ```
 
 
+
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">All Nodes Distance K in Binary Tree</strong></summary>
+
+https://leetcode.com/problems/all-nodes-distance-k-in-binary-tree/description/
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public List<Integer> distanceK(TreeNode root, TreeNode target, int k) {
+        Map<TreeNode, TreeNode> map = new HashMap<>();
+        bfs(map, root);
+
+        List<Integer> result = new ArrayList<>();
+        Set<TreeNode> visited = new HashSet<>();
+        solve(result, map, target,k,visited);
+
+
+        return result;
+
+    }
+
+    private void solve(List<Integer> result, Map<TreeNode, TreeNode> map, TreeNode node, int k,Set<TreeNode> visited){
+
+        if(node == null || visited.contains(node)) return;
+        visited.add(node);
+
+        if(k==0){
+            result.add(node.val);
+            return;
+        }
+
+        solve(result,map,node.left, k-1,visited);
+        solve(result,map,node.right, k-1,visited);
+
+        if(map.containsKey(node)){
+            solve(result,map,map.get(node),k-1,visited);
+        }
+        
+        
+
+
+    }
+
+    private void bfs(Map<TreeNode,TreeNode> map, TreeNode root ){
+        if(root == null){
+            return;
+        }
+        if(root.left != null){
+            map.put(root.left, root);
+            bfs(map, root.left);
+        }
+
+        if(root.right != null){
+            map.put(root.right,root);
+            bfs(map,root.right);
+        }
+        
+        
+    }
+
+
+
+
+
+
+
+
+}
+// bfs를 타면서 target
+// target에 대해 k 거리에 있는 노드들을 반환하며, 순서는 상관없습니다
+// // 먼저 target을 bfs를 찾고, hashmap에 각 노드들 번호를 저장
+// 키: 노드값 값: 번호 
+// 그다음 찾은 target에서 k이니깐 
+// 루트기준으로 노드가 있는 방향은 |target번호-루트번호|+ k
+// 아닌 방향은 k- |target번호-루트번호| 인 노드들 저장 
+//     1
+//    2 2
+//  3 3 3 3
+// 4 4444444
+//   55
+
+// 루트를 기준으로 왼쪽 노드 오른쪽 노드 번호의 합
+// 
+```
+
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    Map<TreeNode, TreeNode> parent;
+
+    public List<Integer> distanceK(TreeNode root, TreeNode target, int k) {
+        parent = new HashMap<>();
+
+        // 1. 모든 노드의 부모 정ㅂ조를 저장
+        dfs(root, null);    
+
+        // 2. target에서부터 k 만큼 떨어진 노드를 찾기 위한 BFS
+        Queue<TreeNode> queue = new LinkedList<>();
+        Set<TreeNode> visited = new HashSet<>();
+        queue.add(target);
+        visited.add(target);
+
+        int dist = 0;
+        while(!queue.isEmpty() && dist < k){
+            int size = queue.size();
+            
+            for(int i = 0; i < size; i++){
+            TreeNode node = queue.poll();
+
+            if(node.left != null && !visited.contains(node.left)){
+                queue.add(node.left);
+                visited.add(node.left);
+            }
+
+            if(node.right != null && !visited.contains(node.right)){
+                queue.add(node.right);
+                visited.add(node.right);
+            }
+
+            TreeNode par = parent.get(node);
+            if(par != null && !visited.contains(par)){
+                queue.add(par);
+                visited.add(par);
+            }
+            }
+
+            dist++;
+
+
+        }
+
+        List<Integer> result = new ArrayList<>();
+        for(TreeNode node : queue){
+            result.add(node.val);
+        }
+
+        return result;
+
+    }
+
+    private void dfs(TreeNode node, TreeNode par){
+        if(node == null) return;
+        parent.put(node,par);
+        dfs(node.left, node);
+        dfs(node.right, node);
+    }
+}
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Validate Binary Search Tree</strong></summary>
+
+https://leetcode.com/problems/validate-binary-search-tree/description/
+
+```java
+
+class Solution {
+    public boolean isValidBST(TreeNode root) {
+        return validate(root, Long.MIN_VALUE, Long.MAX_VALUE);
+    }
+
+    private boolean validate(TreeNode node, long min, long max){
+        if(node== null) return true;
+
+        if(node.val <= min || node.val >=max)return false;
+
+        return validate(node.left, min, node.val) && validate(node.right, node.val, max);
+    }
+}
+```
+
+
 </details>
