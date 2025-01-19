@@ -2254,3 +2254,106 @@ class Solution {
 
 
 </details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Search a 2D Matrix II</strong></summary>
+
+https://leetcode.com/problems/search-a-2d-matrix-ii/description/
+
+```java
+class Solution {
+    public boolean searchMatrix(int[][] matrix, int target) {
+        int m = matrix.length;
+        int n = matrix[0].length;
+
+        if(m == 1 && n == 1 && matrix[0][0] == target){
+            return true;
+        }
+
+        for(int i = 0; i < m; i++){
+            int left = 0;
+            int right = n-1;
+
+            while(left <= right){
+                int mid = left + (right-left)/2;
+                if(matrix[i][mid] == target){
+                    return true;
+                }
+
+                if(matrix[i][mid] < target){
+                    left = mid+1;
+                }else{
+                    right = mid-1;
+                }
+            }
+        }
+
+        return false;
+    }
+}
+
+// 각 행 오름차순, 각 열 오름차순 
+// 효율적인 검색
+
+// 각 행마다 bst
+// O(nlogn)
+```
+
+```java
+    public boolean searchMatrix(int[][] matrix, int target) {
+        if(matrix == null || matrix.length < 1 || matrix[0].length <1) {
+            return false;
+        }
+        int col = matrix[0].length-1;
+        int row = 0;
+        while(col >= 0 && row <= matrix.length-1) {
+            if(target == matrix[row][col]) {
+                return true;
+            } else if(target < matrix[row][col]) {
+                col--;
+            } else if(target > matrix[row][col]) {
+                row++;
+            }
+        }
+        return false;
+    }
+```
+
+
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">House Robber II</strong></summary>
+
+https://leetcode.com/problems/house-robber-ii/description/
+
+```java
+class Solution {
+    public int rob(int[] nums) {
+        if(nums.length ==1 ) return nums[0];
+
+        return Math.max(rob(nums,0, nums.length-1), rob(nums,1,nums.length));
+    }   
+
+    private int rob(int[] nums, int start, int end){
+        int prefix = 0; int curMax = 0;
+
+        for(int i = start; i < end; i++){
+            int t = curMax;
+            curMax = Math.max(curMax, prefix + nums[i]);
+            prefix = t;
+        }
+
+        return curMax;
+    }
+}
+```
+
+</details>
+
+---
