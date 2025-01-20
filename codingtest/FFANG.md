@@ -2357,3 +2357,142 @@ class Solution {
 </details>
 
 ---
+
+<details>
+<summary><strong style="font-size:1.17em"> Merge Intervals</strong></summary>
+
+https://leetcode.com/problems/merge-intervals/
+
+```java
+class Solution {
+    public int[][] merge(int[][] intervals) {
+        if(intervals.length == 1){
+            return intervals;
+        }
+        
+        int n = intervals.length;
+        List<int[]> res = new ArrayList<>();
+
+
+        // 정렬
+        Arrays.sort(intervals, (a,b) -> Integer.compare(a[0],b[0]));
+        
+
+        int[] cur = new int[2];
+        int[] next = new int[2];
+
+        cur =intervals[0];
+        for(int i = 1; i < n; i++){
+            next = intervals[i];
+
+            if(cur[1]>=next[0]){
+                cur = new int[]{cur[0], Math.max(cur[1],next[1])};
+            }else{
+                res.add(cur);
+                cur = next;
+            }
+        }
+
+        res.add(cur);
+
+        return res.toArray(new int[res.size()][]);
+    }
+}
+
+// 겹치는 간격은 병합=합치고 그렇게 합친 결과들을 반환
+// [1,3] [2,6] [8,10] [15,18]
+
+// [1,6] [8,10] [15,18]
+
+
+// [1,4] [4,5]
+// [1,5]
+
+// O(n^2) x
+// O(n)
+
+
+// 오름차순 정렬 intervals[i][0] 
+
+// [1,3] [2,6] [8,10] [15,18]
+// cur -> [1,3]
+// next -> [2,6]
+// 겹친다는 조건? -> [a,b] [c,d] 일 때 b >=c 면 겹친다
+// [1,6] : [a,d] <- cur next ->[8,10]
+
+// [1,6] [8,10] b < c 겹치x cur->[8,10]
+// 새로운 ArrayList 객체에다가 겹친걸 넣어야하기 때문에 
+
+// 
+```
+
+</details>
+
+
+----
+
+<details>
+<summary><strong style="font-size:1.17em"> Merge Intervals</strong></summary>
+
+https://leetcode.com/problems/maximum-binary-tree/description/
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+
+    public TreeNode constructMaximumBinaryTree(int[] nums) {
+            if(nums.length == 1){
+                return new TreeNode(nums[0], null,null);
+            }
+        
+            TreeNode node = makeTree(nums, 0, nums.length-1);
+
+            return node;
+    }
+
+    private TreeNode makeTree(int[] nums, int st, int en){
+        
+        if(st > en){
+            return null;
+        }
+
+        int maxIdx = st;
+        for(int i = st; i <= en; i++){
+            if(nums[i] > nums[maxIdx]){
+                maxIdx = i;
+            }
+        }
+
+        TreeNode left = makeTree(nums, st, maxIdx-1);
+        TreeNode right = makeTree(nums, maxIdx+1, en);
+
+        return new TreeNode(nums[maxIdx],left,right);
+
+    }
+}
+
+// 완전 이진트리
+// 루트노드는 nums 최대값
+// [3,2,1,6,0,5]
+// 정렬 x 최대값 찾고 그 기준으로 왼쪽 오른쪽 나누고 
+// 재귀로 풀면 편할 것 같습니다.
+// bfs로 하면 될
+
+// st en 사이에 최대값이 있는 인덱스 번호 
+```
+
+</details>
