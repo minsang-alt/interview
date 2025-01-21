@@ -2432,7 +2432,7 @@ class Solution {
 ----
 
 <details>
-<summary><strong style="font-size:1.17em"> Merge Intervals</strong></summary>
+<summary><strong style="font-size:1.17em">Maximum Binary Tree</strong></summary>
 
 https://leetcode.com/problems/maximum-binary-tree/description/
 
