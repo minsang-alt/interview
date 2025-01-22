@@ -2496,3 +2496,176 @@ class Solution {
 ```
 
 </details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Coin Change</strong></summary>
+
+https://leetcode.com/problems/coin-change/
+
+```java
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+
+
+        int[] dp = new int[amount+1];
+        Arrays.fill(dp, -1);
+        dp[0] = 0;
+        
+        
+
+        for(int i = 1; i <= amount; i++){
+            for(int coin : coins){
+                if(i >= coin && dp[i-coin] != -1){
+                    dp[i] = dp[i] == -1 ? dp[i-coin] + 1 
+                                        : Math.min(dp[i-coin] + 1, dp[i]);
+                }
+            }
+        }
+
+
+        return dp[amount];
+    }
+}
+
+// coins에 있는 숫자를 조합해서 amount가 될때 이 개수의 최소값
+// 각 요소는 여러번 쓸 수 있습니다
+// 조합이 안되면 -1반환
+
+// 12
+// [5,4,1]
+// 4 + 4 + 4  = 12
+// 5 + 5 + 1 + 1 = 12 -> 4를 반환 x
+// 브루드 포스 불가능
+
+// dp[0] = 0
+// 1부터 시작
+// dp[1] -> 1,4,5 모두 확인 
+// dp[2] -> dp[2-1], dp[2-4], dp[2-5]
+// dp[3] -> dp[3-1], dp[3-4], dp[3-5]
+// dp[4] -> 
+
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Course Schedule</strong></summary>
+
+
+https://leetcode.com/problems/course-schedule/
+
+```java
+
+
+class Solution {
+
+
+    private List<List<Integer>> graph;
+    private int[] visited;
+
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        // 그래프 초기화
+        graph = new ArrayList<>();
+
+        for(int i = 0; i < numCourses; i++){
+            graph.add(new ArrayList<>());
+        }
+
+        for(int[] pre: prerequisites){
+            graph.get(pre[0]).add(pre[1]);
+        }
+
+        visited = new int[numCourses];
+
+        for(int i = 0; i < numCourses; i++){
+            if(visited[i] == 0 && !dfs(i)){
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private boolean dfs(int v){
+        visited[v] = 1;
+
+        for(int node: graph.get(v)){
+    
+            if(visited[node] == 1) return false;
+            if(visited[node] == 0 && !dfs(node)) return false;
+        }
+
+
+        visited[v] = 2;
+        return true;
+    }
+}
+```
+
+</details>
+
+
+---
+
+
+<details>
+<summary><strong style="font-size:1.17em">Find Peak Element</strong></summary>
+
+https://leetcode.com/problems/find-peak-element/
+
+right = mid -1 인데 mid로 값을 설정하면 무한루프가 돌 수도 있으니 주의해야한다. 
+
+```java
+class Solution {
+    public int findPeakElement(int[] nums) {
+        int n = nums.length;
+        if(n==1){
+            return 0;
+        }
+
+
+        int left = 0;
+        int right = n-1;
+
+        while(left <= right){
+            int mid = left + (right - left)/ 2;
+            int element = nums[mid];
+            int leftElement = mid-1 < 0 ? Integer.MIN_VALUE : nums[mid-1];
+            int rightElement = mid+1 > n-1 ? Integer.MIN_VALUE : nums[mid+1];
+
+            if(leftElement < element && element > rightElement){
+                return mid;
+            }else if(leftElement > element){
+                right = mid -1;
+            }else{
+                left = mid+1;
+            }
+        }
+
+        return left;
+
+
+    }   
+
+}
+
+// peak요소를 찾아라
+// peak요소는 이웃 요소들 보다 크면 되고, 여러개의 peak면 그중 하나만 인덱스를 반환 
+
+// [1,2,1,3,5,6,4]
+// [1 or 5]
+
+// O(log n)
+
+
+// 시작인덱스, 끝인덱스 [끝인덱스-시작인덱스] == 3일때 왼쪽 오른쪽 중간 비교 하기 
+
+
+/// 1,4,3,4,5,6
+```
+
+</details>
