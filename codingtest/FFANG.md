@@ -2669,3 +2669,78 @@ class Solution {
 ```
 
 </details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em"> Binary Tree Level Order Traversal
+</strong></summary>
+
+https://leetcode.com/problems/binary-tree-level-order-traversal/description/
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        if(root == null){
+            return Collections.emptyList();
+        }
+
+        List<List<Integer>> result = new ArrayList<>();
+
+        Queue<TreeNode> treeQueue = new LinkedList<>();
+        treeQueue.offer(root);
+
+        while(!treeQueue.isEmpty()){
+            List<TreeNode> curNodes = new ArrayList<>();
+            List<Integer> r = new ArrayList<>();
+            int size = treeQueue.size();
+            for(int i = 0; i < size; i++){
+                TreeNode cur = treeQueue.poll();
+                if(cur != null){
+                    r.add(cur.val);
+                    curNodes.add(cur);
+                }
+            }
+
+            if(!r.isEmpty()){
+                result.add(r);
+            }
+
+            for(int i = 0; i < curNodes.size(); i++){
+                if(curNodes.get(i).left != null){
+                    treeQueue.offer(curNodes.get(i).left);
+                
+                }
+                if(curNodes.get(i).right != null){
+                    treeQueue.offer(curNodes.get(i).right);
+                
+                }
+            }
+
+        }
+
+        return result;
+
+    }
+}
+
+// 레벨별로 List를 담는다
+// root만 주어짐 -> bfs
+```
+
+</details>
