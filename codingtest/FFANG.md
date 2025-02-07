@@ -2744,3 +2744,87 @@ class Solution {
 ```
 
 </details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">  Interval List Intersections
+</strong></summary>
+
+https://leetcode.com/problems/interval-list-intersections/
+
+```java
+class Solution {
+    public int[][] intervalIntersection(int[][] firstList, int[][] secondList) {
+        List<int[]> result = new ArrayList<>();
+        int i = 0, j = 0;
+
+        while(i < firstList.length && j < secondList.length){
+            int start = Math.max(firstList[i][0], secondList[j][0]);
+            int end = Math.min(firstList[i][1], secondList[j][1]);
+
+            if(start <= end){
+                result.add(new int[]{start,end});
+            }
+
+            if(firstList[i][1] < secondList[j][1]){
+                i++;
+            }else{
+                j++;
+            }
+        }
+
+        return result.toArray(new int[result.size()][]);
+    }
+}
+
+// firstList secondList 비교 -> 겹친구간 찾고
+// 리스트는 정렬된 상태, 1000의 길이, 둘중 하나가 0일수도 있음 
+// firstList = [[0,2],[5,10],[13,23],[24,25]], 
+// secondList = [[1,5],[8,12],[15,24],[25,26]]
+// (a,b) (c,d)
+// a와 c비교 a < c일 경우, b와 c 비교 
+// 
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">  Container With Most Water
+</strong></summary>
+
+https://leetcode.com/problems/container-with-most-water/description/
+
+```java
+class Solution {
+    public int maxArea(int[] height) {
+        int result = -1;
+
+        int left = 0;
+        int right = height.length -1;
+
+        while(left<right){
+            result = Math.max(result, Math.min(height[left], height[right])*(right-left));
+
+            if(height[left]<= height[right]){
+                left++;
+            }else{
+                right--;
+            }
+        }
+        return result;
+    }
+}
+
+// 배열에서 두개의 인덱스를 택하고 가로는 인덱스거리 * 둘중 짧은 인덱스의 높이 
+// 반환은 최대 물 크기 
+// n^2 불가능 한번의 순회로 최대크기를 찾아야함 
+
+// [1,8,6,2,5,4,8,3,7]
+// 브루드포스로는 안됨 
+// 투포인터 왼쪽 ,오른쪽에 포인터 놓고 높이가 작은쪽이 이동 왜냐하면 무조건 길이가 긴게 최고 (그리디)
+```
+
+</details>
