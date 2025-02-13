@@ -2828,3 +2828,47 @@ class Solution {
 ```
 
 </details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Kth Largest Element in an Array
+</strong></summary>
+
+https://leetcode.com/problems/kth-largest-element-in-an-array/description/
+
+힙 = 우선순위 큐로 해결 N + klogn
+
+```java
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        PriorityQueue pq = new PriorityQueue<>(Collections.reverseOrder());
+
+        for(int num : nums){
+            pq.offer(num);
+        }
+
+        for(int i = 0; i < k; i++){
+            if(i == k-1){
+                return (int)pq.poll();
+            }
+            pq.poll();
+        }
+
+        return -1;
+    }
+}
+
+// 소팅 없이 k번째로 큰 수 반환 
+// 10의 5승 
+
+// 3,5,5,2,1,4,6
+```
+
+
+퀵정렬 O(N)으로 해결하기  -> 고정 피벗 시간초과 당함..
+
+</details>
+
+---
+
