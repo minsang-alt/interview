@@ -5,28 +5,12 @@
 <summary><strong style="font-size:1.17em">HTTP 프로토콜이 뭐죠?</strong></summary>
 
 ```text
-- 웹에서 클라이언트와 서버 간의 통신을 위한 응용 계층 프로토콜입니다
-- 웹 브라우저(클라이언트)가 서버에 요청을 보내고, 서버는 그에 대한 응답을 반환해요. 
+HTTP는 TCP/IP 기반 통신 프로토콜로 www에서 데이터를 전달하는데 사용됩니다.
+HTTP 사양은 클라이언트 요청 데이터가 구성되고 서버로 전송되는 방법과 
+서버가 이러한 요청에 응답하는 방법을 지정합니다.
 
-- Stateless하기 때문에 각 요청은 독립적으로 처리돼요. 
-서버는 이전 요청의 상태를 저장하지 않고, 상태 유지가 필요할 땐 쿠키나 세션을 사용합니다.
-
-- GET, POST, PUT, DELETE 등의 메서드로 리소스에 대한 작업을 정의해요. 
-예를 들어, GET은 리소스 조회, POST는 생성을 위해 사용합니다.
-
-- HTTP/1.1부터는 Keep-Alive로 연결을 재사용할 수 있어요. 이로 인해 성능이 크게 향상됐습니다
-
-- HTTP/1.1이 가장 널리 사용되고 있고, HTTP/2, HTTP/3도 있어요. 버전별로 성능 개선이 이뤄졌습니다
-
-- 상태 코드로 서버의 응답 상태를 나타내요. 200(성공), 404(Not Found), 500(서버 오류) 등이 있습니다
-
-- URL로 리소스의 위치를 지정합니다
-
-- 응답을 캐시해 네트워크 트래픽을 줄이고 성능을 향상시켜요. Cache-Control 헤더로 제어하죠
-
-- 클라이언트와 서버가 가장 적절한 리소스 표현을 선택할 수 있어요. Accept, Content-Type 헤더를 사용합니다.
-
-- HTTPS를 통해 암호화된 통신을 제공합니다. 
+기본기능은 stateless, connectionless, MIME 유형을 사용하여 모든 유형의 데이터를 전송,
+HTTP 메소드, 캐싱 지원등을 합니다.
 ```
 
 </details>
@@ -41,6 +25,22 @@ HTTP 헤더는 클라이언트와 서버 간에 전송되는 메타데이터를 
 예를 들어, Content-Type 헤더는 전송되는 데이터의 형식을 나타내고, 
 Authorization 헤더는 인증 정보를 전달합니다. 
 Cache-Control이나 Expires와 같은 헤더는 캐싱 전략에 대한 정보를 담고 있습니다
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">서버에서 지정하는 Cache-Control 값들</strong></summary>
+
+```text
+private: 브라우저만 캐싱 가능
+public: 중간 서버(프록시 등)도 캐싱 가능
+max-age=3600: 캐시 유효시간을 초 단위로 지정
+must-revalidate: 캐시는 반드시 유효성검사 필수 
+no-cache: 캐시 사용 전 서버 확인 필수
+no-store: 캐시 저장 안 함
 ```
 
 </details>
@@ -256,6 +256,8 @@ REST
 <summary><strong style="font-size:1.17em">GET,POST 이런거 말고 또 아는 메소드 있나요?</strong></summary>
 
 ```text
+Trace Method 는 Client - Server Side 간 Loop back Test 를 진행할 수 있게 도와줍니다.
+
 HEAD: GET과 동일하지만 응답 본문을 포함하지 않습니다. 예를들어,
 헬스체크나 버젼 확인 등의 용도로 사용됩니다.
 

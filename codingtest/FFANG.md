@@ -2872,3 +2872,57 @@ class Solution {
 
 ---
 
+<details>
+<summary><strong style="font-size:1.17em">Subarray Product Less Than K
+</strong></summary>
+
+https://leetcode.com/problems/subarray-product-less-than-k/
+
+```java
+class Solution {
+    public int numSubarrayProductLessThanK(int[] nums, int k) {
+        if(k == 0){
+            return 0;
+        }
+
+        int result = 0;
+        int multiComb = 1;
+
+        // 시작 , 끝
+        for(int i = 0,j = 0; j< nums.length; j++){
+            multiComb *= nums[j];
+
+            while(i<=j && multiComb >= k){
+                multiComb /= nums[i++];
+            }
+
+            result += j-i +1;
+        }
+
+
+
+        return result;
+    }
+}
+
+// k보다 작은 모든 곱한 조합의 개수 (대신 그 조합이 연속적이어야 함)
+// 10,5,2,6 -> 100
+// 10
+// 10,5
+// 5
+// 5,2
+// 5,2,6
+// 2
+// 2,6
+// 6
+
+// right 포인터 계속 늘리다가 
+// k보다크거나같으면 left포인터 증가
+// 전체 순회는 불가능, 계속 곱하다가 오버플로우 날 수 있음 주의가 필요 
+
+// 슬라이딩 윈도우 왜냐 범위 구간 곱, 시간복잡도 모든걸 순회 
+```
+
+</details>
+
+---
