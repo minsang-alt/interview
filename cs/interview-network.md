@@ -38,7 +38,7 @@ Cache-Control이나 Expires와 같은 헤더는 캐싱 전략에 대한 정보�
 private: 브라우저만 캐싱 가능
 public: 중간 서버(프록시 등)도 캐싱 가능
 max-age=3600: 캐시 유효시간을 초 단위로 지정
-must-revalidate: 캐시는 반드시 유효성검사 필수 
+must-revalidate: 캐시가 신선한 상태일때는 사용하지만 만료되면 서버에 확인 필수
 no-cache: 캐시 사용 전 서버 확인 필수
 no-store: 캐시 저장 안 함
 ```
@@ -355,15 +355,21 @@ GET의 의미는 읽기 작업을 하기 위함인데 요청 본문은 서버에
 ---
 
 <details>
-<summary><strong style="font-size:1.17em">URI URL 차이</strong></summary>
+<summary><strong style="font-size:1.17em">URI URN URL 차이</strong></summary>
 
 ```text
-URI는 리소스를 식별하기 위한 일관된 형식을 말합니다. 
-다시 말해, URI는 인터넷 상의 리소스를 고유하게 식별하는 문자열입니다.
+URI
+인터넷 상의 리소스를 식별하는 모든 방법을 포함하는 개념
+URL과 URN을 모두 포함하는 상위 개념
 
-URL은 리소스의 위치를 가리키는 URI의 특정 유형입니다. 
-URL은 리소스가 어디에 있는지를 알려줍니다. 
-쉽게 말해, URL은 인터넷에서 리소스를 찾을 수 있는 주소입니다.
+URL
+리소스의 "위치(어디 있는지)"를 나타냄
+특정 프로토콜,도메인을 포함하여 접근방법 지정, 웹에서 흔히 사용되는 주소형식
+
+URN
+리소스의 "이름(무엇인지)"을 나타냄
+특정위치가 아닌 고유하고 변하지 않는 식별자 역할
+예: ISBN
 ```
 
 </details>
