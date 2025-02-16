@@ -3013,3 +3013,54 @@ class Solution {
 ```
 
 </details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Rotate Image
+</strong></summary>
+
+https://leetcode.com/problems/rotate-image/
+
+```java
+class Solution {
+    public void rotate(int[][] matrix) {
+
+        int M = matrix.length;
+        int N = matrix[0].length;
+        
+        // 1. 대칭 행,열 위치 바꾸기
+        for(int i = 0; i < M; i++){
+            for(int j = i+1; j < N; j++){
+                int temp = matrix[j][i];
+                matrix[j][i] = matrix[i][j];
+                matrix[i][j] = temp;
+            }
+        }
+
+        // 2. 대칭 
+        for(int i = 0; i < M; i++){
+            for(int j = 0; j < N/2; j++){
+                int temp = matrix[i][N-j-1];
+                matrix[i][N-j-1] = matrix[i][j];
+                matrix[i][j] = temp;
+            }
+        }
+
+
+
+    }
+}
+
+// 회전할때 다른 2D matrix를 만들면 안됨
+// 정사각형
+// 길이 최대 20 
+
+// 길이 4일때
+// (0,0) -> (0,3), (0,1) -> (1,3), (0,2) -> (2,3), (0,3) -> (3,3)
+// (0,3) -> (3,3), (1,3) -> (3,2), (2,3) -> (3,1), (3,3) -> (3,0)
+
+
+```
+
+</details>

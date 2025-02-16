@@ -998,7 +998,7 @@ Dom 기반 XSS는
 <summary><strong style="font-size:1.17em">CSRF랑 XSS는 어떤 차이가 있나요?</strong></summary>
 
 ```text
-CSRF 공격은 사용자가 자신의 의지와는 무관하게 공격자가 의도한 행위를 웹 애플리케이션에 요청하게 만드는 공격입니다. 
+CSRF 공격은 피해자의 권한을 이용한 원치 않는 요청 전송입니다. 
 방지하기 위해 CSRF 토큰이나 SameSite 쿠키 속성 설정, Referrer 검증 등이 있습니다. 
 
 반면, XSS 공격은 공격자가 웹 페이지에 악의적인 스크립트를 삽입하여 사용자의 정보를 탈취하거나 조작하는 공격입니다.
