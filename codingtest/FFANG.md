@@ -2926,3 +2926,90 @@ class Solution {
 </details>
 
 ---
+
+<details>
+<summary><strong style="font-size:1.17em">Subsets II
+</strong></summary>
+
+https://leetcode.com/problems/subsets-ii/
+
+```java
+class Solution {
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        Arrays.sort(nums);
+
+        List<List<Integer>> result = new ArrayList<>();
+        dfs(result,new ArrayList<>(),nums,0);
+
+        return result;
+    }
+
+    private void dfs(List<List<Integer>> result,List<Integer> list, int[] nums,int st){
+        result.add(new ArrayList<>(list));
+
+        for(int i = st; i < nums.length; i++){
+            if(i > st && nums[i] == nums[i-1]) continue;
+            list.add(nums[i]);
+            dfs(result,list,nums,i+1);
+            list.removeLast();
+        }
+    }
+}
+
+// 중복된 부분집합 있어선 안되고, 순서는 상관없음 
+// 모든 가능한 부분집합 반환. 
+// nums에는 중복된 숫자가 있음
+// 길이 10
+
+// 1,2,2
+// , 1, 1,2 1,2,2 
+// [] [1] [2] [1,2]
+// 어떻게 중복을 파악할지 
+// 배열을 정렬 
+
+```
+
+</details>
+
+---
+
+<details>
+<summary><strong style="font-size:1.17em">Construct Binary Tree from Preorder and Inorder Traversal
+</strong></summary>
+
+https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/
+
+```java
+class Solution {
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        return helper(0,0,inorder.length -1, preorder,inorder);
+    }
+
+    public TreeNode helper(int preStart, int inStart, int inEnd, int[] preorder,int[] inorder){
+        
+        if(preStart > preorder.length -1 || inStart > inEnd){
+            return null;
+        }
+
+        TreeNode root = new TreeNode(preorder[preStart]);
+        int inIndex = 0;
+        for(int i = inStart; i <= inEnd; i++){
+            if(inorder[i] == root.val){
+                inIndex = i;
+            }
+        }
+
+        root.left = helper(preStart+1, inStart, inIndex-1, preorder, inorder);
+        root.right = helper(preStart+ inIndex-inStart + 1, inIndex + 1, inEnd, preorder,inorder);
+
+
+        return root;
+    }
+}
+
+// preorder, inorder 주어졌으니 트리를 반환해라 
+//  preorder = [3,9,20,15,7], inorder = [9,3,15,20,7]
+
+```
+
+</details>
